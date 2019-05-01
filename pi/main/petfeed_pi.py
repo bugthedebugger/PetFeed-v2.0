@@ -29,8 +29,7 @@ class MotorControl:
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(0)
 
+
 # FUNCTION TO CLEAN UP USED RPi CHANNELS
-
-
 def end():
     GPIO.cleanup()
