@@ -18,8 +18,8 @@ class MotorControl:
 
         self.left_pwm = GPIO.PWM(self.left_pin, 50)
         self.right_pwm = GPIO.PWM(self.right_pin, 50)
-        self.left_pwm = GPIO.start(0)
-        self.right_pwm = GPIO.start(0)
+        self.left_pwm.start(0)
+        self.right_pwm.start(0)
 
     def start(self):
         self.left_pwm.ChangeDutyCycle(0)
