@@ -25,6 +25,6 @@ class MotorControl:
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(100)
 
-    def start(self):
+    def stop(self):
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(0)
