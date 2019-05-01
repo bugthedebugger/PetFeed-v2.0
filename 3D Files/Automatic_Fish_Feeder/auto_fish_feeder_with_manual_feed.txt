@@ -1,0 +1,61 @@
+/*
+====================================================================================================
+==Created 5/3/2013 by Brian Tremblay and motified by Cory Oberdas
+==Purpose: Run a Fish Feeder Motor every X Hours, and also provide a button to run anytime.
+==Platform: Arduino Uno or Mega
+==Version: 4.2
+====================================================================================================
+*/
+
+//--Setting Vars
+   
+
+   //Fish Feeder Vars.
+int pinOutMotor = 3; 
+int pinOutLed = 5;
+int pinInButton = 2;
+int MotorRunDuration = 1000;
+float AutoWaitDurationHours = 0.;
+//--Program Vars
+unsigned long currentMsSinceStart = 0;
+unsigned long msValueAtLastRun = 0;
+float HoursSinceLastRun = 0;
+int buttonValue = 0;
+
+void setup() {
+  Serial.begin(9600);             //Turns on serial monitor.
+  pinMode(pinOutMotor, OUTPUT);   //Is controlled by a 3906 npn transistor to switch the motor off and on.  When program started I need to add a line to turn off motor when program was started.
+  pinMode(pinInButton, INPUT);    //Manual feed.
+  pinMode(pinOutLed, OUTPUT);     //Shows motor is on when lite.
+}
+
+void loop() {
+  //HoursSinceLastRun = AutoWaitDurationHours - 0.05; //this will make it run 3 minutes after turned on.
+
+//Fish Feeder
+  //get miliseconds since program start and calc.
+  currentMsSinceStart = millis();
+  HoursSinceLastRun = (currentMsSinceStart - msValueAtLastRun) / 43200000; //10000 millis= 10 seconds.  To change the time to vary feeding times set for 12hrs type in 43200000 or 6hrs tyoe in 21600000.
+  //check for button press
+  buttonValue = digitalRead(pinInButton);
+  if(buttonValue == HIGH){  //had to change state because of button from LOW to HIGH.
+    //run motor for button press.
+    RunMotor();
+    Serial.println("Feed Fish Manually");  //serial print funtion completed by button
+    
+  } else if(HoursSinceLastRun > AutoWaitDurationHours){
+    RunMotor();
+    msValueAtLastRun = currentMsSinceStart;
+    Serial.println("Feed Fish Auto");      //serial print funtion completed by auto wait duration hours
+  }
+  //slow the loop down so it isn't running at full CPU Utilization for nothing.
+  delay(50); //delay 1/20th of a second.
+}
+
+void RunMotor(){
+    analogWrite(pinOutMotor, 0);   // turn on motor
+    analogWrite(pinOutLed, 80);        // turn on green led to show motor is on.
+    delay(MotorRunDuration);   // wait for motor run duration to expire
+    analogWrite(pinOutMotor, 255);    // turn off motor
+    analogWrite(pinOutLed, 0);        // turn off green led to show motor is off.
+}
