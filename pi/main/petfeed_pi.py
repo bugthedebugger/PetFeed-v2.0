@@ -3,8 +3,8 @@ import RPi.GPIO as GPIO
 # SET THE PIN LAYOUT TO BCM LAYOUT
 GPIO.setmode(GPIO.BCM)
 
-
-class MotorControl:
+# MOTOR CONTROLLER CLASS
+class MotorController:
     def __init__(self, left_pin=14, right_pin=15):
         # ASSIGN THE PIN NUMBERS, 14 AND 15 IF NONE PASSED
         self.left_pin = left_pin
