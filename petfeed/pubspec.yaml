@@ -24,9 +24,21 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
+  # PetFeed project dependencies
+  font_awesome_flutter: ^8.4.0
+  kiwi: ^0.1.0
+  built_value: 
+  built_collection: 
+  flutter_screenutil: ^0.5.2 
+  http: ^0.12.0+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+  # PetFeed project dev dependencies
+  build_runner: 
+  built_value_generator: 
 
 
 # For information on the generic Dart part of this file, see the
