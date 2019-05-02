@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/widgets/logo/logo.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -21,47 +22,32 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  FontAwesomeIcons.paw,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  "PetFeed",
-                  style: TextStyle(
-                    fontSize: FontSize.fontSize18,
-                  ),
-                ),
-              ],
-            ),
+            PetFeedLogo(),
             SizedBox(height: ScreenUtil().setHeight(40)),
             TextFormField(
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(10),
-                  vertical: ScreenUtil().setHeight(15),
+                  vertical: ScreenUtil().setHeight(10),
                 ),
                 border: OutlineInputBorder(
                   borderRadius:
-                      BorderRadius.circular(ScreenUtil().setHeight(20)),
+                      BorderRadius.circular(ScreenUtil().setHeight(15)),
                   borderSide: BorderSide(
                     color: Colors.black,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius:
-                      BorderRadius.circular(ScreenUtil().setHeight(20)),
+                      BorderRadius.circular(ScreenUtil().setHeight(15)),
                   borderSide: BorderSide(
                     color: Colors.black,
                   ),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderRadius:
-                      BorderRadius.circular(ScreenUtil().setHeight(20)),
+                      BorderRadius.circular(ScreenUtil().setHeight(15)),
                   borderSide: BorderSide(
                     color: Colors.black,
                   ),
@@ -75,7 +61,7 @@ class LoginPage extends StatelessWidget {
                   color: Colors.black38,
                   fontSize: FontSize.fontSize12,
                 ),
-                hintText: "Email",
+                hintText: "example@petfeed.com",
               ),
             ),
             SizedBox(height: ScreenUtil().setHeight(10)),
@@ -85,25 +71,25 @@ class LoginPage extends StatelessWidget {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: ScreenUtil().setWidth(10),
-                  vertical: ScreenUtil().setHeight(15),
+                  vertical: ScreenUtil().setHeight(10),
                 ),
                 border: OutlineInputBorder(
                   borderRadius:
-                      BorderRadius.circular(ScreenUtil().setHeight(20)),
+                      BorderRadius.circular(ScreenUtil().setHeight(15)),
                   borderSide: BorderSide(
                     color: Colors.black,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius:
-                      BorderRadius.circular(ScreenUtil().setHeight(20)),
+                      BorderRadius.circular(ScreenUtil().setHeight(15)),
                   borderSide: BorderSide(
                     color: Colors.black,
                   ),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderRadius:
-                      BorderRadius.circular(ScreenUtil().setHeight(20)),
+                      BorderRadius.circular(ScreenUtil().setHeight(15)),
                   borderSide: BorderSide(
                     color: Colors.black,
                   ),
@@ -117,7 +103,7 @@ class LoginPage extends StatelessWidget {
                   color: Colors.black38,
                   fontSize: FontSize.fontSize12,
                 ),
-                hintText: "Password",
+                hintText: "my super secret password",
               ),
             ),
             SizedBox(height: ScreenUtil().setHeight(40)),
