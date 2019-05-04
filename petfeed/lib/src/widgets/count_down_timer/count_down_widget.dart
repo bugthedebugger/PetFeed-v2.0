@@ -19,18 +19,21 @@ class _CountDownTimerState extends State<CountDownTimer> {
   int h2 = 0;
   int m1 = 0;
   int m2 = 0;
-  Timer _timer;
   bool blink = false;
 
   @override
   void initState() {
     super.initState();
-    _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         h2 = (widget.countDownTo.hour - TimeOfDay.now().hour) % 10;
         h1 = (widget.countDownTo.hour - TimeOfDay.now().hour) ~/ 10;
         m2 = (widget.countDownTo.minute - TimeOfDay.now().minute) % 10;
         m1 = (widget.countDownTo.minute - TimeOfDay.now().minute) ~/ 10;
+        if (h2 < 0) h2 = 5 + h2;
+        if (h1 < 0) h1 = 5 + h1;
+        if (m2 < 0) m2 = 5 + m2;
+        if (m1 < 0) m1 = 5 + m1;
         blink = !blink;
       });
     });
