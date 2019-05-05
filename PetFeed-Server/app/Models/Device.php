@@ -12,12 +12,13 @@ class Device extends Model
     protected $fillable = [
         'deviceId',
         'user_id',
-        'password'
+        'password',
+        'type_id'
     ];
 
-    // protected $hidden = [
-    //     'password'
-    // ];
+    protected $hidden = [
+        'password'
+    ];
 
     public function user(){
         return $this->belongsTo('App\User');

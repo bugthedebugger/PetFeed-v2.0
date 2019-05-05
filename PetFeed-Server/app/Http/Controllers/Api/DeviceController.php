@@ -27,17 +27,25 @@ class DeviceController extends Controller
             if (Hash::check($request->password, $device->password))
             {
                 \DB::table('oauth_access_tokens')
-                    ->where('device_id', $device->id)
+                    ->where([
+                        ['user_id', $device->id],
+                        ['name', 'PetFeed Device']
+                    ])
                     ->update(
                         [
                             'revoked' => true
                         ]
                     );
+
+                $token = $device->createToken('PetFeed Device')->accessToken;
+
                 $message = [
                     'message' => 'success',
                     'deviceId' => $device->deviceId,
-                    'token' => $device->createToken('PetFeed Device')->accessToken
+                    'token' => $token
                 ];
+
+                event(new \App\Events\Configure($device->deviceId, $token));
             }
             else {
                 abort(401, 'Unauthenticated');
@@ -52,7 +60,8 @@ class DeviceController extends Controller
     public function register(Request $request){
         $this->validate($request, [
             'deviceId' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'type_id' => 'required'
         ]);
 
         $message = [];
@@ -62,14 +71,20 @@ class DeviceController extends Controller
             \DB::beginTransaction();
             $device = Device::create([
                 'deviceId' => $request->deviceId,
-                'password' => bcrypt($request->password)
+                'password' => bcrypt($request->password),
+                'type_id' => $request->type_id
             ]);
 
+            $token = $device->createToken('PetFeed Device')->accessToken;
+
             $message = [
-                'deviceId' => $device->id,
-                'token' => $device->createToken('PetFeed Device')->accessToken,
+                'deviceId' => $device->deviceId,
+                'token' => $token,
                 'message' => 'success'
             ];
+
+            event(new App\Events\Configure($device->deviceId, $token));
+
             \DB::commit();
         }catch(\Exception $e){
             \DB::rollback();
