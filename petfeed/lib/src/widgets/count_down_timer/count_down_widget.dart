@@ -50,9 +50,9 @@ class _CountDownTimerState extends State<CountDownTimer> {
     return Row(
       children: <Widget>[
         ClockCard(time: h1),
-        SizedBox(width: ScreenUtil().setWidth(10)),
+        SizedBox(width: ScreenUtil().setWidth(5)),
         ClockCard(time: h2),
-        SizedBox(width: ScreenUtil().setWidth(10)),
+        SizedBox(width: ScreenUtil().setWidth(5)),
         Text(
           ':',
           style: TextStyle(
@@ -61,11 +61,11 @@ class _CountDownTimerState extends State<CountDownTimer> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        SizedBox(width: ScreenUtil().setWidth(10)),
+        SizedBox(width: ScreenUtil().setWidth(5)),
         ClockCard(time: m1),
-        SizedBox(width: ScreenUtil().setWidth(10)),
+        SizedBox(width: ScreenUtil().setWidth(5)),
         ClockCard(time: m2),
-        SizedBox(width: ScreenUtil().setWidth(10)),
+        SizedBox(width: ScreenUtil().setWidth(5)),
       ],
     );
   }

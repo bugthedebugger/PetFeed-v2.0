@@ -15,7 +15,7 @@ class PetFeedPage extends StatefulWidget {
 }
 
 class _PetFeedPageState extends State<PetFeedPage> {
-  String treatWeight = '0';
+  String treatWeight = '0.50';
 
   @override
   Widget build(BuildContext context) {
@@ -99,10 +99,21 @@ class _PetFeedPageState extends State<PetFeedPage> {
                                     fontSize: FontSize.fontSize14,
                                   ),
                                 ),
-                                Icon(
-                                  FontAwesomeIcons.signal,
-                                  size: FontSize.fontSize12,
-                                  color: Colors.green,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Icon(
+                                      FontAwesomeIcons.signal,
+                                      size: FontSize.fontSize12,
+                                      color: Colors.green,
+                                    ),
+                                    SizedBox(width: ScreenUtil().setWidth(10)),
+                                    Icon(
+                                      FontAwesomeIcons.ethernet,
+                                      size: FontSize.fontSize16,
+                                      color: Colors.green,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -133,11 +144,14 @@ class _PetFeedPageState extends State<PetFeedPage> {
                                 Icon(FontAwesomeIcons.dog),
                                 SizedBox(width: ScreenUtil().setWidth(10)),
                                 ChatBubble(
-                                  height: 35,
+                                  height: 40,
                                   width: 200,
                                   child: Center(
                                     child: Text(
                                       'Bhunte has been fed 2 times today.',
+                                      style: TextStyle(
+                                        fontSize: FontSize.fontSize12,
+                                      ),
                                     ),
                                   ),
                                 ),
