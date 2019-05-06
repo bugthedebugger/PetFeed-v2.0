@@ -3,10 +3,9 @@
 import pymysql
 import connection
 from model import Model
-from device import Device
 
 
-class Query:
+class DBController:
 
     def __init__(self):
         self.db = pymysql.connect(
@@ -60,8 +59,14 @@ class Query:
         return not error
 
     def insertAll(self, models):
-        for model in models:
-            self.insert(model)
+        error = False
+        try:
+            for model in models:
+                self.insert(model)
+        except:
+            error = True
+
+        return not error
 
     def update(self, model):
         columnCount = len(model.columnNames)
@@ -81,7 +86,8 @@ class Query:
                     values = values + column + '=' + '\'None\'' + ', '
             else:
                 if (mapDatas[column] != None):
-                    values = values + column + '=' + '\'' + str(mapDatas[column]) '\''
+                    values = values + column + '=' + \
+                        '\'' + str(mapDatas[column]) + '\''
                 else:
                     values = values + column + '=' + '\'None\''
 
@@ -98,16 +104,36 @@ class Query:
 
         return not error
 
+    def updateAll(self, models):
+        error = False
+        try:
+            for model in models:
+                self.update(model)
+        except:
+            error = True
 
-d = Device()
-d.from_map(
-    {
-        'deviceId': 'prayushdevice3',
-        'type': 'cat',
-        'typeId': 2,
-        'password': 'somepasswordwillgohere',
-        'accessToken': 'anotheraccesstoken'
-    }
-)
-q = Query()
-print(q.insert(d))
+        return not error
+
+    def delete(self, model):
+        query = "DELETE FROM {} WHERE id = {}".format(
+            model.tableName, model.id)
+        error = False
+
+        try:
+            self.cursor.execute(query)
+            self.db.commit()
+        except:
+            self.db.rollback()
+            error = True
+
+        return not error
+
+    def deleteAll(self, models):
+        error = False
+        try:
+            for model in models:
+                self.delete(model)
+        except:
+            error = True
+
+        return not error
