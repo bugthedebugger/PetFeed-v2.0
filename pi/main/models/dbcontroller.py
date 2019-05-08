@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 import pymysql
-from .connection import *
+from connection import *
 from .model import Model
 
 
