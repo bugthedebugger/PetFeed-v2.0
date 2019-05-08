@@ -20,7 +20,7 @@ class MotorController:
         self.left_pwm.start(0)
         self.right_pwm.start(0)
         # INITIALIZE WEIGHT SENSOR
-        self.wt = HX711(dout_pin=21, pd_sck_pin=20)
+        # self.wt = HX711(dout_pin=21, pd_sck_pin=20)
 
     # FUNCTION THAT RUNS THE MOTOR
     def start(self):
@@ -41,7 +41,6 @@ class MotorController:
     def __del__(self):
         GPIO.cleanup()
 
-
-# FUNCTION TO CLEAN UP USED RPi CHANNELS
-def end():
-    GPIO.cleanup()
+    # FUNCTION TO CLEAN UP USED RPi CHANNELS
+    def end():
+        GPIO.cleanup()
