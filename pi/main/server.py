@@ -64,6 +64,3 @@ class FlaskServer:
 
     def fish(self):
         motors.fish()
-
-    def __del__(self):
-        motors.end()
