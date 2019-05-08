@@ -8,9 +8,10 @@ from models.model import Model
 from hw_controllers.motor_controller import MotorController
 
 
-class FlaskServer:
+motors = MotorController()
 
-    motors = MotorController()
+
+class FlaskServer:
 
     def __init__(self, dbController):
         self.db = dbController
@@ -33,10 +34,10 @@ class FlaskServer:
 
     # FEEDING ROUTE
     @app.route('/feed', methods=['GET', 'POST'])
-    def feed(self):
+    def feed():
         if request.method == 'GET' or request.method == 'POST':
             # device feed() #not yet completed\
-            self.motors.fish()
+            motors.fish()
             response = {
                 'connection': 'local',
                 'status': 'success',
@@ -62,7 +63,7 @@ class FlaskServer:
         self.app.run(host='0.0.0.0', port=8848, debug=True)
 
     def fish(self):
-        self.motors.fish()
+        motors.fish()
 
     def __del__(self):
-        self.motors.end()
+        motors.end()
