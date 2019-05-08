@@ -33,7 +33,7 @@ class MotorController:
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(0)
 
-    def fish(self, duration=100):
+    def fish(self, duration=1):
         self.start()
         time.sleep(duration)
         self.stop()
@@ -42,5 +42,5 @@ class MotorController:
         GPIO.cleanup()
 
     # FUNCTION TO CLEAN UP USED RPi CHANNELS
-    def end():
+    def end(self):
         GPIO.cleanup()
