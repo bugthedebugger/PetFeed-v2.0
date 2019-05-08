@@ -1,16 +1,16 @@
 #! /usr/bin/python3
 
 import pymysql
-import connection
-from model import Model
+from .connection import *
+from .model import Model
 
 
 class DBController:
 
     def __init__(self):
         self.db = pymysql.connect(
-            connection.host, connection.user,
-            connection.password, database=connection.database)
+            host, user,
+            password, database=database)
         self.cursor = pymysql.cursors.DictCursor(self.db)
 
     def insert(self, model):

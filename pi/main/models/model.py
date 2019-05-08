@@ -7,7 +7,7 @@ from abc import abstractmethod
 class Model(ABC):
 
     @abstractmethod
-    def from_map(self, map):
+    def from_map(self, data_maps):
         pass
 
     @abstractmethod

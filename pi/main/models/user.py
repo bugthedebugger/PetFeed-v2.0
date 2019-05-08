@@ -2,11 +2,11 @@ from model import Model
 
 
 class User(Model):
-    self.id = None
-    self.name = None
-    self.user = None
-    self.email = None
-    self.serverID = None
+    id = None
+    name = None
+    user = None
+    email = None
+    serverID = None
     tableName = 'user'
     columnNames = [
         'id',

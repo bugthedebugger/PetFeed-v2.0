@@ -2,11 +2,11 @@ from model import Model
 
 
 class Schedule(Model):
-    self.id = None
-    self.day = None
-    self.time = None
-    self.amount = None
-    self.synced = None
+    id = None
+    day = None
+    time = None
+    amount = None
+    synced = None
     tableName = 'schedule'
     columnNames = [
         'id',

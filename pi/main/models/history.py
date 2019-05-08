@@ -2,10 +2,10 @@ from model import Model
 
 
 class History(Model):
-    self.id = None
-    self.scheduleID = None
-    self.fed = None
-    self.synced = None
+    id = None
+    scheduleID = None
+    fed = None
+    synced = None
     tableName = 'history'
     columnNames = [
         'id',

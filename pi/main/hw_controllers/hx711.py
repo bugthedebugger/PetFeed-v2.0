@@ -1,8 +1,3 @@
-"""
-This file holds HX711 class
-"""
-#!/usr/bin/env python3
-
 import statistics as stat
 import time
 

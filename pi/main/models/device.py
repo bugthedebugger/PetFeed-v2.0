@@ -1,15 +1,17 @@
 #! /usr/bin/python3
+import sys
+sys.path.append('')
 
 from model import Model
 
 
 class Device(Model):
-    self.id = None
-    self.deviceId = None
-    self.type = None
-    self.typeId = None
-    self.password = None
-    self.accessToken = None
+    id = None
+    deviceId = None
+    type = None
+    typeId = None
+    password = None
+    accessToken = None
     tableName = 'device'
     columnNames = [
         'id',
