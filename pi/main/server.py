@@ -5,12 +5,14 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 from models.model import Model
+from hw_controllers.motor_controller import MotorController
 
 
 class FlaskServer:
 
     def __init__(self, dbController):
         self.db = dbController
+        self.motors = MotorController()
 
     app = Flask(__name__)
     request_error = {
@@ -32,7 +34,8 @@ class FlaskServer:
     @app.route('/feed', methods=['GET', 'POST'])
     def feed():
         if request.method == 'GET' or request.method == 'POST':
-            # device feed() #not yet completed
+            # device feed() #not yet completed\
+            motors.fish()
             response = {
                 'connection': 'local',
                 'status': 'success',

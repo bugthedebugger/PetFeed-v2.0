@@ -6,5 +6,5 @@ from hw_controllers.motor_controller import MotorController
 from models.dbcontroller import DBController
 
 db = DBController()
-flaskServer = FlaskServer(dbController=DBController)
+flaskServer = FlaskServer(dbController=db)
 flaskServer.start()
