@@ -136,3 +136,6 @@ class DBController:
             error = True
 
         return not error
+
+    def __del__(self):
+        self.db.close()

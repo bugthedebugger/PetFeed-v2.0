@@ -50,7 +50,26 @@ class FlaskServer:
             response = request_error
             return jsonify(response)
 
-    # USER SETUP
+    @app.route('/start-hopper')
+    def startHopper():
+        if request.method == 'GET' or request.method == 'POST':
+            motors.start()
+            response = {
+                'connection': 'local',
+                'status': 'success',
+                'message': 'hopper started'
+            }
+
+    @app.route('/stop-hopper')
+    def startHopper():
+        if request.method == 'GET' or request.method == 'POST':
+            motors.stop()
+            response = {
+                'connection': 'local',
+                'status': 'success',
+                'message': 'hopper stopped'
+            }
+
     @app.route('/restart')
     def restart():
         os.system("sudo reboot")
