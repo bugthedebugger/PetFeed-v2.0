@@ -14,7 +14,7 @@ class FlaskServer:
 
     def __init__(self, dbController):
         self.db = dbController
-        self.motors = MotorController()
+        motors = MotorController()
 
     app = Flask(__name__)
     request_error = {
@@ -34,10 +34,10 @@ class FlaskServer:
 
     # FEEDING ROUTE
     @app.route('/feed', methods=['GET', 'POST'])
-    def feed(self):
+    def feed():
         if request.method == 'GET' or request.method == 'POST':
             # device feed() #not yet completed\
-            self.fish(self)
+            motors.fish()
             response = {
                 'connection': 'local',
                 'status': 'success',
