@@ -10,11 +10,10 @@ from hw_controllers.motor_controller import MotorController
 
 class FlaskServer:
 
-    motors = None
+    motors = MotorController()
 
     def __init__(self, dbController):
         self.db = dbController
-        motors = MotorController()
 
     app = Flask(__name__)
     request_error = {
