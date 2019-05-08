@@ -61,7 +61,7 @@ class FlaskServer:
             }
 
     @app.route('/stop-hopper')
-    def startHopper():
+    def stopHopper():
         if request.method == 'GET' or request.method == 'POST':
             motors.stop()
             response = {
