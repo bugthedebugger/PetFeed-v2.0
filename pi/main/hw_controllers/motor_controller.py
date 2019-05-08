@@ -20,7 +20,12 @@ class MotorController:
         self.left_pwm.start(0)
         self.right_pwm.start(0)
         # INITIALIZE WEIGHT SENSOR
-        # self.wt = HX711(dout_pin=21, pd_sck_pin=20)
+        try:
+            self.wt = HX711(dout_pin=21, pd_sck_pin=20)
+            self.weightSensor = True
+        except:
+            self.wt = None
+            self.weightSensor = False
 
     # FUNCTION THAT RUNS THE MOTOR
     def start(self):
