@@ -37,7 +37,7 @@ class FlaskServer:
     def feed():
         if request.method == 'GET' or request.method == 'POST':
             # device feed() #not yet completed\
-            self.fish()
+            fish()
             response = {
                 'connection': 'local',
                 'status': 'success',
