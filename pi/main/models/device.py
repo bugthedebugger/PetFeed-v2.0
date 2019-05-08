@@ -4,14 +4,15 @@ from model import Model
 
 
 class Device(Model):
-    id = None
-    deviceId = None
-    type = None
-    typeId = None
-    password = None
-    accessToken = None
+    self.id = None
+    self.deviceId = None
+    self.type = None
+    self.typeId = None
+    self.password = None
+    self.accessToken = None
     tableName = 'device'
     columnNames = [
+        'id',
         'deviceId',
         'type',
         'typeId',
