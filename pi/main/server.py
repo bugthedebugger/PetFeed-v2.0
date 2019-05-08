@@ -58,4 +58,4 @@ class FlaskServer:
         os.system("sudo poweroff")
 
     def start(self):
-        self.app.run(port=8848, debug=True)
+        self.app.run(host='0.0.0.0', port=8848, debug=True)
