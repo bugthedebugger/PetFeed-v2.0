@@ -39,6 +39,7 @@ class MotorController:
         self.stop()
 
     def __del__(self):
+        print('deleting this constructor for the motors')
         GPIO.cleanup()
 
     # FUNCTION TO CLEAN UP USED RPi CHANNELS
