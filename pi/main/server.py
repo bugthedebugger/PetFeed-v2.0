@@ -23,13 +23,13 @@ class FlaskServer:
         'message': 'error request type'
     }
 
-    @app.route('/', methods=['GET', 'POST'])
+    @app.route('/', methods=['POST'])
     def home():
         response = {
             'status': 'online',
             'connection': 'local'
         }
-        if request.method == 'GET' or request.method == 'POST':
+        if request.method == 'POST':
             return jsonify(response)
 
     # FEEDING ROUTE
