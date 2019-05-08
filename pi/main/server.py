@@ -4,12 +4,12 @@ import os
 from flask import Flask
 from flask import jsonify
 from flask import request
+from models.model import Model
 
 
 class FlaskServer:
 
-    def __init__(self, GPIO, dbController):
-        self.GPIO = GPIO
+    def __init__(self, dbController):
         self.db = dbController
 
     app = Flask(__name__)
