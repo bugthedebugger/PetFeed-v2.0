@@ -48,7 +48,6 @@ class DBController:
 
         query = "INSERT INTO {} VALUES({})".format(columns, values)
         error = False
-        print(query)
         try:
             self.cursor.execute(query)
             self.db.commit()

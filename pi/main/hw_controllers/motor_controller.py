@@ -1,7 +1,9 @@
+from hx711 import HX711
 import RPi.GPIO as GPIO
-
+import time
 # SET THE PIN LAYOUT TO BCM LAYOUT
 GPIO.setmode(GPIO.BCM)
+
 
 # MOTOR CONTROLLER CLASS
 class MotorController:
@@ -17,6 +19,8 @@ class MotorController:
         # INITIALIZE THE PINS AT 0hz i.e. BOTH PINS SET AS OFF
         self.left_pwm.start(0)
         self.right_pwm.start(0)
+        # INITIALIZE WEIGHT SENSOR
+        self.wt = HX711(dout_pin=21, pd_sck_pin=20)
 
     # FUNCTION THAT RUNS THE MOTOR
     def start(self):
@@ -28,6 +32,14 @@ class MotorController:
     def stop(self):
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(0)
+
+    def fish(self, duration=100):
+        self.start()
+        time.sleep(duration)
+        self.stop()
+
+    def __del__(self):
+        GPIO.cleanup()
 
 
 # FUNCTION TO CLEAN UP USED RPi CHANNELS
