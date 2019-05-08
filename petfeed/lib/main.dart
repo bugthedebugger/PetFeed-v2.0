@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:petfeed/dependencies.dart';
 import 'package:petfeed/src/assets/assets.dart';
 import 'package:petfeed/src/pages/login/login.dart';
 import 'package:petfeed/src/pages/petfeed/petfeed_page.dart';
 
-void main() {
+void main() async {
+  await initKiwi();
   runApp(PetFeed());
 }
 
