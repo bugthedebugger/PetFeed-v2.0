@@ -34,10 +34,10 @@ class FlaskServer:
 
     # FEEDING ROUTE
     @app.route('/feed', methods=['GET', 'POST'])
-    def feed():
+    def feed(self):
         if request.method == 'GET' or request.method == 'POST':
             # device feed() #not yet completed\
-            fish()
+            self.fish()
             response = {
                 'connection': 'local',
                 'status': 'success',
