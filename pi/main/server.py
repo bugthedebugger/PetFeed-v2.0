@@ -6,15 +6,17 @@ from flask import jsonify
 from flask import request
 from models.model import Model
 from hw_controllers.motor_controller import MotorController
+from models.device import Device
 
 
 motors = MotorController()
+db = None
 
 
 class FlaskServer:
 
     def __init__(self, dbController):
-        self.db = dbController
+        db = dbController
 
     app = Flask(__name__)
     request_error = {
@@ -36,7 +38,6 @@ class FlaskServer:
     @app.route('/feed', methods=['GET', 'POST'])
     def feed():
         if request.method == 'GET' or request.method == 'POST':
-            # device feed() #not yet completed\
             motors.fish()
             response = {
                 'connection': 'local',
@@ -78,8 +79,19 @@ class FlaskServer:
     def shutdown():
         os.system("sudo poweroff")
 
+    @app.route('/getID', methods=['GET'])
+    def getID():
+        if request.method == 'GET':
+            password = request.args.get('password')
+            d = Device()
+            result = db.selectAll(Device)
+            print(result)
+
     def start(self):
         self.app.run(host='0.0.0.0', port=8848, debug=True)
 
     def fish(self):
         motors.fish()
+
+
+FlaskServer.start()
