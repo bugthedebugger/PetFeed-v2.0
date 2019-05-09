@@ -92,6 +92,3 @@ class FlaskServer:
 
     def fish(self):
         motors.fish()
-
-
-FlaskServer.start()
