@@ -83,7 +83,20 @@ class FlaskServer:
             password = request.args.get('password')
             d = Device()
             result = db.selectAll(Device)
-            print(result)
+            result = result[0]
+
+            if result['password'] is password:
+                return jsonify({
+                    'connection': 'local',
+                    'status': 'success',
+                    'id': result['deviceId']
+                })
+            else:
+                return jsonify({
+                    'connection': 'local',
+                    'status': 'error',
+                    'id': None
+                })
 
     def start(self):
         self.app.run(host='0.0.0.0', port=8848, debug=True)
