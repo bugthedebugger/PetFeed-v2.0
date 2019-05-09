@@ -85,7 +85,7 @@ class FlaskServer:
             result = db.selectAll(Device)
             result = result[0]
             print(result)
-            if result['password'] is password:
+            if result['password'] == password:
                 return jsonify({
                     'connection': 'local',
                     'status': 'success',
