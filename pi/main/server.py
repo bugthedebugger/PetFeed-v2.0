@@ -80,8 +80,7 @@ class FlaskServer:
     @app.route('/getID', methods=['POST'])
     def getID():
         if request.method == 'POST':
-            password = request.get_json(force=True)
-            print(password)
+            password = request.get_json(force=True)['password']
             d = Device()
             result = db.selectAll(Device)
             result = result[0]
