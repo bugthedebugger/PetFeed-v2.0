@@ -23,4 +23,12 @@ class Device extends Model
     public function user(){
         return $this->belongsTo('App\User');
     }
+
+    public function type(){
+        return $this->belongsTo('App\Models\Type');
+    }
+
+    public function schedule(){
+        return $this->hasMany('App\Models\Schedule');
+    }
 }

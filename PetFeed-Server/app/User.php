@@ -41,4 +41,12 @@ class User extends Authenticatable
     public function pets(){
         return $this->hasMany('App\Models\Pet');
     }
+
+    public function device(){
+        return $this->hasMany('App\Models\Device');
+    }
+
+    public function schedule(){
+        return $this->hasMany('App\Models\Schedule');
+    }
 }

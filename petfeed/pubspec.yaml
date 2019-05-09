@@ -33,6 +33,7 @@ dependencies:
   http: ^0.12.0+2
   connectivity: ^0.4.3+1
   get_ip: ^0.3.0
+  shared_preferences: ^0.5.2
 
 dev_dependencies:
   flutter_test:

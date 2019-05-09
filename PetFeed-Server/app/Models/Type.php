@@ -13,4 +13,8 @@ class Type extends Model
     public function pets(){
         return $this->hasMany('App\Models\Pet');
     }
+
+    public function device(){
+        return $this->hasMany('App\Models\Device');
+    }
 }

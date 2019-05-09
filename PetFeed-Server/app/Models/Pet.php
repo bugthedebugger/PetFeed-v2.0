@@ -21,4 +21,8 @@ class Pet extends Model
     public function type(){
         return $this->belongsTo('App\Models\Type');
     }
+
+    public function schedule(){
+        return $this->hasMany('App\Models\Schedule');
+    }
 }
