@@ -77,10 +77,10 @@ class FlaskServer:
     def shutdown():
         os.system("sudo poweroff")
 
-    @app.route('/getID', methods=['GET'])
+    @app.route('/getID', methods=['POST'])
     def getID():
-        if request.method == 'GET':
-            password = request.args.get('password')
+        if request.method == 'POST':
+            password = request.form.password.data
             d = Device()
             result = db.selectAll(Device)
             result = result[0]
