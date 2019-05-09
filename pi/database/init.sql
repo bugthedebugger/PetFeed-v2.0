@@ -8,8 +8,8 @@ IF NOT EXISTS device
     password TEXT,
     accessToken TEXT,
     type VARCHAR
-(20) NOT NULL,
-    typeId INTEGER NOT NULL
+(20),
+    typeId INTEGER
 );
 
 CREATE TABLE

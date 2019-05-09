@@ -17,22 +17,27 @@ class DBController:
 
         columns = model.tableName + "("
         columnCount = len(model.columnNames)
-        count = 0
+        count = 1
 
         for column in model.columnNames:
+            if column is 'id':
+                continue
             count = count + 1
             if count is not columnCount:
                 columns = columns + column + ", "
             else:
                 columns = columns + column
         columns = columns + ")"
-        count = 0
+        count = 1
 
         values = ""
 
         mapDatas = model.to_map()
 
         for column in model.columnNames:
+            if column is 'id':
+                continue
+
             count = count + 1
             if count is not columnCount:
                 if (mapDatas[column] != None):
@@ -136,6 +141,22 @@ class DBController:
             error = True
 
         return not error
+
+    def select(self, model):
+        query = "SELECT * FROM {} WHERE id = {}".format(
+            model.tableName, model.id)
+
+        self.cursor.execute(query)
+        result = self.cursor.fetchone()
+        return result
+
+    def selectAll(self, model):
+        query = "SELECT * FROM {}".format(
+            model.tableName)
+
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+        return result
 
     def __del__(self):
         self.db.close()

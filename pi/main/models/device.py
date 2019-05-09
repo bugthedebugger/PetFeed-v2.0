@@ -1,8 +1,5 @@
 #! /usr/bin/python3
-import sys
-sys.path.append('')
-
-from model import Model
+from .model import Model
 
 
 class Device(Model):
