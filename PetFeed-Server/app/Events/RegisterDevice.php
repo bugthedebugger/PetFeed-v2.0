@@ -10,22 +10,24 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class Configure implements ShouldBroadcast
+class RegisterDevice implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $channelName;
+    public $password;
+    public $newPassword;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public $channelName;
-    public $token;
-
-    public function __construct($channelName, $token)
+    public function __construct($channelName, $password)
     {
         $this->channelName = $channelName;
-        $this->token = $token;
+        $this->password = 'petfeed123';
+        $this->newPassword = $password;
     }
 
     /**
@@ -35,11 +37,11 @@ class Configure implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel($this->channelName);
+        return new PresenceChannel('channel-name');
     }
 
     public function broadcastAs()
     {
-        return 'petfeed-configure';
+        return 'petfeed-register';
     }
 }

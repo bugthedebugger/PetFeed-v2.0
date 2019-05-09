@@ -14,7 +14,9 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" type="text/css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -73,8 +75,55 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-3">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a href="{{ route('home') }}">Dashboard</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="{{ route('register.device') }}">Register Device</a>
+                                </li>
+                                </ul>
+                            </div>
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-header">@yield('title')</div>
+                                <div class="card-body">
+                                    @if (session('status'))
+                                        <div class="alert alert-success" role="alert">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
+                                        @if(Session::has('success'))
+                                            <div class="alert alert-success">
+                                                Device registered successfully!
+                                            </div>
+                                        @endif
+                                        @if($errors->count())
+                                            <div class="alert alert-danger">
+                                                @foreach($errors->all() as $error)
+                                                    {{ $error }}
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    @yield('content')
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        @if(Session::has('success'))
+            toastr.['success']("{{ Session::get('success') }}")
+        @elseif(Session::has('error'))
+            toastr.['error']("{{ Session::get('error') }}")
+        @endif
+    </script>
 </body>
 </html>

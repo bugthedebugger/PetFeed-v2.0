@@ -17,4 +17,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['admin']], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/register-device', 'AdminController@registerDeviceview')->name('register.device');
+    Route::post('/register-device', 'AdminController@registerDevice')->name('register.device');
+});
+
+
