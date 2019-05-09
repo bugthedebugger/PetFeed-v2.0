@@ -7,16 +7,14 @@ from flask import request
 from models.model import Model
 from hw_controllers.motor_controller import MotorController
 from models.device import Device
+from models.dbcontroller import DBController
 
 
 motors = MotorController()
-db = None
+db = DBController()
 
 
 class FlaskServer:
-
-    def __init__(self, dbController):
-        db = dbController
 
     app = Flask(__name__)
     request_error = {
