@@ -27,7 +27,7 @@ class AdminController extends Controller
             \DB::beginTransaction();
             $device = Device::create([
                 'deviceId' => $request->deviceId,
-                'password' => bcrypt($password),
+                'password' => $password,
                 'type_id' => $request->type
             ]);
             \DB::commit();

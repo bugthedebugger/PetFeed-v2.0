@@ -24,7 +24,7 @@ class DeviceController extends Controller
 
 
         if ($device != null) {
-            if (Hash::check($request->password, $device->password))
+            if ($request->password === $device->password)
             {
                 \DB::table('oauth_access_tokens')
                     ->where([
