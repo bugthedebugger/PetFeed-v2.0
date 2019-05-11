@@ -19,12 +19,12 @@ class Configure implements ShouldBroadcast
      *
      * @return void
      */
-    public $channelName;
+    public $channel;
     public $token;
 
-    public function __construct($channelName, $token)
+    public function __construct($channel, $token)
     {
-        $this->channelName = $channelName;
+        $this->channel = $channel;
         $this->token = $token;
     }
 
@@ -35,7 +35,7 @@ class Configure implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel($this->channelName);
+        return new PresenceChannel($this->channel);
     }
 
     public function broadcastAs()

@@ -6,26 +6,27 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Device;
 use Hash;
-
+use Auth;
 class DeviceController extends Controller
 {
     public function login(Request $request){
+
         $this->validate($request, [
             'deviceId',
             'password'
         ]);
 
         $code = 200;
-
+        $user = Auth::User()->id;
         $device = Device::where(
             'deviceId', $request->deviceId
         )->first();
 
-
-
         if ($device != null) {
             if ($request->password === $device->password)
             {
+                $device->user_id = $user;
+                $device->save();
                 \DB::table('oauth_access_tokens')
                     ->where([
                         ['user_id', $device->id],
@@ -92,5 +93,124 @@ class DeviceController extends Controller
         }
 
         return response()->json($message, $code);
+    }
+
+    public function resetPassword(Request $request) {
+        $this->validate($request, [
+            'deviceId' => 'required'
+        ]);
+
+        $authDevices = Auth::User()->device;
+        $deviceLinked = false;
+        $device = [];
+
+        foreach($authDevices as $authDevice) {
+            if ($authDevice->deviceId == $request->deviceId) {
+                $device = $authDevice;
+                $deviceLinked = true;
+                break;
+            }
+        }
+
+        if ($deviceLinked) {
+            $newPassword = Hash::make(str_random());
+            $oldPassword = $device->password;
+
+            try {
+                \DB::beginTransaction();
+                $device->password = $newPassword;
+                $device->save();
+                event(new \App\Events\ResetPassword($device->deviceId, $oldPassword, $newPassword));
+                \DB::commit();
+            } catch (\Exception  $e) {
+                \DB::rollback();
+                abort(500, $e);
+            }
+            return response()->json([
+                'message' => 'success',
+                'newPassword' => $newPassword
+            ]);
+        } else {
+            abort(401, 'This device isn\'t linked to your account!');
+        }
+    }
+
+    public function shutdown(Request $request) {
+        $this->validate($request, [
+            'deviceId' => 'required'
+        ]);
+
+        $authDevices = Auth::User()->device;
+        $found = false;
+
+        foreach($authDevices as $authDevice) {
+            if ( $authDevice->deviceId === $request->deviceId ) {
+                event(new \App\Events\Shutdown($authDevice->deviceId));
+                $found = true;
+                break;
+            }
+        }
+
+        if($found)
+        {
+            return response()->json([
+                'message' => 'Shutdown signal sent!'
+            ]);
+        } else {
+            abort(401, 'This device isn\'t linked to your account!');
+        }
+    }
+
+    public function restart(Request $request) {
+        $this->validate($request, [
+            'deviceId' => 'required'
+        ]);
+
+        $authDevices = Auth::User()->device;
+        $found = false;
+
+        foreach($authDevices as $authDevice) {
+            if ( $authDevice->deviceId === $request->deviceId ) {
+                event(new \App\Events\Restart($authDevice->deviceId));
+                $found = true;
+                break;
+            }
+        }
+
+        if($found)
+        {
+            return response()->json([
+                'message' => 'Restart signal sent!'
+            ]);
+        } else {
+            abort(401, 'This device isn\'t linked to your account!');
+        }
+    }
+
+    public function treat(Request $request) {
+        $this->validate($request, [
+            'deviceId' => 'required',
+            'amount' => 'required'
+        ]);
+
+        $authDevices = Auth::User()->device;
+        $found = false;
+
+        foreach($authDevices as $authDevice) {
+            if ( $authDevice->deviceId === $request->deviceId ) {
+                event(new \App\Events\Treat($authDevice->deviceId, $request->amount));
+                $found = true;
+                break;
+            }
+        }
+
+        if($found)
+        {
+            return response()->json([
+                'message' => 'Treat signal sent!'
+            ]);
+        } else {
+            abort(401, 'This device isn\'t linked to your account!');
+        }
     }
 }

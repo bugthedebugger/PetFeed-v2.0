@@ -32,6 +32,7 @@ class AdminController extends Controller
             ]);
             \DB::commit();
             Session::flash('success', 'Device registered');
+            Session::flash('info', '<b>DevicdeID:</b> '.$request->deviceId.'<br> <b>Password:</b> '.$password);
             event(new \App\Events\RegisterDevice($device->deviceId, $password));
         } catch (\Exception $e) {
             \DB::rollback();

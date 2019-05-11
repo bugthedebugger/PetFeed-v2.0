@@ -14,7 +14,7 @@ class RegisterDevice implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $channelName;
+    public $channel;
     public $password;
     public $newPassword;
 
@@ -23,9 +23,9 @@ class RegisterDevice implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($channelName, $password)
+    public function __construct($channel, $password)
     {
-        $this->channelName = $channelName;
+        $this->channel = $channel;
         $this->password = 'petfeed123';
         $this->newPassword = $password;
     }
@@ -37,7 +37,7 @@ class RegisterDevice implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('channel-name');
+        return new PresenceChannel($this->channel);
     }
 
     public function broadcastAs()

@@ -10,22 +10,20 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class Treat implements ShouldBroadcast
+class Restart implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $channel;
-    public $amount;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($channel, $amount)
+    public function __construct($channel)
     {
         $this->channel = $channel;
-        $this->amount = $amount;
     }
 
     /**
@@ -38,8 +36,7 @@ class Treat implements ShouldBroadcast
         return new PresenceChannel($this->channel);
     }
 
-    public function broadcastAs()
-    {
-        return 'petfeed-treat';
+    public function broadcastAs(){
+        return 'petfeed-restart';
     }
 }

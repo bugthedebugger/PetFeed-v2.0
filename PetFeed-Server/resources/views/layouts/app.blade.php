@@ -76,43 +76,55 @@
 
         <main class="py-4">
             <div class="container">
+                    @guest
+                        <div class="row justify-content-center">
+                            @yield('content')
+                        </div>
+                    @else
                     <div class="row justify-content-center">
-                        <div class="col-md-3">
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <a href="{{ route('home') }}">Dashboard</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="{{ route('register.device') }}">Register Device</a>
-                                </li>
-                                </ul>
-                            </div>
-                        <div class="col-md-9">
-                            <div class="card">
-                                <div class="card-header">@yield('title')</div>
-                                <div class="card-body">
-                                    @if (session('status'))
-                                        <div class="alert alert-success" role="alert">
-                                            {{ session('status') }}
-                                        </div>
-                                    @endif
-                                        @if(Session::has('success'))
-                                            <div class="alert alert-success">
-                                                Device registered successfully!
+                            <div class="col-md-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <a href="{{ route('home') }}">Dashboard</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="{{ route('register.device') }}">Register Device</a>
+                                    </li>
+                                    </ul>
+                                </div>
+                            <div class="col-md-9">
+                                <div class="card">
+                                    <div class="card-header">@yield('title')</div>
+                                    <div class="card-body">
+                                        @if (session('status'))
+                                            <div class="alert alert-success" role="alert">
+                                                {{ session('status') }}
                                             </div>
                                         @endif
-                                        @if($errors->count())
-                                            <div class="alert alert-danger">
-                                                @foreach($errors->all() as $error)
-                                                    {{ $error }}
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    @yield('content')
+                                            @if(Session::has('success'))
+                                                <div class="alert alert-success">
+                                                    Device registered successfully!
+                                                </div>
+                                            @endif
+                                            @if($errors->count())
+                                                <div class="alert alert-danger">
+                                                    @foreach($errors->all() as $error)
+                                                        {{ $error }}
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                            @if(Session::has('info'))
+                                                <div class="alert alert-info">
+                                                    {!! Session::get('info') !!}
+                                                </div>
+                                            @endif
+                                        @yield('content')
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endguest
+
                 </div>
             </div>
         </main>
