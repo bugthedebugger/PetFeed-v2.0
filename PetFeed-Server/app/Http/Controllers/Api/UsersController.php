@@ -30,7 +30,7 @@ class UsersController extends Controller
                 'password' => bcrypt($request->password)
             ]);
 
-            $message[] = [
+            $message = [
                 'name' => $user->name,
                 'email' => $user->email,
                 'token' => $user->createToken('PetFeed')->accessToken,
