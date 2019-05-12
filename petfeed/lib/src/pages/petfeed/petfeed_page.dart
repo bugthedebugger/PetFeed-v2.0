@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
@@ -10,6 +12,7 @@ import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'package:petfeed/src/widgets/petfeed_card/petfeed_card.dart';
 import 'package:petfeed/src/widgets/radial_slider/radial_slider.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:http/http.dart' as http;
 
 class PetFeedPage extends StatefulWidget {
   @override

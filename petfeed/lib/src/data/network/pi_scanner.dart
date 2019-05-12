@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'network_utils.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
-import 'package:connectivity/connectivity.dart';
 
 class PiScanner {
   final http.Client client;
@@ -12,11 +11,6 @@ class PiScanner {
   PiScanner(this.client);
 
   Future<bool> findDevice() async {
-    ConnectivityResult connectivityResult =
-        await Connectivity().checkConnectivity();
-    // ConnectivityResult.
-    var connection = await Connectivity().getWifiIP();
-
     List<String> ipList = await getIpList();
     bool found = false;
     int timeOut = 500;
@@ -36,9 +30,9 @@ class PiScanner {
           print(response.body);
           break;
         }
-      } on SocketException catch (e) {
+      } on SocketException catch (_) {
         // print(e);
-      } on TimeoutException catch (e) {
+      } on TimeoutException catch (_) {
         // print(e);
       }
       try {
@@ -53,9 +47,9 @@ class PiScanner {
           print(response.body);
           break;
         }
-      } on SocketException catch (e) {
+      } on SocketException catch (_) {
         // print(e);
-      } on TimeoutException catch (e) {
+      } on TimeoutException catch (_) {
         // print(e);
       }
     }
