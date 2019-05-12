@@ -2,28 +2,55 @@ import pusher
 from dbcontroller import DBController
 from model import device
 
+channel='presence-pet'
+
 def password_reset(data):
     data = ast.literal_eval(data)
     if data['channel']==channel:
-        password=input("enter old password")
-        if data['oldpassword']==password:
-            npassword=input("enter new password")
-            data['newpassword']=npassword
+        db=DBContoller()
+        rpasssword=Device()
+        result=db.selectAll(device)
+        rpassword=result[0]
+        if rpassword.password==data['oldpassword']:
+            rpassword.password=data['newpassword']
+            db.update(device)
         else:
-            print('password wrong')
+            print('cant reset')
     else:
-        print('wrong channel')
+        pass
+
 
 
 
 def configure(data):
-    
+    data = ast.literal_eval(data)
+
+    if data['channel']==channel:
+
+        Token = data['token']
+        db = DBCOntroller()
+        device = Device()
+        result = db.selectAll(device)
+        device = result[0]
+        device.accessToken = Token  # yo right cha?
+        db.update(device)
+
+
+def treat:
+    data=ast.literal_eval(data)
+    amount=data['amount']
+    #garna banki
+
+
+
+
 
 
 def connect_handler(data):
-    channel='presence-pet'
+
     petfeed_channel = pusherClient.subscribe(channel)
     petfeed_channel.bind('petfeed-restart',  os.system("sudo reboot"))
     petfeed_channel.bind('petfeed-reset-password',password_reset)
     petfeed channel.bind('petfeed-shutdown',os.system("sudo poweroff"))
     petfeed channel.bind('petfeed-configure',configure)
+    petfeed_channel.bind('petfeed-treat',treat)
