@@ -4,6 +4,7 @@ import os
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask import status
 from models.model import Model
 from hw_controllers.motor_controller import MotorController
 from models.device import Device
@@ -114,7 +115,7 @@ class FlaskServer:
                     'connection': 'local',
                     'status': 'error',
                     'id': None
-                })
+                }), status.HTTP_401_UNAUTHORIZED
 
     @app.route('/wifisetup', methods=['POST'])
     def wifiSetup():
