@@ -13,7 +13,7 @@ class Pusher_container:
         cluster='ap2',
         ssl=True
     )
-
+    @staticmethod
     def password_reset(data):
         data = ast.literal_eval(data)
         if data['channel'] == channel:
@@ -29,6 +29,7 @@ class Pusher_container:
         else:
             pass
 
+    @staticmethod
     def configure(data):
         data = ast.literal_eval(data)
 
@@ -41,14 +42,17 @@ class Pusher_container:
             device.accessToken = Token  # yo right cha?
             db.update(device)
 
+    @staticmethod
     def treat(data):
         data = ast.literal_eval(data)
         amount = data['amount']
 
-    def restart(self):
+    @staticmethod
+    def restart():
         self.os.system("sudo reboot")
 
-    def shutdown(self):
+    @staticmethod
+    def shutdown():
         self.os.system("sudo poweroff")
 
 
@@ -56,8 +60,8 @@ class Pusher_container:
   def connect_handler(data):
 
         petfeed_channel = pusher_client.subscribe(channel)
-        petfeed_channel.bind('petfeed-restart', restart)
-        petfeed_channel.bind('petfeed-reset-password', password_reset)
-        petfeed_channel.bind('petfeed-shutdown', shutdown)
-        petfeed_channel.bind('petfeed-configure', configure)
-        petfeed_channel.bind('petfeed-treat', treat)
+        petfeed_channel.bind('petfeed-restart', Pusher_container.restart)
+        petfeed_channel.bind('petfeed-reset-password', Pusher_container.password_reset)
+        petfeed_channel.bind('petfeed-shutdown', Pusher_container.shutdown)
+        petfeed_channel.bind('petfeed-configure', Pusher_container.configure)
+        petfeed_channel.bind('petfeed-treat', Pusher_container.treat)
