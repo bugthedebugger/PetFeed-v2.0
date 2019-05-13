@@ -155,8 +155,8 @@ class FlaskServer:
 
         # IF NO ERROR OPEN THE WPA SUPPLICANT FILE AND ADD THE WIFI NETWORK
         if error_flag is False:
-            # CHANGE DIRECTORY TO /etc/wpa_suppliments/ WHERE THE SUPPLIMENT FILE IS PLACED
-            os.chdir('/etc/wpa_suppliments/')
+            # CHANGE DIRECTORY TO /etc/wpa_supplicant/ WHERE THE SUPPLIMENT FILE IS PLACED
+            os.chdir('/etc/wpa_supplicant/')
             wpa_file = open("wpa_supplicant.conf", 'a')
 
             # IF PASSWORD IS NONE key_mgmt IS SET TO NONE
