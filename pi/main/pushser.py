@@ -1,18 +1,20 @@
 import pusher
-from dbcontroller import DBController
-from model import device
+from models.dbcontroller import DBController
+from models.device import Device
+import ast
 
-channel='presence-pet'
+channel = 'some-channel'
+
 
 def password_reset(data):
     data = ast.literal_eval(data)
-    if data['channel']==channel:
-        db=DBContoller()
-        rpasssword=Device()
-        result=db.selectAll(device)
-        rpassword=result[0]
-        if rpassword.password==data['oldpassword']:
-            rpassword.password=data['newpassword']
+    if data['channel'] == channel:
+        db = DBContoller()
+        rpasssword = Device()
+        result = db.selectAll(device)
+        rpassword = result[0]
+        if rpassword.password == data['oldpassword']:
+            rpassword.password = data['newpassword']
             db.update(device)
         else:
             print('cant reset')
@@ -20,15 +22,13 @@ def password_reset(data):
         pass
 
 
-
-
 def configure(data):
     data = ast.literal_eval(data)
 
-    if data['channel']==channel:
+    if data['channel'] == channel:
 
         Token = data['token']
-        db = DBCOntroller()
+        db = DBController()
         device = Device()
         result = db.selectAll(device)
         device = result[0]
@@ -37,20 +37,16 @@ def configure(data):
 
 
 def treat:
-    data=ast.literal_eval(data)
-    amount=data['amount']
-    #garna banki
-
-
-
-
+    data = ast.literal_eval(data)
+    amount = data['amount']
+    # garna banki
 
 
 def connect_handler(data):
 
     petfeed_channel = pusherClient.subscribe(channel)
     petfeed_channel.bind('petfeed-restart',  os.system("sudo reboot"))
-    petfeed_channel.bind('petfeed-reset-password',password_reset)
-    petfeed channel.bind('petfeed-shutdown',os.system("sudo poweroff"))
-    petfeed channel.bind('petfeed-configure',configure)
-    petfeed_channel.bind('petfeed-treat',treat)
+    petfeed_channel.bind('petfeed-reset-password', password_reset)
+    petfeed channel.bind('petfeed-shutdown', os.system("sudo poweroff"))
+    petfeed channel.bind('petfeed-configure', configure)
+    petfeed_channel.bind('petfeed-treat', treat)
