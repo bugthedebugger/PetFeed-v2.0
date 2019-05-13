@@ -130,7 +130,7 @@ class FlaskServer:
         if request.method == 'POST':
             data = request.get_json()
             ssid = data['ssid']
-            key = key['key']
+            key = data['key']
 
         else:
             response = request_method_error
