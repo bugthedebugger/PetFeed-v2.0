@@ -129,7 +129,7 @@ class FlaskServer:
             else:
                 return jsonify(unauthenticated_response), 401
 
-    @app.route('/shutdown')
+    @app.route('/shutdown', methods=['POST'])
     def shutdown():
         if request.method == 'POST':
             device = Device()
