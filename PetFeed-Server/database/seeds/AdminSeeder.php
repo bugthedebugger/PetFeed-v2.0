@@ -13,12 +13,13 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        $user = User::create([
             'name' => 'PetFeed Admin',
             'email' => 'petfeed@gmail.com',
             'password' => bcrypt('petfeedpassword'),
-            'email_verified_at' => Carbon::now(),
             'admin' => true
         ]);
+
+        $user->markEmailAsVerified();
     }
 }

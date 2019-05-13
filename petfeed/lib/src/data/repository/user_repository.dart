@@ -28,4 +28,23 @@ class UserRepository {
       throw UserRegistrationException(_.message);
     }
   }
+
+  Future<User> reSendVerificationEmail({
+    @required String email,
+    @required String password,
+  }) async {
+    try {
+      final response = await dataSource.reSendVerificationEmail(
+          email: email, password: password);
+      if (response != null)
+        return response;
+      else
+        throw UserRegistrationException(
+            "Ooops! Something wen't horribly wrong!");
+    } on NoInternetException catch (_) {
+      throw NoInternetException();
+    } on UserRegistrationException catch (_) {
+      throw UserRegistrationException(_.message);
+    }
+  }
 }

@@ -10,7 +10,10 @@ part 'user.g.dart';
 abstract class User implements Built<User, UserBuilder> {
   String get name;
   String get email;
+  @nullable
   String get token;
+  @nullable
+  String get message;
 
   User._();
 

@@ -37,3 +37,14 @@ abstract class RegistrationError extends RegisterEvents
   factory RegistrationError([updates(RegistrationErrorBuilder b)]) =
       _$RegistrationError;
 }
+
+abstract class SendVerificationEmail extends RegisterEvents
+    implements Built<SendVerificationEmail, SendVerificationEmailBuilder> {
+  String get email;
+  String get password;
+
+  SendVerificationEmail._();
+
+  factory SendVerificationEmail([updates(SendVerificationEmailBuilder b)]) =
+      _$SendVerificationEmail;
+}

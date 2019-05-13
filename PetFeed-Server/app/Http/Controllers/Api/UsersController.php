@@ -77,12 +77,33 @@ class UsersController extends Controller
                     'token' => Auth::user()->createToken('PetFeed')->accessToken
                 ];
             } else {
-                abort(401, 'Email verification not compeleted');
+                abort(412, 'Email verification not compeleted');
             }
         } else {
             abort(401, 'Unauthenticated');
         }
 
         return response()->json($message, $code);
+    }
+
+    public function sendVerificationEmail(Request $request){
+        $this->validate($request, [
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+
+        if(Auth::check()) {
+            Auth::User()->sendEmailVerificationNotification();
+            $message = [
+                'message' => 'Verification email sent!',
+                'name' => Auth::user()->name,
+                'email' => Auth::user()->email,
+            ];
+            return response()->json($message);
+        } else {
+            abort(401, 'Unauthenticated');
+        }
     }
 }

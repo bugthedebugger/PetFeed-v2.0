@@ -23,14 +23,15 @@ class _RegisterPageState extends State<RegisterPage> {
   final RegisterBloc registerBloc = kiwi.Container().resolve<RegisterBloc>();
   StreamSubscription _subscription;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  bool verificationSent = false;
   @override
   void initState() {
     super.initState();
     _subscription = registerBloc.registerEventStream.listen(
       (event) {
         print(event);
-        if (event is InitializingRegistration) {
+        if (event is InitializingRegistration ||
+            event is SendVerificationEmail) {
           showDialog(
             context: context,
             barrierDismissible: false,
@@ -39,9 +40,25 @@ class _RegisterPageState extends State<RegisterPage> {
             },
           );
         } else if (event is RegistrationSuccessful) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.PETFEED,
-            (predicate) => false,
+          verificationSent = true;
+          Navigator.of(context).pop();
+          _scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              content: Text(
+                "Verification email has been sent, please verifiy email first!",
+                style: TextStyle(
+                  fontSize: FontSize.fontSize12,
+                ),
+              ),
+              duration: Duration(minutes: 10),
+              action: SnackBarAction(
+                label: 'Resend Email',
+                onPressed: () {
+                  registerBloc.reSendVerificationEmail(
+                      email: email, password: password);
+                },
+              ),
+            ),
           );
         } else if (event is RegistrationError) {
           Navigator.of(context).pop();

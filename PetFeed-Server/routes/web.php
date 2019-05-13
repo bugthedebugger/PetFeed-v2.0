@@ -11,13 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', 'WelcomeController@welcome')->name('welcome');
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => ['admin', 'verified']], function () {
+Route::get('/verified', 'VerifiedController@index');
+
+Route::group(['middleware' => ['auth', 'admin','verified']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/register-device', 'AdminController@registerDeviceview')->name('register.device');
     Route::post('/register-device', 'AdminController@registerDevice')->name('register.device');

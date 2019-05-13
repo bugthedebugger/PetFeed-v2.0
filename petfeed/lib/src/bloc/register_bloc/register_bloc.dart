@@ -28,6 +28,29 @@ class RegisterBloc extends Bloc {
   void _mapEventsToState(RegisterEvents event) {
     if (event is InitializingRegistration) {
       _mapInitializingRegistration(event);
+    } else if (event is SendVerificationEmail) {
+      _mapSendVerificationEmail(event);
+    }
+  }
+
+  void reSendVerificationEmail(
+      {@required String email, @required String password}) {
+    dispatch(SendVerificationEmail((b) => b
+      ..email = email
+      ..password = password));
+  }
+
+  void _mapSendVerificationEmail(SendVerificationEmail event) async {
+    try {
+      await repository.reSendVerificationEmail(
+          email: event.email, password: event.password);
+      dispatch(RegistrationSuccessful());
+    } on NoInternetException catch (e) {
+      dispatch(RegistrationError((b) => b..message = e.message));
+    } on UserRegistrationException catch (e) {
+      dispatch(RegistrationError((b) => b..message = e.message));
+    } catch (_) {
+      dispatch(RegistrationError((b) => b..message = _.toString()));
     }
   }
 
@@ -49,9 +72,6 @@ class RegisterBloc extends Bloc {
         email: event.email,
         password: event.password,
       );
-      preferences.setString('name', response.name);
-      preferences.setString('email', response.email);
-      preferences.setString('token', response.token);
       dispatch(RegistrationSuccessful());
     } on NoInternetException catch (e) {
       dispatch(RegistrationError((b) => b..message = e.message));

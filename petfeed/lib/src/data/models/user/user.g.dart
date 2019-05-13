@@ -23,10 +23,19 @@ class _$UserSerializer implements StructuredSerializer<User> {
       'email',
       serializers.serialize(object.email,
           specifiedType: const FullType(String)),
-      'token',
-      serializers.serialize(object.token,
-          specifiedType: const FullType(String)),
     ];
+    if (object.token != null) {
+      result
+        ..add('token')
+        ..add(serializers.serialize(object.token,
+            specifiedType: const FullType(String)));
+    }
+    if (object.message != null) {
+      result
+        ..add('message')
+        ..add(serializers.serialize(object.message,
+            specifiedType: const FullType(String)));
+    }
 
     return result;
   }
@@ -54,6 +63,10 @@ class _$UserSerializer implements StructuredSerializer<User> {
           result.token = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'message':
+          result.message = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
       }
     }
 
@@ -68,19 +81,18 @@ class _$User extends User {
   final String email;
   @override
   final String token;
+  @override
+  final String message;
 
   factory _$User([void Function(UserBuilder) updates]) =>
       (new UserBuilder()..update(updates)).build();
 
-  _$User._({this.name, this.email, this.token}) : super._() {
+  _$User._({this.name, this.email, this.token, this.message}) : super._() {
     if (name == null) {
       throw new BuiltValueNullFieldError('User', 'name');
     }
     if (email == null) {
       throw new BuiltValueNullFieldError('User', 'email');
-    }
-    if (token == null) {
-      throw new BuiltValueNullFieldError('User', 'token');
     }
   }
 
@@ -97,12 +109,15 @@ class _$User extends User {
     return other is User &&
         name == other.name &&
         email == other.email &&
-        token == other.token;
+        token == other.token &&
+        message == other.message;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc($jc(0, name.hashCode), email.hashCode), token.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, name.hashCode), email.hashCode), token.hashCode),
+        message.hashCode));
   }
 
   @override
@@ -110,7 +125,8 @@ class _$User extends User {
     return (newBuiltValueToStringHelper('User')
           ..add('name', name)
           ..add('email', email)
-          ..add('token', token))
+          ..add('token', token)
+          ..add('message', message))
         .toString();
   }
 }
@@ -130,6 +146,10 @@ class UserBuilder implements Builder<User, UserBuilder> {
   String get token => _$this._token;
   set token(String token) => _$this._token = token;
 
+  String _message;
+  String get message => _$this._message;
+  set message(String message) => _$this._message = message;
+
   UserBuilder();
 
   UserBuilder get _$this {
@@ -137,6 +157,7 @@ class UserBuilder implements Builder<User, UserBuilder> {
       _name = _$v.name;
       _email = _$v.email;
       _token = _$v.token;
+      _message = _$v.message;
       _$v = null;
     }
     return this;
@@ -157,8 +178,8 @@ class UserBuilder implements Builder<User, UserBuilder> {
 
   @override
   _$User build() {
-    final _$result =
-        _$v ?? new _$User._(name: name, email: email, token: token);
+    final _$result = _$v ??
+        new _$User._(name: name, email: email, token: token, message: message);
     replace(_$result);
     return _$result;
   }

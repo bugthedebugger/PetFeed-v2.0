@@ -42,4 +42,29 @@ class UserDataSource {
       throw NoInternetException();
     }
   }
+
+  Future<User> reSendVerificationEmail(
+      {@required String email, @required String password}) async {
+    bool status = await CheckConnection.status();
+    if (status) {
+      http.Response response = await client.post(
+        ServerApiRoutes.RESEND_VERIFICATION,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: json.encode({
+          'email': email,
+          'password': password,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return User.fromJson(response.body);
+      } else {
+        throw UserRegistrationException(response.body);
+      }
+    } else {
+      throw NoInternetException();
+    }
+  }
 }

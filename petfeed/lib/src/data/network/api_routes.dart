@@ -16,4 +16,6 @@ class ServerApiRoutes {
   // user ROUTES
   static const String LOGIN = BASE_URL + 'login';
   static const String REGISTER = BASE_URL + 'register';
+  static const String RESEND_VERIFICATION =
+      BASE_URL + 'send-verification-email';
 }
