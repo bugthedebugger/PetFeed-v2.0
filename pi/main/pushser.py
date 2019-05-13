@@ -52,7 +52,8 @@ class Pusher_container:
         self.os.system("sudo poweroff")
 
 
-    def connect_handler(data):
+
+  def connect_handler(data):
 
         petfeed_channel = pusher_client.subscribe(channel)
         petfeed_channel.bind('petfeed-restart', restart)
