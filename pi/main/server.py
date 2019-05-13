@@ -163,14 +163,14 @@ class FlaskServer:
             if password_flag is True:
                 new_network = """
 network={
-	ssid='%s'
-	psk='%s'
+	ssid="%s"
+	psk="%s"
 }
 				""" % (ssid, key)
             else:
                 new_network = """
 network={
-	ssid='%s'
+	ssid="%s"
 	key_mgmt=none
 }
 				""" % (ssid)
