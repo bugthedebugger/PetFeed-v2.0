@@ -17,6 +17,11 @@ request_method_error = {
     'status': 'error',
     'message': 'Error request type.'
 }
+unauthenticated_response = {
+    'connection': 'local',
+    'status': 'error',
+    'message': 'Unauthenticated'
+}
 
 
 class FlaskServer:
@@ -46,7 +51,8 @@ class FlaskServer:
             userToken = userRequest['accessToken']
 
             devices = db.selectAll(Device())
-            device = devices[0]
+            device = Device()
+            device.from_map(devices[0])
             accessToken = device.accessToken
 
             if userToken == accessToken:
@@ -61,39 +67,81 @@ class FlaskServer:
                     'message': 'fed successfully'
                 }
 
-            return jsonify(response)
+                return jsonify(response)
+            else:
+                return jsonify(unauthenticated_response), 401
 
         else:
             response = request_error
             return jsonify(response)
 
-    @app.route('/start-hopper')
+    @app.route('/start-hopper', methods=['POST'])
     def startHopper():
-        if request.method == 'GET' or request.method == 'POST':
-            motors.start()
-            response = {
-                'connection': 'local',
-                'status': 'success',
-                'message': 'hopper started'
-            }
+        if request.method == 'POST':
+            device = Device()
+            results = db.selectAll(device)
+            device.from_map(results[0])
 
-    @app.route('/stop-hopper')
+            userToken = request.get_json()['accessToken']
+
+            if userToken == device.accessToken:
+                motors.start()
+                response = {
+                    'connection': 'local',
+                    'status': 'success',
+                    'message': 'hopper started'
+                }
+                return jsonify(response)
+            else:
+                return jsonify(unauthenticated_response), 401
+
+    @app.route('/stop-hopper', methods=['POST'])
     def stopHopper():
-        if request.method == 'GET' or request.method == 'POST':
-            motors.stop()
-            response = {
-                'connection': 'local',
-                'status': 'success',
-                'message': 'hopper stopped'
-            }
+        if request.method == 'POST':
+            device = Device()
+            results = db.selectAll(device)
+            device.from_map(results[0])
 
-    @app.route('/restart')
+            userToken = request.get_json()['accessToken']
+
+            if userToken == device.accessToken:
+                motors.stop()
+                response = {
+                    'connection': 'local',
+                    'status': 'success',
+                    'message': 'hopper stopped'
+                }
+                return jsonify(response)
+            else:
+                return jsonify(unauthenticated_response), 401
+
+    @app.route('/restart', methods=['POST'])
     def restart():
-        os.system("sudo reboot")
+        if request.method == 'POST':
+            device = Device()
+            results = db.selectAll(device)
+            device.from_map(results[0])
 
-    @app.route('/shutdown')
+            userToken = request.get_json()['accessToken']
+
+            if userToken == device.accessToken:
+                os.system("sudo reboot")
+            else:
+                return jsonify(unauthenticated_response), 401
+
+    @app.route('/shutdown', methods=['POST'])
     def shutdown():
-        os.system("sudo poweroff")
+        if request.method == 'POST':
+            device = Device()
+            results = db.selectAll(device)
+            device.from_map(results[0])
+
+            userToken = request.get_json()['accessToken']
+
+            if userToken == device.accessToken:
+                os.system("sudo poweroff")
+            else:
+                return jsonify(unauthenticated_response), 401
 
     @app.route('/getID', methods=['POST'])
     def getID():
@@ -110,11 +158,7 @@ class FlaskServer:
                     'id': result['deviceId']
                 })
             else:
-                return jsonify({
-                    'connection': 'local',
-                    'status': 'error',
-                    'id': None
-                }), 401
+                return jsonify(unauthenticated_response), 401
 
     @app.route('/wifisetup', methods=['POST'])
     def wifiSetup():
