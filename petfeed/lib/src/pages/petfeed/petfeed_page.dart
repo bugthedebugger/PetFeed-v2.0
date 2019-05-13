@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
@@ -12,7 +10,6 @@ import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'package:petfeed/src/widgets/petfeed_card/petfeed_card.dart';
 import 'package:petfeed/src/widgets/radial_slider/radial_slider.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
-import 'package:http/http.dart' as http;
 
 class PetFeedPage extends StatefulWidget {
   @override
@@ -21,6 +18,13 @@ class PetFeedPage extends StatefulWidget {
 
 class _PetFeedPageState extends State<PetFeedPage> {
   String treatWeight = '0.50';
+  String deviceType;
+
+  @override
+  void initState() {
+    deviceType = 'Fish';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +93,7 @@ class _PetFeedPageState extends State<PetFeedPage> {
                     right: ScreenUtil().setWidth(15),
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       PetFeedCard(
                         height: 100,
@@ -172,11 +177,13 @@ class _PetFeedPageState extends State<PetFeedPage> {
                         child: RadialSlider(
                           onChange: _radialSliderChange,
                           init: 0,
+                          minFood: 0.5,
+                          maxFood: deviceType == 'Fish' ? 1.5 : 50,
                           child: Column(
                             children: <Widget>[
                               SizedBox(height: ScreenUtil().setHeight(15)),
                               Text(
-                                '$treatWeight gm',
+                                '$treatWeight ${deviceType == "Fish" ? "ms" : "gm"}',
                                 style: TextStyle(
                                   fontSize: FontSize.fontSize16,
                                 ),

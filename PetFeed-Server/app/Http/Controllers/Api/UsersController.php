@@ -33,10 +33,10 @@ class UsersController extends Controller
             $message = [
                 'name' => $user->name,
                 'email' => $user->email,
-                'token' => $user->createToken('PetFeed')->accessToken,
-                'message' => 'success'
+                'message' => 'verification email sent!'
             ];
             \DB::commit();
+            $user->sendEmailVerificationNotification();
         }catch(\Exception $e){
             \Log::error($e);
             \DB::rollback();
@@ -59,20 +59,26 @@ class UsersController extends Controller
         $code = 200;
 
         $user = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-        if($user){
-            \DB::table('oauth_access_tokens')
-                ->where('user_id', Auth::user()->id)
-                ->update(
-                    [
-                        'revoked' => true
-                    ]
-                );
-            $message = [
-                'message' => 'success',
-                'name' => Auth::user()->name,
-                'email' => Auth::user()->email,
-                'token' => Auth::user()->createToken('PetFeed')->accessToken
-            ];
+
+        if(Auth::check()){
+            if(Auth::user()->hasVerifiedEmail())
+            {
+                \DB::table('oauth_access_tokens')
+                    ->where('user_id', Auth::user()->id)
+                    ->update(
+                        [
+                            'revoked' => true
+                        ]
+                    );
+                $message = [
+                    'message' => 'success',
+                    'name' => Auth::user()->name,
+                    'email' => Auth::user()->email,
+                    'token' => Auth::user()->createToken('PetFeed')->accessToken
+                ];
+            } else {
+                abort(401, 'Email verification not compeleted');
+            }
         } else {
             abort(401, 'Unauthenticated');
         }

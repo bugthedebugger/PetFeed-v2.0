@@ -22,7 +22,7 @@ class AdminMiddleware
         else
         {
             Auth::logout();
-            return redirect()->route('root');
+            return redirect()->route('welcome');
         }
     }
 }

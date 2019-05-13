@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:petfeed/src/assets/assets.dart';
 
 class PetFeedLogo extends StatelessWidget {
+  final bool inverted;
+
+  const PetFeedLogo({Key key, this.inverted = false}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -10,15 +14,15 @@ class PetFeedLogo extends StatelessWidget {
       children: <Widget>[
         Icon(
           FontAwesomeIcons.paw,
-          color: Colors.black,
-          size: FontSize.fontSize20,
+          color: inverted ? Colors.grey[400] : Colors.black,
+          size: FontSize.fontSize30,
         ),
         SizedBox(width: 5),
         Text(
           "PetFeed",
           style: TextStyle(
-            fontSize: FontSize.fontSize18,
-            color: Colors.black,
+            fontSize: FontSize.fontSize30,
+            color: inverted ? Colors.grey[400] : Colors.black,
           ),
         ),
       ],
