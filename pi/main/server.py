@@ -17,6 +17,11 @@ request_method_error = {
     'status': 'error',
     'message': 'Error request type.'
 }
+unauthenticated_response = {
+    'connection': 'local',
+    'status': 'error',
+    'message': 'Unauthenticated'
+}
 
 
 class FlaskServer:
@@ -46,7 +51,8 @@ class FlaskServer:
             userToken = userRequest['accessToken']
 
             devices = db.selectAll(Device())
-            device = devices[0]
+            device = Device()
+            device.from_map(devices[0])
             accessToken = device.accessToken
 
             if userToken == accessToken:
@@ -61,7 +67,9 @@ class FlaskServer:
                     'message': 'fed successfully'
                 }
 
-            return jsonify(response)
+                return jsonify(response)
+            else:
+                return jsonify(unauthenticated_response), 401
 
         else:
             response = request_error
@@ -110,11 +118,7 @@ class FlaskServer:
                     'id': result['deviceId']
                 })
             else:
-                return jsonify({
-                    'connection': 'local',
-                    'status': 'error',
-                    'id': None
-                }), 401
+                return jsonify(unauthenticated_response), 401
 
     @app.route('/wifisetup', methods=['POST'])
     def wifiSetup():
