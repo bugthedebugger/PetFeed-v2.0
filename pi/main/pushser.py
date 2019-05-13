@@ -44,7 +44,7 @@ class Pusher_container:
     def treat(data):
         data = ast.literal_eval(data)
         amount = data['amount']
-        # garna banki
+
     def restart(self):
         self.os.system("sudo reboot")
 
