@@ -12,6 +12,11 @@ from models.dbcontroller import DBController
 
 motors = MotorController()
 db = DBController()
+request_method_error = {
+    'connection': 'local',
+    'status': 'error',
+    'message': 'Error request type.'
+}
 
 
 class FlaskServer:
@@ -33,15 +38,28 @@ class FlaskServer:
             return jsonify(response)
 
     # FEEDING ROUTE
-    @app.route('/feed', methods=['GET', 'POST'])
+    @app.route('/feed', methods=['POST'])
     def feed():
-        if request.method == 'GET' or request.method == 'POST':
-            motors.fish()
-            response = {
-                'connection': 'local',
-                'status': 'success',
-                'message': 'fed successfully'
-            }
+        if request.method == 'POST':
+
+            userRequest = request.get_json(force=True)
+            userToken = userRequest['accessToken']
+
+            devices = db.selectAll(Device())
+            device = devices[0]
+            accessToken = device.accessToken
+
+            if userToken == accessToken:
+                amount = userRequest['amount']
+
+                if device.type == 'Fish':
+                    motors.fish(duration=amount)
+
+                response = {
+                    'connection': 'local',
+                    'status': 'success',
+                    'message': 'fed successfully'
+                }
 
             return jsonify(response)
 
@@ -97,6 +115,86 @@ class FlaskServer:
                     'status': 'error',
                     'id': None
                 })
+
+    @app.route('/wifisetup', methods=['POST'])
+    def wifiSetup():
+        # ERROR FLAG IS SET SO THAT WPA SUPPLIMENT FILE ISN'T WRITTEN DURING ERROR
+        error_flag = False
+
+        # PASSWORD FLAG IS SET TO TRUE IF PASSWORD IS EMTPY (OPEN NETWORK)
+        password_flag = False
+
+        ssid = ''
+        key = ''
+
+        if request.method == 'POST':
+            data = request.get_json()
+            ssid = data['ssid']
+            key = key['key']
+
+        else:
+            response = request_method_error
+            return jsonify(response)
+
+        # CHECK IF SSID IS EMPTY OR NOT, IF EMPTY RETURN ERROR
+        if str(ssid) == 'None' or ssid == '':
+            response = {
+                'connection': 'local',
+                'status': 'error',
+                'message': 'SSID can\'t be empty.'
+            }
+            error_flag = True
+
+            return jsonify(response)
+
+        # CHECK IF KEY IS EMPTY OR NOT, IF EMPTY SET PASSWORD FLAG TRUE
+        if str(key) == 'None' or key == '':
+            password_flag = False
+        else:
+            password_flag = True
+
+        # IF NO ERROR OPEN THE WPA SUPPLICANT FILE AND ADD THE WIFI NETWORK
+        if error_flag is False:
+            # CHANGE DIRECTORY TO /etc/wpa_suppliments/ WHERE THE SUPPLIMENT FILE IS PLACED
+            os.chdir('/etc/wpa_suppliments/')
+            wpa_file = open("wpa_supplicant.conf", 'a')
+
+            # IF PASSWORD IS NONE key_mgmt IS SET TO NONE
+            if password_flag is True:
+                new_network = """
+network={
+	ssid='%s'
+	psk='%s'
+}
+				""" % (ssid, key)
+            else:
+                new_network = """
+network={
+	ssid='%s'
+	key_mgmt=none
+}
+				""" % (ssid)
+
+            try:
+                wpa_file.write(new_network)
+                wpa_file.close()
+
+                response = {
+                    'connection': 'local',
+                    'status': 'success',
+                    'message': 'WIFI set successfully. Please restart device.'
+                }
+
+                return jsonify(response)
+
+            except:
+                response = {
+                    'connection': 'local',
+                    'status': 'error',
+                    'message': 'There was an error trying to add wifi.'
+                }
+
+                return jsonify(response)
 
     def start(self):
         self.app.run(host='0.0.0.0', port=8848, debug=True)
