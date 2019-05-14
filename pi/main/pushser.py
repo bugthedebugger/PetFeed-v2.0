@@ -50,6 +50,7 @@ class PusherContainer:
     def shutdown(self):
         self.os.system("sudo poweroff")
 
+    @staticmethod
     def connect_handler(data):
         pusher_client = pusher.Pusher(
             app_id='778757',
@@ -58,12 +59,18 @@ class PusherContainer:
             cluster='ap2',
             ssl=True
         )
+       
+
+
         petfeed_channel = pusher_client.subscribe(channel)
         petfeed_channel.bind('petfeed-restart', restart)
         petfeed_channel.bind('petfeed-reset-password', password_reset)
         petfeed_channel.bind('petfeed-shutdown', shutdown)
         petfeed_channel.bind('petfeed-configure', configure)
         petfeed_channel.bind('petfeed-treat', treat)
+
+        pusher_client.connection.bind('pusher:connection_established', connect_handler)
+        pusher_client.connect()
 
 
 #def connect_handler(data):
@@ -74,5 +81,4 @@ class PusherContainer:
     #petfeed_channel.bind('petfeed-configure',PusherContainer.configure())
     #petfeed_channel.bind('petfeed-treat',PusherContainer.treat())
 
-
-
+PusherContainer.connect_handler({"channel":"device 12"})
