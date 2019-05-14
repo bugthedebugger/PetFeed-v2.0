@@ -77,7 +77,7 @@ class PusherContainer:
 
 
 if __name__=='__main__':
-    PusherContainer.connect_handler({"channel":"pet"})
+    PusherContainer.connect_handler()
 
 '''
 def connect_handler(data):
