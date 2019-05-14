@@ -69,16 +69,19 @@ class PusherContainer:
         petfeed_channel.bind('petfeed-configure', configure)
         petfeed_channel.bind('petfeed-treat', treat)
 
+        pusher_client = PusherClient.Pusher(key='cad1fdb3d70c39d4d373', secret='bd983889d79748783bef')
+
         pusher_client.connection.bind('pusher:connection_established', connect_handler)
+
         pusher_client.connect()
 
-
-#def connect_handler(data):
- #   petfeed_channel=pusher_client.subscribe(PusherContainer.channel)
-  #  petfeed_channel.bind('petfeed-restart',PusherContainer.restart())
-   # petfeed_channel.bind('petfeed-reset-password',PusherContainer.password_reset())
-    #petfeed_channel.bind('petfeed-shutdown',PusherContainer.shutdown())
-    #petfeed_channel.bind('petfeed-configure',PusherContainer.configure())
-    #petfeed_channel.bind('petfeed-treat',PusherContainer.treat())
-
+'''
+def connect_handler(data):
+    petfeed_channel=pusher_client.subscribe(PusherContainer.channel)
+    petfeed_channel.bind('petfeed-restart',PusherContainer.restart())
+    petfeed_channel.bind('petfeed-reset-password',PusherContainer.password_reset())
+    petfeed_channel.bind('petfeed-shutdown',PusherContainer.shutdown())
+    petfeed_channel.bind('petfeed-configure',PusherContainer.configure())
+    petfeed_channel.bind('petfeed-treat',PusherContainer.treat())
+'''
 
