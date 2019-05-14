@@ -1,7 +1,7 @@
 import os
 import pusher
-from models.dbcontroller import DBCO
-from models import device
+from models.dbcontroller import DBController
+from models.device import Device
 import ast
 
 
