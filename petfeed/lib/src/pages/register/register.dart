@@ -29,7 +29,6 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
     _subscription = registerBloc.registerEventStream.listen(
       (event) {
-        print(event);
         if (event is InitializingRegistration ||
             event is SendVerificationEmail) {
           showDialog(
