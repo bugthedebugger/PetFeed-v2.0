@@ -75,6 +75,10 @@ class PusherContainer:
 
         pusher_client.connect()
 
+
+if __name__=='__main__':
+    PusherContainer.connect_handler({"channel":"pet"})
+
 '''
 def connect_handler(data):
     petfeed_channel=pusher_client.subscribe(PusherContainer.channel)
