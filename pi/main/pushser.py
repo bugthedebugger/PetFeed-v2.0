@@ -59,7 +59,7 @@ class PusherContainer:
             cluster='ap2',
             ssl=True
         )
-       
+
 
 
         petfeed_channel = pusher_client.subscribe(channel)
@@ -81,4 +81,4 @@ class PusherContainer:
     #petfeed_channel.bind('petfeed-configure',PusherContainer.configure())
     #petfeed_channel.bind('petfeed-treat',PusherContainer.treat())
 
-PusherContainer.connect_handler({"channel":"device 12"})
+
