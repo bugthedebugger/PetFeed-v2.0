@@ -47,4 +47,22 @@ class UserRepository {
       throw UserRegistrationException(_.message);
     }
   }
+
+  Future<User> loginUser({
+    @required String email,
+    @required String password,
+  }) async {
+    try {
+      final response =
+          await dataSource.loginUser(email: email, password: password);
+      if (response != null)
+        return response;
+      else
+        throw UserLoginException("Ooops! Something wen't horribly wrong!");
+    } on NoInternetException catch (_) {
+      throw NoInternetException();
+    } on UserLoginException catch (_) {
+      throw UserLoginException(_.message);
+    }
+  }
 }

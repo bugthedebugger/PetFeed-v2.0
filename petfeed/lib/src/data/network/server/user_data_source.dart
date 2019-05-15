@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:petfeed/src/bloc/login_bloc/login_bloc_export.dart';
 import 'package:petfeed/src/data/exceptions/custom_exceptions.dart';
 import 'package:petfeed/src/data/models/user/user.dart';
 import 'package:petfeed/src/data/network/api_routes.dart';
@@ -21,7 +22,7 @@ class UserDataSource {
   }) async {
     bool status = await CheckConnection.status();
     if (status) {
-      http.Response response = await client.post(
+      final response = await client.post(
         ServerApiRoutes.REGISTER,
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +48,7 @@ class UserDataSource {
       {@required String email, @required String password}) async {
     bool status = await CheckConnection.status();
     if (status) {
-      http.Response response = await client.post(
+      final response = await client.post(
         ServerApiRoutes.RESEND_VERIFICATION,
         headers: {
           'Content-Type': 'application/json',
@@ -63,6 +64,37 @@ class UserDataSource {
       } else {
         throw UserRegistrationException(response.body);
       }
+    } else {
+      throw NoInternetException();
+    }
+  }
+
+  Future<User> loginUser({
+    @required String email,
+    @required String password,
+  }) async {
+    bool status = await CheckConnection.status();
+
+    if (status) {
+      final response = await client.post(
+        ServerApiRoutes.LOGIN,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'email': email,
+          'password': password,
+        }),
+      );
+      if (response.statusCode == 200)
+        return User.fromJson(response.body);
+      else if (response.statusCode == 412)
+        throw EmailVerificationException();
+      else if (response.statusCode == 401)
+        throw UnauthenticatedException();
+      else
+        throw UserLoginException(response.body);
     } else {
       throw NoInternetException();
     }
