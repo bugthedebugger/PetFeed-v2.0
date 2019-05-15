@@ -23,7 +23,7 @@ unauthenticated_response = {
     'message': 'Unauthenticated'
 }
 
-motors = None
+global motors
 
 
 class FlaskServer:
