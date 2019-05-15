@@ -23,12 +23,13 @@ unauthenticated_response = {
     'message': 'Unauthenticated'
 }
 
-global motors
+motors = None
 
 
 class FlaskServer:
 
     def __init__(self, motorController):
+        global motors
         motors = motorController
     app = Flask(__name__)
     request_error = {
