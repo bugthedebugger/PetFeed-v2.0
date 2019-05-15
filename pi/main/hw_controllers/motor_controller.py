@@ -3,9 +3,10 @@ import RPi.GPIO as GPIO
 import time
 # SET THE PIN LAYOUT TO BCM LAYOUT
 GPIO.setmode(GPIO.BCM)
-
-
+GPIO.setwarnings(False)
 # MOTOR CONTROLLER CLASS
+
+
 class MotorController:
     def __init__(self, left_pin=5, right_pin=6):
         # ASSIGN THE PIN NUMBERS, 14 AND 15 IF NONE PASSED
