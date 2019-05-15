@@ -7,7 +7,7 @@ import time
 import pysher as PusherClient
 from models.dbcontroller import DBController
 from models.device import Device
-# from hw_controllers.motor_controller import MotorController
+from hw_controllers.motor_controller import MotorController
 import ast
 import pusher_credentials as creds
 
@@ -27,6 +27,7 @@ class PusherContainer:
         results = self.db.selectAll(device)
         device.from_map(results[0])
         self.channel = device.deviceId
+        self.motors = MotorController()
 
     def password_reset(self, data):
         data = ast.literal_eval(data)
@@ -51,25 +52,27 @@ class PusherContainer:
 
     def configure(self, data):
         data = ast.literal_eval(data)
-        print(data)
-        print('------------------------------------')
         if data['channel'] == self.channel:
             print('here')
             token = data['token']
             device = Device()
             result = self.db.selectAll(device)
             device.from_map(result[0])
-            print(result)
-            print(device.to_map())
-            print(device)
             device.accessToken = token
             r = self.db.update(device)
             print(r)
 
-    @staticmethod
-    def treat(data):
+    def treat(self, data):
         data = ast.literal_eval(data)
         amount = data['amount']
+
+        device = Device()
+        self.db = DBController()
+        results = self.db.selectAll(device)
+        device.from_map(results[0])
+
+        if device.type == 'Fish':
+            self.motors.fish(duration=amount)
 
         print(amount)
 
@@ -126,7 +129,3 @@ class PusherContainer:
 
     def __del__(self):
         self.pusherClient.disconnect()
-
-
-client = PusherContainer()
-client.connect()
