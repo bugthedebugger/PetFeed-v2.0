@@ -4,7 +4,6 @@ import os
 from flask import Flask
 from flask import jsonify
 from flask import request
-from models.model import Model
 from hw_controllers.motor_controller import MotorController
 from models.device import Device
 from models.dbcontroller import DBController

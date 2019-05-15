@@ -7,9 +7,11 @@ import time
 import pysher as PusherClient
 from models.dbcontroller import DBController
 from models.device import Device
+# from hw_controllers.motor_controller import MotorController
 import ast
+import pusher_credentials as creds
 
-channel = 'petfeed123'
+# motors = MotorController()
 
 
 def test(data):
@@ -19,34 +21,50 @@ def test(data):
 class PusherContainer:
     pusherClient = None
 
-    @staticmethod
-    def password_reset(data):
+    def __init__(self):
+        device = Device()
+        self.db = DBController()
+        results = self.db.selectAll(device)
+        device.from_map(results[0])
+        self.channel = device.deviceId
+
+    def password_reset(self, data):
         data = ast.literal_eval(data)
-        if data['channel'] == channel:
-            db = DBContoller()
+
+        print(data)
+
+        if data['channel'] == self.channel:
             device = Device()
-            result = db.selectAll(device)
-            rpassword = result[0]
-            if rpassword.password == data['oldpassword']:
-                rpassword.password = data['newpassword']
-                db.update(device)
+            result = self.db.selectAll(device)
+            device.from_map(result[0])
+            print(data['oldPassword'])
+            print(device.password)
+            print(data['newPassword'])
+            print(device.password == data['oldPassword'])
+            if device.password == data['oldPassword']:
+                device.password = data['newPassword']
+                self.db.update(device)
             else:
                 print('cant reset')
         else:
-            pass
+            print('passed')
 
-    @staticmethod
-    def configure(data):
+    def configure(self, data):
         data = ast.literal_eval(data)
-
-        if data['channel'] == channel:
-            Token = data['token']
-            db = DBController()
+        print(data)
+        print('------------------------------------')
+        if data['channel'] == self.channel:
+            print('here')
+            token = data['token']
             device = Device()
-            result = db.selectAll(device)
-            device = result[0]
-            device.accessToken = Token  # yo right cha?
-            db.update(device)
+            result = self.db.selectAll(device)
+            device.from_map(result[0])
+            print(result)
+            print(device.to_map())
+            print(device)
+            device.accessToken = token
+            r = self.db.update(device)
+            print(r)
 
     @staticmethod
     def treat(data):
@@ -57,45 +75,58 @@ class PusherContainer:
 
     @staticmethod
     def restart(data):
-        os.system("sudo reboot")
+        # os.system("sudo reboot")
+        print('received restart')
 
     @staticmethod
     def shutdown(data):
-        os.system("sudo poweroff")
+        # os.system("sudo poweroff")
+        print('received shutdown')
 
     @staticmethod
     def test(data):
         print(data)
 
+    def register(self, data):
+        data = ast.literal_eval(data)
+
+        if data['channel'] == self.channel:
+            device = Device()
+            results = self.db.selectAll(device)
+            device.from_map(results[0])
+
+            if device.password == data['oldPassword'] and device.deviceId == data['channel']:
+                device.password = data['newPassword']
+                device.type = data['type']
+                device.typeId = data['typeId']
+                r = self.db.update(device)
+
     def connect_handler(self, data):
-        print('here')
-        petfeed_channel = self.pusherClient.subscribe(channel)
+        petfeed_channel = self.pusherClient.subscribe(self.channel)
         petfeed_channel.bind('test', self.test)
         petfeed_channel.bind('petfeed-restart', self.restart)
         petfeed_channel.bind('petfeed-reset-password', self.password_reset)
         petfeed_channel.bind('petfeed-shutdown', self.shutdown)
         petfeed_channel.bind('petfeed-configure', self.configure)
         petfeed_channel.bind('petfeed-treat', self.treat)
+        petfeed_channel.bind('petfeed-register', self.register)
 
     def connect(self):
-        self.pusherClient = PusherClient.Pusher(key='cb1bc25895d91dec8e2d', secret='fb24a8ddf38ffd23b205',
-                                                cluster='ap2')
-        self.pusherClient.connection.bind('pusher:connection_established', self.connect_handler)
+        self.pusherClient = PusherClient.Pusher(key=creds.key, secret=creds.secret,
+                                                cluster=creds.cluster)
+        self.pusherClient.connection.bind(
+            'pusher:connection_established', self.connect_handler)
         self.pusherClient.connect()
 
-        while True:
-            time.sleep(1)
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            self.pusherClient.disconnect()
+
+    def __del__(self):
+        self.pusherClient.disconnect()
 
 
-pusherContainer = PusherContainer()
-pusherContainer.connect()
-
-'''
-def connect_handler(data):
-    petfeed_channel=pusher_client.subscribe(PusherContainer.channel)
-    petfeed_channel.bind('petfeed-restart',PusherContainer.restart())
-    petfeed_channel.bind('petfeed-reset-password',PusherContainer.password_reset())
-    petfeed_channel.bind('petfeed-shutdown',PusherContainer.shutdown())
-    petfeed_channel.bind('petfeed-configure',PusherContainer.configure())
-    petfeed_channel.bind('petfeed-treat',PusherContainer.treat())
-'''
+client = PusherContainer()
+client.connect()

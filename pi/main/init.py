@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 from models.dbcontroller import DBController
 from models.device import Device
 import utils

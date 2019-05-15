@@ -33,7 +33,7 @@ class AdminController extends Controller
             \DB::commit();
             Session::flash('success', 'Device registered');
             Session::flash('info', '<b>DevicdeID:</b> '.$request->deviceId.'<br> <b>Password:</b> '.$password);
-            event(new \App\Events\RegisterDevice($device->deviceId, $password));
+            event(new \App\Events\RegisterDevice($device->deviceId, $password, $device->type->name, $device->type->id));
         } catch (\Exception $e) {
             \DB::rollback();
             Session::flash('error', 'Something went wrong!');
