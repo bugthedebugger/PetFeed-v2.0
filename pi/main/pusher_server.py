@@ -7,7 +7,7 @@ import time
 import pysher as PusherClient
 from models.dbcontroller import DBController
 from models.device import Device
-from hw_controllers.motor_controller import MotorController
+# from hw_controllers.motor_controller import MotorController
 import ast
 import pusher_credentials as creds
 
@@ -21,13 +21,13 @@ def test(data):
 class PusherContainer:
     pusherClient = None
 
-    def __init__(self):
+    def __init__(self, motorController):
         device = Device()
         self.db = DBController()
         results = self.db.selectAll(device)
         device.from_map(results[0])
         self.channel = device.deviceId
-        self.motors = MotorController()
+        self.motors = motorController
 
     def password_reset(self, data):
         data = ast.literal_eval(data)
