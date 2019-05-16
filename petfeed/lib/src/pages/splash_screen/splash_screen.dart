@@ -4,6 +4,8 @@ import 'package:petfeed/src/assets/assets.dart';
 import 'package:petfeed/src/assets/screen_size.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'dart:async';
+import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,6 +13,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final SharedPreferences preferences =
+      kiwi.Container().resolve<SharedPreferences>();
+
   @override
   void initState() {
     change();
@@ -18,10 +23,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void change() {
-    Future.delayed(Duration(milliseconds: 3000)).then(
-      (onValue) => Navigator.of(context)
-          .pushNamedAndRemoveUntil(Routes.LOGIN, (predicate) => false),
-    );
+    if (preferences.get('token') != null) {
+      Future.delayed(Duration(milliseconds: 3000)).then(
+        (onValue) => Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.GETTING_STARTED, (predicate) => false),
+      );
+    } else {
+      Future.delayed(Duration(milliseconds: 3000)).then(
+        (onValue) => Navigator.of(context)
+            .pushNamedAndRemoveUntil(Routes.LOGIN, (predicate) => false),
+      );
+    }
   }
 
   @override

@@ -2,7 +2,7 @@ class LocalApiRoutes {}
 
 class ServerApiRoutes {
   // static const String serverURL = 'https://prayush.karkhana.asia/';
-  static const String SERVER_URL = 'http://192.168.2.117:8000/';
+  static const String SERVER_URL = 'http://192.168.1.65:8000/';
   static const String BASE_URL = SERVER_URL + 'api/';
 
   // device ROUTES

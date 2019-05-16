@@ -1,6 +1,7 @@
 import 'package:kiwi/kiwi.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:petfeed/src/bloc/login_bloc/login_bloc.dart';
 import 'package:petfeed/src/bloc/register_bloc/register_bloc.dart';
 import 'package:petfeed/src/data/network/server/user_data_source.dart';
 import 'package:petfeed/src/data/repository/user_repository.dart';
@@ -14,5 +15,8 @@ Future initKiwi() async {
   Container().registerFactory((c) => preferences);
   Container().registerFactory((c) => UserDataSource(c.resolve()));
   Container().registerFactory((c) => UserRepository(c.resolve()));
-  Container().registerFactory((c) => RegisterBloc(c.resolve(), c.resolve<SharedPreferences>()));
+  Container().registerFactory(
+      (c) => RegisterBloc(c.resolve(), c.resolve<SharedPreferences>()));
+  Container().registerFactory(
+      (c) => LoginBloc(c.resolve(), c.resolve<SharedPreferences>()));
 }

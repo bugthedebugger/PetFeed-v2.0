@@ -28,23 +28,35 @@ class LoginBloc extends Bloc {
   void _mapEventsToState(LoginEvents event) {
     if (event is InitializedLogin) {
       _mapInitializedLogin(event);
-    } else if (event is VerificationError) {
-      _mapVerificationError(event);
+    } else if (event is ResendVerification) {
+      _mapSendVerificationEmail(event);
     }
   }
 
-  void _mapVerificationError(VerificationError event) async {
+  void sendVerificationEmail(
+      {@required String email, @required String password}) {
+    dispatch(
+      ResendVerification((b) => b
+        ..email = email
+        ..password = password),
+    );
+  }
+
+  void _mapSendVerificationEmail(ResendVerification event) async {
     try {
-      //
+      await repository.reSendVerificationEmail(
+          email: event.email, password: event.password);
+      dispatch(VerificationSent());
+    } on NoInternetException catch (e) {
+      dispatch(LoginError((b) => b..message = e.message));
+    } on LoginError catch (e) {
+      dispatch(LoginError((b) => b..message = e.message));
     } catch (_) {
-      //
+      dispatch(LoginError((b) => b..message = _.toString()));
     }
   }
 
-  void login({
-    @required String email,
-    @required String password,
-  }) {
+  void login({@required String email, @required String password}) {
     dispatch(
       InitializedLogin((b) => b
         ..email = email

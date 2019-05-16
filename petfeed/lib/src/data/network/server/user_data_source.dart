@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:petfeed/src/bloc/login_bloc/login_bloc_export.dart';
 import 'package:petfeed/src/data/exceptions/custom_exceptions.dart';
 import 'package:petfeed/src/data/models/user/user.dart';
 import 'package:petfeed/src/data/network/api_routes.dart';

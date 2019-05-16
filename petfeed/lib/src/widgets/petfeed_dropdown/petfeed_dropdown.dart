@@ -1,35 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/assets/font_size.dart';
 
-class PetFeedTextField extends StatelessWidget {
-  final Function validator;
-  final String hint;
+class PetFeedDropDown extends StatelessWidget {
+  final List<DropdownMenuItem> items;
+  final Function onChanged;
   final String label;
-  final bool obscure;
-  final TextInputType keyBoardType;
+  final String value;
+  final String hint;
 
-  const PetFeedTextField({
+  const PetFeedDropDown({
     Key key,
-    this.validator,
+    @required this.items,
+    @required this.onChanged,
+    @required this.label,
     this.hint,
-    this.label,
-    this.obscure = false,
-    this.keyBoardType = TextInputType.text,
+    this.value,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(
-      width: ScreenSize.screenWidth,
-      height: ScreenSize.screenHeight,
-      allowFontScaling: true,
-    )..init(context);
-
-    return TextFormField(
-      obscureText: obscure,
-      validator: validator,
-      keyboardType: keyBoardType,
+    return DropdownButtonFormField(
+      items: items,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.grey[100],
@@ -66,6 +58,17 @@ class PetFeedTextField extends StatelessWidget {
         ),
         hintText: hint,
       ),
+      hint: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: ScreenUtil().setWidth(10),
+          vertical: ScreenUtil().setHeight(10),
+        ),
+        width: ScreenUtil().setWidth(200),
+        height: ScreenUtil().setHeight(40),
+        child: Text('Select the type of pet'),
+      ),
+      onChanged: onChanged,
+      value: value,
     );
   }
 }

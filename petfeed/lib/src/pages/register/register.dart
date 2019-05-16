@@ -44,7 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
           _scaffoldKey.currentState.showSnackBar(
             SnackBar(
               content: Text(
-                "Verification email has been sent, please verifiy email first!",
+                'Verification email has been sent, please verifiy email first!',
                 style: TextStyle(
                   fontSize: FontSize.fontSize12,
                 ),
@@ -121,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: ScreenUtil().setHeight(40)),
                 PetFeedLogo(),
                 SizedBox(height: ScreenUtil().setHeight(40)),
-                PetfeedTextField(
+                PetFeedTextField(
                   label: 'Name',
                   hint: 'Bhunte\'s Dad',
                   validator: (data) {
@@ -132,7 +132,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
                 SizedBox(height: ScreenUtil().setHeight(20)),
-                PetfeedTextField(
+                PetFeedTextField(
                   label: 'Email',
                   hint: 'bhunte@petfeed.com',
                   validator: (data) {
@@ -143,7 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
                 SizedBox(height: ScreenUtil().setHeight(20)),
-                PetfeedTextField(
+                PetFeedTextField(
                   label: 'Password',
                   hint: 'my-super-secret-password',
                   obscure: true,
@@ -155,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
                 SizedBox(height: ScreenUtil().setHeight(20)),
-                PetfeedTextField(
+                PetFeedTextField(
                   label: 'Confirm Password',
                   hint: 'my-super-secret-password',
                   obscure: true,
