@@ -39,7 +39,7 @@ class _DeviceCallibrationState extends State<DeviceCallibration> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    'Device setup (2/3): Register Device',
+                    'Device setup (3/3): Calibrate Device',
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(14),
                     ),

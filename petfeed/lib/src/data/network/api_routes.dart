@@ -1,4 +1,6 @@
-class LocalApiRoutes {}
+class LocalApiRoutes {
+  static const String WIFI_SETUP = '/wifisetup';
+}
 
 class ServerApiRoutes {
   // static const String serverURL = 'https://prayush.karkhana.asia/';

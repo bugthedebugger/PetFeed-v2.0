@@ -10,6 +10,7 @@ from models.device import Device
 # from hw_controllers.motor_controller import MotorController
 import ast
 import pusher_credentials as creds
+import pusher as PusherEvent
 
 # motors = MotorController()
 
@@ -20,6 +21,7 @@ def test(data):
 
 class PusherContainer:
     pusherClient = None
+    pusherEvent = None
 
     def __init__(self, motorController):
         device = Device()
@@ -61,6 +63,11 @@ class PusherContainer:
             device.accessToken = token
             r = self.db.update(device)
             print(r)
+            self.pusherEvent.trigger(self.channel, 'petfeed-pi-configure-success', {
+                'connection': 'global',
+                'status': 'success',
+                'message': 'Device configured successfully.'
+            })
 
     def treat(self, data):
         data = ast.literal_eval(data)
@@ -120,6 +127,9 @@ class PusherContainer:
         self.pusherClient.connection.bind(
             'pusher:connection_established', self.connect_handler)
         self.pusherClient.connect()
+
+        self.pusherEvent = PusherEvent.Pusher(app_id=creds.app_id, key=creds.key,
+                                              secret=creds.secret, cluster=creds.cluster)
 
         try:
             while True:

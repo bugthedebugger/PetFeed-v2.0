@@ -8,12 +8,14 @@ class PetFeedDropDown extends StatelessWidget {
   final String label;
   final String value;
   final String hint;
+  final Function validator;
 
   const PetFeedDropDown({
     Key key,
     @required this.items,
     @required this.onChanged,
     @required this.label,
+    this.validator,
     this.hint,
     this.value,
   }) : super(key: key);
@@ -22,6 +24,7 @@ class PetFeedDropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
       items: items,
+      validator: validator,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.grey[100],

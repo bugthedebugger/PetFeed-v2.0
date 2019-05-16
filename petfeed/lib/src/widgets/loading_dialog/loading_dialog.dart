@@ -3,6 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
 
 class LoadingDialog extends StatelessWidget {
+  final String message;
+
+  const LoadingDialog({Key key, this.message = 'Please wait ...'})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(
@@ -34,7 +39,7 @@ class LoadingDialog extends StatelessWidget {
             ),
             SizedBox(width: ScreenUtil().setWidth(15)),
             Text(
-              'Please wait ...',
+              message,
               style: TextStyle(
                 fontSize: FontSize.fontSize12,
               ),

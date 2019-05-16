@@ -8,6 +8,7 @@ import 'package:petfeed/src/data/models/serializer/serializer.dart';
 part 'local_status.g.dart';
 
 abstract class LocalStatus implements Built<LocalStatus, LocalStatusBuilder> {
+  @nullable
   String get message;
   String get status;
   String get connection;

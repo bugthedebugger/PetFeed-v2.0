@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
-import 'package:petfeed/src/data/network/pi_scanner.dart';
 import 'package:petfeed/src/widgets/bottom_flow_widget/bottom_flow_widget.dart';
 import 'package:petfeed/src/widgets/chat_bubble/chat_bubble.dart';
 import 'package:petfeed/src/widgets/count_down_timer/count_down_widget.dart';
@@ -9,7 +8,6 @@ import 'package:petfeed/src/widgets/food_meter/food_meter.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'package:petfeed/src/widgets/petfeed_card/petfeed_card.dart';
 import 'package:petfeed/src/widgets/radial_slider/radial_slider.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
 
 class PetFeedPage extends StatefulWidget {
   @override
@@ -191,11 +189,7 @@ class _PetFeedPageState extends State<PetFeedPage> {
                               SizedBox(height: ScreenUtil().setHeight(20)),
                               IconButton(
                                 icon: Icon(FontAwesomeIcons.paw),
-                                onPressed: () {
-                                  PiScanner pi =
-                                      kiwi.Container().resolve<PiScanner>();
-                                  pi.findDevice();
-                                },
+                                onPressed: () {},
                                 iconSize: ScreenUtil().setWidth(80),
                               ),
                             ],

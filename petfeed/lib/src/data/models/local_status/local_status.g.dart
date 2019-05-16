@@ -18,9 +18,6 @@ class _$LocalStatusSerializer implements StructuredSerializer<LocalStatus> {
   Iterable serialize(Serializers serializers, LocalStatus object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'message',
-      serializers.serialize(object.message,
-          specifiedType: const FullType(String)),
       'status',
       serializers.serialize(object.status,
           specifiedType: const FullType(String)),
@@ -28,6 +25,12 @@ class _$LocalStatusSerializer implements StructuredSerializer<LocalStatus> {
       serializers.serialize(object.connection,
           specifiedType: const FullType(String)),
     ];
+    if (object.message != null) {
+      result
+        ..add('message')
+        ..add(serializers.serialize(object.message,
+            specifiedType: const FullType(String)));
+    }
 
     return result;
   }
@@ -74,9 +77,6 @@ class _$LocalStatus extends LocalStatus {
       (new LocalStatusBuilder()..update(updates)).build();
 
   _$LocalStatus._({this.message, this.status, this.connection}) : super._() {
-    if (message == null) {
-      throw new BuiltValueNullFieldError('LocalStatus', 'message');
-    }
     if (status == null) {
       throw new BuiltValueNullFieldError('LocalStatus', 'status');
     }
