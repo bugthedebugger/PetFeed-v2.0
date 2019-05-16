@@ -15,19 +15,23 @@ class RegisterDevice implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $channel;
-    public $password;
+    public $oldPassword;
     public $newPassword;
+    public $type;
+    public $typeId;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($channel, $password)
+    public function __construct($channel, $password, $type, $typeId)
     {
         $this->channel = $channel;
-        $this->password = 'petfeed123';
+        $this->oldPassword = 'petfeed123';
         $this->newPassword = $password;
+        $this->type = $type;
+        $this->typeId = $typeId;
     }
 
     /**
@@ -37,7 +41,7 @@ class RegisterDevice implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel($this->channel);
+        return new Channel($this->channel);
     }
 
     public function broadcastAs()

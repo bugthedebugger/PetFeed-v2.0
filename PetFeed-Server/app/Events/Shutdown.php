@@ -33,7 +33,7 @@ class Shutdown implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel($this->channel);
+        return new Channel($this->channel);
     }
 
     public function broadcastAs()

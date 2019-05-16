@@ -4,14 +4,14 @@ import os
 from flask import Flask
 from flask import jsonify
 from flask import request
-from models.model import Model
-from hw_controllers.motor_controller import MotorController
+# from hw_controllers.motor_controller import MotorController
 from models.device import Device
 from models.dbcontroller import DBController
 
 
-motors = MotorController()
+# motors = MotorController()
 db = DBController()
+
 request_method_error = {
     'connection': 'local',
     'status': 'error',
@@ -23,9 +23,14 @@ unauthenticated_response = {
     'message': 'Unauthenticated'
 }
 
+motors = None
+
 
 class FlaskServer:
 
+    def __init__(self, motorController):
+        global motors
+        motors = motorController
     app = Flask(__name__)
     request_error = {
         'connection': 'local',
@@ -241,7 +246,7 @@ network={
                 return jsonify(response)
 
     def start(self):
-        self.app.run(host='0.0.0.0', port=8848, debug=True)
+        self.app.run(host='0.0.0.0', port=8848, debug=False)
 
     def fish(self):
         motors.fish()

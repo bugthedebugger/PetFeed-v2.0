@@ -67,7 +67,7 @@ class RegisterBloc extends Bloc {
 
   void _mapInitializingRegistration(InitializingRegistration event) async {
     try {
-      final response = await repository.registerUser(
+      await repository.registerUser(
         name: event.name,
         email: event.email,
         password: event.password,
