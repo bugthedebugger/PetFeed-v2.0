@@ -35,4 +35,6 @@ Route::group(['middleware' => ['auth:api', 'verified']], function () {
     Route::post('/device/status', 'Api\DeviceController@status');
     Route::post('/device/start-hopper', 'Api\DeviceController@startHopper');
     Route::post('/device/stop-hopper', 'Api\DeviceController@stopHopper');
+
+    Route::post('/pets/create', 'Api\PetsController@create');
 });

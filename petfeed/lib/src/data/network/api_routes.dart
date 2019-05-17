@@ -23,4 +23,7 @@ class ServerApiRoutes {
   static const String REGISTER = BASE_URL + 'register';
   static const String RESEND_VERIFICATION =
       BASE_URL + 'send-verification-email';
+
+  // pet ROUTSE
+  static const String SAVE_PET = BASE_URL + 'pets/create';
 }

@@ -102,18 +102,18 @@ class _PetSetupState extends State<PetSetup> {
                                   _selectedPetType = value;
                               },
                             ),
+                            SizedBox(height: ScreenUtil().setHeight(10)),
+                            PetFeedTextField(
+                              label: 'Pet Name',
+                              hint: 'Bhunte',
+                              validator: (value) {
+                                if (value.length < 3)
+                                  return 'Pet name should be atleast 3 characters';
+                                else
+                                  _petName = value;
+                              },
+                            ),
                             if (_selectedPetType != 'Fish') ...[
-                              SizedBox(height: ScreenUtil().setHeight(10)),
-                              PetFeedTextField(
-                                label: 'Pet Name',
-                                hint: 'Bhunte',
-                                validator: (value) {
-                                  if (value.length < 3)
-                                    return 'Pet name should be atleast 3 characters';
-                                  else
-                                    _petName = value;
-                                },
-                              ),
                               SizedBox(height: ScreenUtil().setHeight(10)),
                               PetFeedTextField(
                                 label: 'Age in years',

@@ -156,10 +156,11 @@ class DeviceController extends Controller
             $message = [
                 'deviceId' => $device->deviceId,
                 'token' => $token,
+                'type' => $device->type->name,
                 'message' => 'success'
             ];
 
-            event(new App\Events\Configure($device->deviceId, $token));
+            event(new App\Events\Configure($device->deviceId, $token, $device->type->name));
 
             \DB::commit();
         }catch(\Exception $e){

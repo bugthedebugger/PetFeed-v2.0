@@ -21,11 +21,13 @@ class Configure implements ShouldBroadcast
      */
     public $channel;
     public $token;
+    public $type;
 
-    public function __construct($channel, $token)
+    public function __construct($channel, $token, $type)
     {
         $this->channel = $channel;
         $this->token = $token;
+        $this->type = $type;
     }
 
     /**

@@ -31,8 +31,6 @@ class DeviceDataSource {
         }),
       );
 
-      print(response.body);
-
       if (response.statusCode == 200) {
         return true;
       } else if (response.statusCode == 401) {
@@ -65,8 +63,6 @@ class DeviceDataSource {
           'password': '$password',
         }),
       );
-
-      print(response.body);
 
       if (response.statusCode == 200) {
         return DeviceAccessToken.fromJson(response.body);
