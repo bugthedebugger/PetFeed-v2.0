@@ -74,6 +74,8 @@ class LoginBloc extends Bloc {
       dispatch(LoginSuccessful());
     } on NoInternetException catch (e) {
       dispatch(LoginError((b) => b..message = e.message));
+    } on UserLoginException catch (e) {
+      dispatch(LoginError((b) => b..message = e.message));
     } on UnauthenticatedException catch (e) {
       dispatch(LoginError((b) => b..message = e.message));
     } on EmailVerificationException catch (e) {

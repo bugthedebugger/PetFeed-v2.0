@@ -68,26 +68,19 @@ class DeviceController extends Controller
             'deviceId' => 'required'
         ]);
 
-        $authDevices = Auth::User()->device;
-        $deviceLinked = false;
-        $device = [];
+        $message = [];
 
-        foreach($authDevices as $authDevice) {
-            if ($authDevice->deviceId == $request->deviceId) {
-                $device = $authDevice;
-                $deviceLinked = true;
-                break;
-            }
-        }
-
-        if ($deviceLinked) {
+        try
+        {
             event(new \App\Events\DeviceStatus($device->deviceId));
-            return response()->json([
-                'message' => 'Device status event sent'
-            ]);
-        } else {
-            abort(401, 'This device isn\'t linked to your account!');
+            $message = [
+                'message' => 'Status signal sent'
+            ];
+        } catch (\Exception $e) {
+            abort(500, $e);
         }
+
+        return response()->json($message);
 
     }
 

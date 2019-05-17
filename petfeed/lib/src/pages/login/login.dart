@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
 import 'package:petfeed/src/bloc/login_bloc/login_bloc_export.dart';
+import 'package:petfeed/src/widgets/loading_dialog/loading_dialog.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'package:petfeed/src/widgets/text_field/petfeed_text_field.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
@@ -24,7 +25,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     _sub = _bloc.loginEventStream.listen((event) {
-      if (event is LoginSuccessful) {
+      if (event is InitializedLogin) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return LoadingDialog();
+            });
+      } else if (event is LoginSuccessful) {
         Navigator.of(context).pushNamedAndRemoveUntil(
           Routes.GETTING_STARTED,
           (predicate) => false,
