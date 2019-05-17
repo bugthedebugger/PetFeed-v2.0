@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petfeed/dependencies.dart';
 import 'package:petfeed/src/assets/assets.dart';
-import 'package:petfeed/src/pages/device_setup/device_callibration.dart';
+import 'package:petfeed/src/pages/device_setup/device_calibration.dart';
 import 'package:petfeed/src/pages/device_setup/device_register.dart';
 import 'package:petfeed/src/pages/device_setup/wifi_setup.dart';
 import 'package:petfeed/src/pages/getting_started/getting_started.dart';
@@ -33,7 +33,7 @@ class PetFeed extends StatelessWidget {
         Routes.GETTING_STARTED: (context) => GettingStarted(),
         Routes.DEVICE_LOGIN: (context) => DeviceLogin(),
         Routes.WIFI_SETUP: (context) => WifiSetup(),
-        Routes.CALLIBRATE_DEVICE: (context) => DeviceCallibration(),
+        Routes.CALLIBRATE_DEVICE: (context) => DeviceCalibration(),
         Routes.PET_SETUP: (context) => PetSetup(),
       },
     );

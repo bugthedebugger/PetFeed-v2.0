@@ -6,3 +6,4 @@ export 'user_login_exception.dart';
 export 'device_not_found_exception.dart';
 export 'wifi_setup_exception.dart';
 export 'device_registration_exception.dart';
+export 'calibration_exception.dart';

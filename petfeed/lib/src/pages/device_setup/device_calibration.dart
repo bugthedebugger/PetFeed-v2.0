@@ -2,17 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/app_colors.dart';
 import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/bloc/calibration_bloc/calibration_bloc_export.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 
-class DeviceCallibration extends StatefulWidget {
+class DeviceCalibration extends StatefulWidget {
   @override
-  _DeviceCallibrationState createState() => _DeviceCallibrationState();
+  _DeviceCalibrationState createState() => _DeviceCalibrationState();
 }
 
-class _DeviceCallibrationState extends State<DeviceCallibration> {
+class _DeviceCalibrationState extends State<DeviceCalibration> {
+  final _bloc = kiwi.Container().resolve<CalibrationBloc>();
+
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,7 +78,7 @@ class _DeviceCallibrationState extends State<DeviceCallibration> {
                           children: <Widget>[
                             GestureDetector(
                               onTap: () {
-                                // TODO: Add hopper start login
+                                _bloc.startHopper();
                               },
                               child: Container(
                                 height: ScreenUtil().setHeight(91),
@@ -98,7 +108,7 @@ class _DeviceCallibrationState extends State<DeviceCallibration> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                // TODO: Add hopper start login
+                                _bloc.stopHopper();
                               },
                               child: Container(
                                 height: ScreenUtil().setHeight(91),

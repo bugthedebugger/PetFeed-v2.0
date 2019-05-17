@@ -36,7 +36,7 @@ class DeviceDataSource {
       } else if (response.statusCode == 401) {
         throw UnauthenticatedException();
       } else {
-        return false;
+        throw DeviceRegistrationException(response.body);
       }
     } else {
       throw NoInternetException();
@@ -70,6 +70,66 @@ class DeviceDataSource {
         throw UnauthenticatedException();
       } else {
         throw DeviceRegistrationException(response.body);
+      }
+    } else {
+      throw NoInternetException();
+    }
+  }
+
+  Future<bool> startHopper({
+    @required String token,
+    @required String deviceID,
+  }) async {
+    final connection = await CheckConnection.status();
+    if (connection) {
+      final response = await client.post(
+        ServerApiRoutes.START_HOPPER,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode({
+          'deviceId': '$deviceID',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else if (response.statusCode == 401) {
+        throw UnauthenticatedException();
+      } else {
+        throw CalibrationException(response.body);
+      }
+    } else {
+      throw NoInternetException();
+    }
+  }
+
+  Future<bool> stopHopper({
+    @required String token,
+    @required String deviceID,
+  }) async {
+    final connection = await CheckConnection.status();
+    if (connection) {
+      final response = await client.post(
+        ServerApiRoutes.STOP_HOPPER,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode({
+          'deviceId': '$deviceID',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else if (response.statusCode == 401) {
+        throw UnauthenticatedException();
+      } else {
+        throw CalibrationException(response.body);
       }
     } else {
       throw NoInternetException();

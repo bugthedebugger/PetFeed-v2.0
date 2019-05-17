@@ -15,6 +15,8 @@ class ServerApiRoutes {
   static const String RESTART = BASE_URL + 'device/restart';
   static const String TREAT = BASE_URL + 'device/treat';
   static const String STATUS = BASE_URL + 'device/status';
+  static const String START_HOPPER = BASE_URL + 'device/start-hopper';
+  static const String STOP_HOPPER = BASE_URL + 'device/stop-hopper';
 
   // user ROUTES
   static const String LOGIN = BASE_URL + 'login';

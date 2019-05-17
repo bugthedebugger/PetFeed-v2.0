@@ -23,4 +23,24 @@ class DeviceRepository {
       password: password,
     );
   }
+
+  Future<bool> startHopper({
+    @required String token,
+    @required String deviceID,
+  }) async {
+    return await dataSource.startHopper(
+      token: token,
+      deviceID: deviceID,
+    );
+  }
+
+  Future<bool> stopHopper({
+    @required String token,
+    @required String deviceID,
+  }) async {
+    return await dataSource.stopHopper(
+      token: token,
+      deviceID: deviceID,
+    );
+  }
 }
