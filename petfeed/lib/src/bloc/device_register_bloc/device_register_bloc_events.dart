@@ -25,12 +25,23 @@ abstract class DeviceRegisterSuccess extends DeviceRegisterEvents
       _$DeviceRegisterSuccess;
 }
 
-abstract class DeviceREgisterError extends DeviceRegisterEvents
-    implements Built<DeviceREgisterError, DeviceREgisterErrorBuilder> {
+abstract class DeviceRegisterError extends DeviceRegisterEvents
+    implements Built<DeviceRegisterError, DeviceRegisterErrorBuilder> {
   String get message;
 
-  DeviceREgisterError._();
+  DeviceRegisterError._();
 
-  factory DeviceREgisterError([updates(DeviceREgisterErrorBuilder b)]) =
-      _$DeviceREgisterError;
+  factory DeviceRegisterError([updates(DeviceRegisterErrorBuilder b)]) =
+      _$DeviceRegisterError;
+}
+
+abstract class SendRegisterToServer extends DeviceRegisterEvents
+    implements Built<SendRegisterToServer, SendRegisterToServerBuilder> {
+  String get deviceID;
+  String get password;
+
+  SendRegisterToServer._();
+
+  factory SendRegisterToServer([updates(SendRegisterToServerBuilder b)]) =
+      _$SendRegisterToServer;
 }

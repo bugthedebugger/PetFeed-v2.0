@@ -74,7 +74,6 @@ class _WifiSetupState extends State<WifiSetup> {
       backgroundColor: Colors.grey[100],
       body: Padding(
         padding: EdgeInsets.symmetric(
-          vertical: ScreenUtil().setHeight(10),
           horizontal: ScreenUtil().setWidth(20),
         ),
         child: Column(
@@ -132,7 +131,7 @@ class _WifiSetupState extends State<WifiSetup> {
                                 key = value;
                             },
                           ),
-                          SizedBox(height: ScreenUtil().setHeight(35)),
+                          SizedBox(height: ScreenUtil().setHeight(30)),
                           Center(
                             child: RaisedButton(
                               color: Color(AppColors.GREEN),

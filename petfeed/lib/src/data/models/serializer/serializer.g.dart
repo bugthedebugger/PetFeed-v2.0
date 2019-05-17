@@ -7,6 +7,7 @@ part of serializer;
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(DeviceAccessToken.serializer)
       ..add(LocalStatus.serializer)
       ..add(User.serializer))
     .build();

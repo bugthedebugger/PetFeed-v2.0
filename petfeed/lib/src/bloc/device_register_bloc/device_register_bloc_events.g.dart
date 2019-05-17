@@ -162,33 +162,33 @@ class DeviceRegisterSuccessBuilder
   }
 }
 
-class _$DeviceREgisterError extends DeviceREgisterError {
+class _$DeviceRegisterError extends DeviceRegisterError {
   @override
   final String message;
 
-  factory _$DeviceREgisterError(
-          [void Function(DeviceREgisterErrorBuilder) updates]) =>
-      (new DeviceREgisterErrorBuilder()..update(updates)).build();
+  factory _$DeviceRegisterError(
+          [void Function(DeviceRegisterErrorBuilder) updates]) =>
+      (new DeviceRegisterErrorBuilder()..update(updates)).build();
 
-  _$DeviceREgisterError._({this.message}) : super._() {
+  _$DeviceRegisterError._({this.message}) : super._() {
     if (message == null) {
-      throw new BuiltValueNullFieldError('DeviceREgisterError', 'message');
+      throw new BuiltValueNullFieldError('DeviceRegisterError', 'message');
     }
   }
 
   @override
-  DeviceREgisterError rebuild(
-          void Function(DeviceREgisterErrorBuilder) updates) =>
+  DeviceRegisterError rebuild(
+          void Function(DeviceRegisterErrorBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DeviceREgisterErrorBuilder toBuilder() =>
-      new DeviceREgisterErrorBuilder()..replace(this);
+  DeviceRegisterErrorBuilder toBuilder() =>
+      new DeviceRegisterErrorBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is DeviceREgisterError && message == other.message;
+    return other is DeviceRegisterError && message == other.message;
   }
 
   @override
@@ -198,23 +198,23 @@ class _$DeviceREgisterError extends DeviceREgisterError {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('DeviceREgisterError')
+    return (newBuiltValueToStringHelper('DeviceRegisterError')
           ..add('message', message))
         .toString();
   }
 }
 
-class DeviceREgisterErrorBuilder
-    implements Builder<DeviceREgisterError, DeviceREgisterErrorBuilder> {
-  _$DeviceREgisterError _$v;
+class DeviceRegisterErrorBuilder
+    implements Builder<DeviceRegisterError, DeviceRegisterErrorBuilder> {
+  _$DeviceRegisterError _$v;
 
   String _message;
   String get message => _$this._message;
   set message(String message) => _$this._message = message;
 
-  DeviceREgisterErrorBuilder();
+  DeviceRegisterErrorBuilder();
 
-  DeviceREgisterErrorBuilder get _$this {
+  DeviceRegisterErrorBuilder get _$this {
     if (_$v != null) {
       _message = _$v.message;
       _$v = null;
@@ -223,21 +223,116 @@ class DeviceREgisterErrorBuilder
   }
 
   @override
-  void replace(DeviceREgisterError other) {
+  void replace(DeviceRegisterError other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
-    _$v = other as _$DeviceREgisterError;
+    _$v = other as _$DeviceRegisterError;
   }
 
   @override
-  void update(void Function(DeviceREgisterErrorBuilder) updates) {
+  void update(void Function(DeviceRegisterErrorBuilder) updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$DeviceREgisterError build() {
-    final _$result = _$v ?? new _$DeviceREgisterError._(message: message);
+  _$DeviceRegisterError build() {
+    final _$result = _$v ?? new _$DeviceRegisterError._(message: message);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$SendRegisterToServer extends SendRegisterToServer {
+  @override
+  final String deviceID;
+  @override
+  final String password;
+
+  factory _$SendRegisterToServer(
+          [void Function(SendRegisterToServerBuilder) updates]) =>
+      (new SendRegisterToServerBuilder()..update(updates)).build();
+
+  _$SendRegisterToServer._({this.deviceID, this.password}) : super._() {
+    if (deviceID == null) {
+      throw new BuiltValueNullFieldError('SendRegisterToServer', 'deviceID');
+    }
+    if (password == null) {
+      throw new BuiltValueNullFieldError('SendRegisterToServer', 'password');
+    }
+  }
+
+  @override
+  SendRegisterToServer rebuild(
+          void Function(SendRegisterToServerBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SendRegisterToServerBuilder toBuilder() =>
+      new SendRegisterToServerBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SendRegisterToServer &&
+        deviceID == other.deviceID &&
+        password == other.password;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, deviceID.hashCode), password.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SendRegisterToServer')
+          ..add('deviceID', deviceID)
+          ..add('password', password))
+        .toString();
+  }
+}
+
+class SendRegisterToServerBuilder
+    implements Builder<SendRegisterToServer, SendRegisterToServerBuilder> {
+  _$SendRegisterToServer _$v;
+
+  String _deviceID;
+  String get deviceID => _$this._deviceID;
+  set deviceID(String deviceID) => _$this._deviceID = deviceID;
+
+  String _password;
+  String get password => _$this._password;
+  set password(String password) => _$this._password = password;
+
+  SendRegisterToServerBuilder();
+
+  SendRegisterToServerBuilder get _$this {
+    if (_$v != null) {
+      _deviceID = _$v.deviceID;
+      _password = _$v.password;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SendRegisterToServer other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$SendRegisterToServer;
+  }
+
+  @override
+  void update(void Function(SendRegisterToServerBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$SendRegisterToServer build() {
+    final _$result = _$v ??
+        new _$SendRegisterToServer._(deviceID: deviceID, password: password);
     replace(_$result);
     return _$result;
   }

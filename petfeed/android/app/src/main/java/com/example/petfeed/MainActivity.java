@@ -26,12 +26,13 @@ public class MainActivity extends FlutterActivity {
   String PUSHER_INITIALIZE = "petfeed/pusher-initialize";
   String PUSHER_STATUS = "petfeed/pusher-status";
   String PUSHER_DISPOSE = "petfeed/pusher-dispose";
+  String PUSHER_CONFIGURE_STATUS = "petfeed/pusher-configure-status";
 
   PusherOptions options;
   Pusher pusher;
   Channel channel;
 
-  String deviceStatus;
+  boolean pusherConnection = false;
   BufferedReader deviceStatusReader;
 
   @Override
@@ -50,8 +51,10 @@ public class MainActivity extends FlutterActivity {
             pusher = new Pusher(pusherConfig.get("key"), options);
             channel = pusher.subscribe(pusherConfig.get("channel"));
             pusher.connect();
+            pusherConnection = true;
           } catch (Exception e) {
             e.printStackTrace();
+            pusherConnection = false;
           }
         } else if (call.method.equals("pusher-dispose")) {
           try {
@@ -59,6 +62,8 @@ public class MainActivity extends FlutterActivity {
           } catch (Exception e) {
 
           }
+        } else if (call.method.equals("pusher-status")) {
+          result.success(pusherConnection);
         } else {
           result.notImplemented();
         }
@@ -69,13 +74,12 @@ public class MainActivity extends FlutterActivity {
       @Override
       public void onListen(Object args, EventChannel.EventSink events) {
         try {
-          System.out.println("WTF");
+          // System.out.println("WTF");
           channel.bind("petfeed-pi-status", new SubscriptionEventListener() {
             @Override
             public void onEvent(String channelName, String eventName, final String data) {
-              deviceStatus = data;
-              System.out.println("I am trying to figure this shit");
-              System.out.println(deviceStatus);
+              // System.out.println("I am trying to figure this shit");
+              // System.out.println(deviceStatus);
               events.success(data);
             }
           });
@@ -89,7 +93,36 @@ public class MainActivity extends FlutterActivity {
         channel.unbind("petfeed-pi-status", new SubscriptionEventListener() {
           @Override
           public void onEvent(String channelName, String eventName, final String data) {
-            System.out.println("Unbined");
+            // System.out.println("Unbined");
+          }
+        });
+      }
+    });
+
+    new EventChannel(getFlutterView(), PUSHER_CONFIGURE_STATUS).setStreamHandler(new EventChannel.StreamHandler() {
+      @Override
+      public void onListen(Object args, EventChannel.EventSink events) {
+        try {
+          // System.out.println("WTF");
+          channel.bind("petfeed-pi-configure", new SubscriptionEventListener() {
+            @Override
+            public void onEvent(String channelName, String eventName, final String data) {
+              // System.out.println("I am trying to figure this shit");
+              // System.out.println(deviceStatus);
+              events.success(data);
+            }
+          });
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+
+      @Override
+      public void onCancel(Object args) {
+        channel.unbind("petfeed-pi-configure", new SubscriptionEventListener() {
+          @Override
+          public void onEvent(String channelName, String eventName, final String data) {
+            // System.out.println("Unbined");
           }
         });
       }

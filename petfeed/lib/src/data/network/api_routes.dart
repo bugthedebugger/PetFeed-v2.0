@@ -14,6 +14,7 @@ class ServerApiRoutes {
   static const String SHUTDOWN = BASE_URL + 'device/shutdown';
   static const String RESTART = BASE_URL + 'device/restart';
   static const String TREAT = BASE_URL + 'device/treat';
+  static const String STATUS = BASE_URL + 'device/status';
 
   // user ROUTES
   static const String LOGIN = BASE_URL + 'login';

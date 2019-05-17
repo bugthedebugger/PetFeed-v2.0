@@ -8,21 +8,34 @@ class Pusher {
 
   MethodChannel _platform;
   EventChannel _statusChannel;
+  EventChannel _piConfigure;
 
-  Map<String, String> credentials;
+  Map<String, String> _credentials;
 
   Stream get statusStream => _statusChannel.receiveBroadcastStream();
+  Stream get piConfigureStream => _piConfigure.receiveBroadcastStream();
 
   Pusher() {
     _platform = MethodChannel('petfeed/pusher-initialize');
     _statusChannel = EventChannel('petfeed/pusher-status');
+    _piConfigure = EventChannel('petfeed/pusher-configure-status');
   }
 
-  void connect(String deviceID) {
-    this.deviceID = deviceID;
-    credentials = PusherCredentials.toMap();
-    credentials.addAll({'channel': deviceID});
-    _platform.invokeMethod('pusher-initialize', credentials);
+  Future connect(String deviceID) async {
+    bool connection = await pusherConnection();
+
+    if (!connection) {
+      this.deviceID = deviceID;
+      _credentials = PusherCredentials.toMap();
+      _credentials.addAll({'channel': deviceID});
+      _platform.invokeMethod('pusher-initialize', _credentials);
+    }
+
+    return;
+  }
+
+  Future<bool> pusherConnection() async {
+    return _platform.invokeMethod('pusher-status');
   }
 
   void dispose() {
