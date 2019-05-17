@@ -159,6 +159,21 @@ class _WifiSetupState extends State<WifiSetup> {
                                 ),
                               ),
                             ),
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(5)),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(Routes.DEVICE_LOGIN);
+                              },
+                              child: Text(
+                                'Skip',
+                                style: TextStyle(
+                                  fontSize: FontSize.fontSize12,
+                                ),
+                              ),
+                            ),
                           )
                         ],
                       ),

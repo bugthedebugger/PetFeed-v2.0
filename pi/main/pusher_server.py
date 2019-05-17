@@ -47,12 +47,17 @@ class PusherContainer:
             if device.password == data['oldPassword']:
                 device.password = data['newPassword']
                 self.db.update(device)
-                self.pusherEvent.trigger(self.channel, 'petfeed-pi-password-reset-success', {
+                self.pusherEvent.trigger(self.channel, 'petfeed-pi-password-reset', {
                     'connection': 'global',
                     'status': 'success',
                     'message': 'Password reset successful.'
                 })
             else:
+                self.pusherEvent.trigger(self.channel, 'petfeed-pi-password-reset', {
+                    'connection': 'global',
+                    'status': 'error',
+                    'message': 'Password reset unsuccessful.'
+                })
                 print('cant reset')
         else:
             print('passed')
@@ -68,7 +73,7 @@ class PusherContainer:
             device.accessToken = token
             r = self.db.update(device)
             print(r)
-            self.pusherEvent.trigger(self.channel, 'petfeed-pi-configure-success', {
+            self.pusherEvent.trigger(self.channel, 'petfeed-pi-configure', {
                 'connection': 'global',
                 'status': 'success',
                 'message': 'Device configured successful.'
@@ -86,7 +91,7 @@ class PusherContainer:
         if device.type == 'Fish':
             self.motors.fish(duration=amount)
 
-        self.pusherEvent.trigger(self.channel, 'petfeed-pi-treat-success', {
+        self.pusherEvent.trigger(self.channel, 'petfeed-pi-treat', {
             'connection': 'global',
             'status': 'success',
             'message': 'Device configured successful.'
@@ -106,7 +111,7 @@ class PusherContainer:
 
     def test(self, data):
         print(data)
-        self.pusherEvent.trigger(self.channel, 'petfeed-pi-test-success', {
+        self.pusherEvent.trigger(self.channel, 'petfeed-pi-test', {
             'connection': 'global',
             'status': 'success',
             'message': 'Device test successful.'
@@ -126,7 +131,7 @@ class PusherContainer:
                 device.typeId = data['typeId']
                 r = self.db.update(device)
 
-                self.pusherEvent.trigger(self.channel, 'petfeed-pi-register-success', {
+                self.pusherEvent.trigger(self.channel, 'petfeed-pi-register', {
                     'connection': 'global',
                     'status': 'success',
                     'message': 'Device registered successful.'
@@ -148,6 +153,7 @@ class PusherContainer:
         petfeed_channel.bind('petfeed-configure', self.configure)
         petfeed_channel.bind('petfeed-treat', self.treat)
         petfeed_channel.bind('petfeed-register', self.register)
+        petfeed_channel.bind('petfeed-status', self.status)
 
     def connect(self):
         self.pusherClient = PusherClient.Pusher(key=creds.key, secret=creds.secret,

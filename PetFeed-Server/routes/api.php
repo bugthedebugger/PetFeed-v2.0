@@ -32,4 +32,5 @@ Route::group(['middleware' => ['auth:api', 'verified']], function () {
     Route::post('/device/shutdown', 'Api\DeviceController@shutdown');
     Route::post('/device/restart', 'Api\DeviceController@restart');
     Route::post('/device/treat', 'Api\DeviceController@treat');
+    Route::post('/device/status', 'Api\DeviceController@status');
 });

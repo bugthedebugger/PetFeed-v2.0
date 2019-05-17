@@ -9,6 +9,34 @@ use Hash;
 use Auth;
 class DeviceController extends Controller
 {
+    public function status(Request $request) {
+        $this->validate($request, [
+            'deviceId' => 'required'
+        ]);
+
+        $authDevices = Auth::User()->device;
+        $deviceLinked = false;
+        $device = [];
+
+        foreach($authDevices as $authDevice) {
+            if ($authDevice->deviceId == $request->deviceId) {
+                $device = $authDevice;
+                $deviceLinked = true;
+                break;
+            }
+        }
+
+        if ($deviceLinked) {
+            event(new \App\Events\DeviceStatus($device->deviceId));
+            return response()->json([
+                'message' => 'Device status event sent'
+            ]);
+        } else {
+            abort(401, 'This device isn\'t linked to your account!');
+        }
+
+    }
+
     public function login(Request $request){
 
         $this->validate($request, [

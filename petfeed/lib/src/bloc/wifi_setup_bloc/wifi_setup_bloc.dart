@@ -10,7 +10,7 @@ import 'package:petfeed/src/data/repository/pi_repository.dart';
 class WifiSetupBloc extends Bloc {
   final PiRepository repository;
 
-  WifiSetupBloc(this.repository){
+  WifiSetupBloc(this.repository) {
     init();
   }
 

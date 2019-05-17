@@ -1,0 +1,7 @@
+[Unit]
+Description=PetFeed
+After=mysql.service
+
+[Service]
+Type=simple
+ExecStart=/home/pi/Documents/PetFeed-v2.0/pi/main/main.py

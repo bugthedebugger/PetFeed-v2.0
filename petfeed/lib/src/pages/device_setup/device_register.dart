@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/app_colors.dart';
 import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/data/network/pusher/pusher.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'package:petfeed/src/widgets/text_field/petfeed_text_field.dart';
 
@@ -86,10 +88,11 @@ class _DeviceLoginState extends State<DeviceLogin> {
                                 ScreenUtil().setWidth(30),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               // TODO: ADD THE DEVICE LOGIN LOGIC
-                              Navigator.of(context)
-                                  .pushNamed(Routes.CALLIBRATE_DEVICE);
+                              // Navigator.of(context)
+                              //     .pushNamed(Routes.CALLIBRATE_DEVICE);
+                              Pusher pusher = Pusher();
                             },
                             child: Text(
                               'Register',
