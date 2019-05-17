@@ -33,4 +33,6 @@ Route::group(['middleware' => ['auth:api', 'verified']], function () {
     Route::post('/device/restart', 'Api\DeviceController@restart');
     Route::post('/device/treat', 'Api\DeviceController@treat');
     Route::post('/device/status', 'Api\DeviceController@status');
+    Route::post('/device/start-hopper', 'Api\DeviceController@startHopper');
+    Route::post('/device/stop-hopper', 'Api\DeviceController@stopHopper');
 });
