@@ -144,6 +144,12 @@ class PusherContainer:
             'message': 'Device online'
         })
 
+    def start_hopper(self, data):
+        self.motors.start()
+
+    def stop_hopper(self, data):
+        self.motors.stop()
+
     def connect_handler(self, data):
         petfeed_channel = self.pusherClient.subscribe(self.channel)
         petfeed_channel.bind('test', self.test)
@@ -154,6 +160,8 @@ class PusherContainer:
         petfeed_channel.bind('petfeed-treat', self.treat)
         petfeed_channel.bind('petfeed-register', self.register)
         petfeed_channel.bind('petfeed-status', self.status)
+        petfeed_channel.bind('petfeed-start-hopper', self.start_hopper())
+        petfeed_channel.bind('petfeed-stop-hopper', self.stop_hopper())
 
     def connect(self):
         self.pusherClient = PusherClient.Pusher(key=creds.key, secret=creds.secret,
