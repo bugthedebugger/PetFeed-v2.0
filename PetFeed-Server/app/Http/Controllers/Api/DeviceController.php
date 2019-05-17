@@ -72,7 +72,7 @@ class DeviceController extends Controller
 
         try
         {
-            event(new \App\Events\DeviceStatus($device->deviceId));
+            event(new \App\Events\DeviceStatus($request->deviceId));
             $message = [
                 'message' => 'Status signal sent'
             ];
