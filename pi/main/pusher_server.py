@@ -160,8 +160,8 @@ class PusherContainer:
         petfeed_channel.bind('petfeed-treat', self.treat)
         petfeed_channel.bind('petfeed-register', self.register)
         petfeed_channel.bind('petfeed-status', self.status)
-        petfeed_channel.bind('petfeed-start-hopper', self.start_hopper())
-        petfeed_channel.bind('petfeed-stop-hopper', self.stop_hopper())
+        petfeed_channel.bind('petfeed-start-hopper', self.start_hopper)
+        petfeed_channel.bind('petfeed-stop-hopper', self.stop_hopper)
 
     def connect(self):
         self.pusherClient = PusherClient.Pusher(key=creds.key, secret=creds.secret,
