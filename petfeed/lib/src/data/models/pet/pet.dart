@@ -10,13 +10,15 @@ part 'pet.g.dart';
 abstract class Pet implements Built<Pet, PetBuilder> {
   String get status;
   String get message;
+  @nullable
   @BuiltValueField(wireName: 'pet_id')
-  String get id;
+  int get id;
   @BuiltValueField(wireName: 'pet_name')
   String get name;
   @nullable
   @BuiltValueField(wireName: 'pet_age')
   double get age;
+  @nullable
   @BuiltValueField(wireName: 'pet_weight')
   double get weight;
   @BuiltValueField(wireName: 'pet_type')

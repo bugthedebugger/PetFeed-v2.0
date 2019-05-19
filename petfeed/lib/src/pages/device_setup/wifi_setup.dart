@@ -112,14 +112,15 @@ class _WifiSetupState extends State<WifiSetup> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           PetFeedTextField(
-                              label: 'SSID',
-                              hint: 'PetFeed WiFi',
-                              validator: (value) {
-                                if (value.length < 6)
-                                  return 'SSID must be atleast 6 characters long.';
-                                else
-                                  ssid = value;
-                              }),
+                            label: 'SSID',
+                            hint: 'PetFeed WiFi',
+                            validator: (value) {
+                              if (value.length < 6)
+                                return 'SSID must be atleast 6 characters long.';
+                              else
+                                ssid = value;
+                            },
+                          ),
                           SizedBox(height: ScreenUtil().setHeight(15)),
                           PetFeedTextField(
                             label: 'KEY',
@@ -130,6 +131,8 @@ class _WifiSetupState extends State<WifiSetup> {
                               else
                                 key = value;
                             },
+                            obscure: true,
+                            keyBoardType: TextInputType.text,
                           ),
                           SizedBox(height: ScreenUtil().setHeight(30)),
                           Center(

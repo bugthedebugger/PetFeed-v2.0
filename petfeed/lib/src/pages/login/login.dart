@@ -121,6 +121,8 @@ class _LoginPageState extends State<LoginPage> {
                   else
                     password = data;
                 },
+                keyBoardType: TextInputType.text,
+                obscure: true,
               ),
               SizedBox(height: ScreenUtil().setHeight(60)),
               Container(

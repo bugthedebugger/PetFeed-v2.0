@@ -24,7 +24,6 @@ class ChatBubble extends StatelessWidget {
 
     return Container(
       width: ScreenUtil().setWidth(width),
-      height: ScreenUtil().setHeight(height),
       padding: EdgeInsets.symmetric(
         horizontal: ScreenUtil().setWidth(10),
         vertical: ScreenUtil().setHeight(5),

@@ -31,6 +31,12 @@ class _$LocalStatusSerializer implements StructuredSerializer<LocalStatus> {
         ..add(serializers.serialize(object.message,
             specifiedType: const FullType(String)));
     }
+    if (object.remainig != null) {
+      result
+        ..add('remainig')
+        ..add(serializers.serialize(object.remainig,
+            specifiedType: const FullType(double)));
+    }
 
     return result;
   }
@@ -58,6 +64,10 @@ class _$LocalStatusSerializer implements StructuredSerializer<LocalStatus> {
           result.connection = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'remainig':
+          result.remainig = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double;
+          break;
       }
     }
 
@@ -72,11 +82,14 @@ class _$LocalStatus extends LocalStatus {
   final String status;
   @override
   final String connection;
+  @override
+  final double remainig;
 
   factory _$LocalStatus([void Function(LocalStatusBuilder) updates]) =>
       (new LocalStatusBuilder()..update(updates)).build();
 
-  _$LocalStatus._({this.message, this.status, this.connection}) : super._() {
+  _$LocalStatus._({this.message, this.status, this.connection, this.remainig})
+      : super._() {
     if (status == null) {
       throw new BuiltValueNullFieldError('LocalStatus', 'status');
     }
@@ -98,13 +111,16 @@ class _$LocalStatus extends LocalStatus {
     return other is LocalStatus &&
         message == other.message &&
         status == other.status &&
-        connection == other.connection;
+        connection == other.connection &&
+        remainig == other.remainig;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc(0, message.hashCode), status.hashCode), connection.hashCode));
+        $jc($jc($jc(0, message.hashCode), status.hashCode),
+            connection.hashCode),
+        remainig.hashCode));
   }
 
   @override
@@ -112,7 +128,8 @@ class _$LocalStatus extends LocalStatus {
     return (newBuiltValueToStringHelper('LocalStatus')
           ..add('message', message)
           ..add('status', status)
-          ..add('connection', connection))
+          ..add('connection', connection)
+          ..add('remainig', remainig))
         .toString();
   }
 }
@@ -132,6 +149,10 @@ class LocalStatusBuilder implements Builder<LocalStatus, LocalStatusBuilder> {
   String get connection => _$this._connection;
   set connection(String connection) => _$this._connection = connection;
 
+  double _remainig;
+  double get remainig => _$this._remainig;
+  set remainig(double remainig) => _$this._remainig = remainig;
+
   LocalStatusBuilder();
 
   LocalStatusBuilder get _$this {
@@ -139,6 +160,7 @@ class LocalStatusBuilder implements Builder<LocalStatus, LocalStatusBuilder> {
       _message = _$v.message;
       _status = _$v.status;
       _connection = _$v.connection;
+      _remainig = _$v.remainig;
       _$v = null;
     }
     return this;
@@ -161,7 +183,10 @@ class LocalStatusBuilder implements Builder<LocalStatus, LocalStatusBuilder> {
   _$LocalStatus build() {
     final _$result = _$v ??
         new _$LocalStatus._(
-            message: message, status: status, connection: connection);
+            message: message,
+            status: status,
+            connection: connection,
+            remainig: remainig);
     replace(_$result);
     return _$result;
   }

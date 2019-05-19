@@ -69,7 +69,8 @@ class FlaskServer:
                 response = {
                     'connection': 'local',
                     'status': 'success',
-                    'message': 'fed successfully'
+                    'message': 'fed successfully',
+                    'remaining': 80
                 }
 
                 return jsonify(response)
@@ -77,7 +78,7 @@ class FlaskServer:
                 return jsonify(unauthenticated_response), 401
 
         else:
-            response = request_error
+            response = request_method_error
             return jsonify(response)
 
     @app.route('/start-hopper', methods=['POST'])

@@ -7,8 +7,13 @@ import 'package:petfeed/src/widgets/clock_card/clock_card.dart';
 
 class CountDownTimer extends StatefulWidget {
   final TimeOfDay countDownTo;
+  final bool active;
 
-  const CountDownTimer({Key key, @required this.countDownTo}) : super(key: key);
+  const CountDownTimer({
+    Key key,
+    @required this.countDownTo,
+    this.active = false,
+  }) : super(key: key);
 
   @override
   _CountDownTimerState createState() => _CountDownTimerState();
@@ -24,19 +29,21 @@ class _CountDownTimerState extends State<CountDownTimer> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        h2 = (widget.countDownTo.hour - TimeOfDay.now().hour) % 10;
-        h1 = (widget.countDownTo.hour - TimeOfDay.now().hour) ~/ 10;
-        m2 = (widget.countDownTo.minute - TimeOfDay.now().minute) % 10;
-        m1 = (widget.countDownTo.minute - TimeOfDay.now().minute) ~/ 10;
-        if (h2 < 0) h2 = 5 + h2;
-        if (h1 < 0) h1 = 5 + h1;
-        if (m2 < 0) m2 = 5 + m2;
-        if (m1 < 0) m1 = 5 + m1;
-        blink = !blink;
+    if (widget.active) {
+      Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          h2 = (widget.countDownTo.hour - TimeOfDay.now().hour) % 10;
+          h1 = (widget.countDownTo.hour - TimeOfDay.now().hour) ~/ 10;
+          m2 = (widget.countDownTo.minute - TimeOfDay.now().minute) % 10;
+          m1 = (widget.countDownTo.minute - TimeOfDay.now().minute) ~/ 10;
+          if (h2 < 0) h2 = 5 + h2;
+          if (h1 < 0) h1 = 5 + h1;
+          if (m2 < 0) m2 = 5 + m2;
+          if (m1 < 0) m1 = 5 + m1;
+          blink = !blink;
+        });
       });
-    });
+    }
   }
 
   @override

@@ -70,8 +70,35 @@ class PiDataSource {
 
       if (response.statusCode == 200)
         return LocalStatus.fromJson(response.body);
+      else if (response.statusCode == 401)
+        throw UnauthenticatedException();
       else
         throw WifiSetupException(response.body);
+    } else {
+      throw DeviceNotFoundException();
+    }
+  }
+
+  Future<LocalStatus> treat({
+    @required String deviceToken,
+    @required double amount,
+  }) async {
+    bool status = await ping();
+    if (status) {
+      String ip = preferences.get('deviceIP');
+      final response = await client.post(ip + LocalApiRoutes.TREAT, headers: {
+        'Content-Type': 'application/json',
+      }, body: {
+        'accessToken': deviceToken,
+        'amount': amount,
+      });
+
+      if (response.statusCode == 200)
+        return LocalStatus.fromJson(response.body);
+      else if (response.statusCode == 401)
+        throw UnauthenticatedException();
+      else
+        throw LocalException(response.body);
     } else {
       throw DeviceNotFoundException();
     }

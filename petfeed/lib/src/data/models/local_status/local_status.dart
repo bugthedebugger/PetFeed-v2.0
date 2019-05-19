@@ -12,6 +12,8 @@ abstract class LocalStatus implements Built<LocalStatus, LocalStatusBuilder> {
   String get message;
   String get status;
   String get connection;
+  @nullable
+  double get remainig;
 
   LocalStatus._();
 

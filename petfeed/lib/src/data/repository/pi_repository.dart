@@ -7,6 +7,11 @@ class PiRepository {
 
   PiRepository(this.piSource);
 
+  Future<bool> getStatus() async {
+    final response = await piSource.ping();
+    return response;
+  }
+
   Future<LocalStatus> setWifi({
     @required String ssid,
     @required String key,

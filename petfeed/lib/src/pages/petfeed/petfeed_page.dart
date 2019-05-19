@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/bloc/petfeed_bloc/petfeed_bloc_export.dart';
 import 'package:petfeed/src/widgets/bottom_flow_widget/bottom_flow_widget.dart';
 import 'package:petfeed/src/widgets/chat_bubble/chat_bubble.dart';
 import 'package:petfeed/src/widgets/count_down_timer/count_down_widget.dart';
@@ -8,6 +11,8 @@ import 'package:petfeed/src/widgets/food_meter/food_meter.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'package:petfeed/src/widgets/petfeed_card/petfeed_card.dart';
 import 'package:petfeed/src/widgets/radial_slider/radial_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 
 class PetFeedPage extends StatefulWidget {
   @override
@@ -17,11 +22,34 @@ class PetFeedPage extends StatefulWidget {
 class _PetFeedPageState extends State<PetFeedPage> {
   String treatWeight = '0.50';
   String deviceType;
+  final SharedPreferences preferences =
+      kiwi.Container().resolve<SharedPreferences>();
+  String petName;
+  final PetFeedBloc _bloc = kiwi.Container().resolve<PetFeedBloc>();
+  StreamSubscription _eventSub;
+  StreamSubscription _pusherSub;
 
   @override
   void initState() {
-    deviceType = 'Fish';
+    _eventSub = _bloc.eventStream.listen((event) {
+      print(event);
+    });
+
+    _pusherSub = _bloc.pusherStream.listen((event) {
+      print(event);
+    });
+
+    deviceType = preferences.get('petType');
+    petName = preferences.get('pet');
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _eventSub?.cancel();
+    _pusherSub?.cancel();
+    _bloc?.dispose();
+    super.dispose();
   }
 
   @override
@@ -110,16 +138,30 @@ class _PetFeedPageState extends State<PetFeedPage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
-                                    Icon(
-                                      FontAwesomeIcons.signal,
-                                      size: FontSize.fontSize12,
-                                      color: Colors.green,
+                                    StreamBuilder(
+                                      stream: _bloc.pusherStream,
+                                      builder: (context, snapshot) {
+                                        return Icon(
+                                          snapshot.hasData
+                                              ? Icons.signal_cellular_4_bar
+                                              : Icons.signal_cellular_off,
+                                          size: FontSize.fontSize18,
+                                          color: Colors.black,
+                                        );
+                                      },
                                     ),
                                     SizedBox(width: ScreenUtil().setWidth(10)),
-                                    Icon(
-                                      FontAwesomeIcons.ethernet,
-                                      size: FontSize.fontSize16,
-                                      color: Colors.green,
+                                    StreamBuilder<PetFeedEvents>(
+                                      stream: _bloc.eventStream,
+                                      builder: (context, snapshot) {
+                                        return Icon(
+                                          snapshot.data is LocalDeviceFound
+                                              ? Icons.signal_wifi_4_bar
+                                              : Icons.signal_wifi_off,
+                                          size: FontSize.fontSize18,
+                                          color: Colors.black,
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -156,7 +198,7 @@ class _PetFeedPageState extends State<PetFeedPage> {
                                   width: 200,
                                   child: Center(
                                     child: Text(
-                                      'Bhunte has been fed 2 times today.',
+                                      '$petName has been fed 2 times today.',
                                       style: TextStyle(
                                         fontSize: FontSize.fontSize12,
                                       ),
@@ -189,7 +231,11 @@ class _PetFeedPageState extends State<PetFeedPage> {
                               SizedBox(height: ScreenUtil().setHeight(20)),
                               IconButton(
                                 icon: Icon(FontAwesomeIcons.paw),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _bloc.treat(
+                                    amount: double.parse(treatWeight),
+                                  );
+                                },
                                 iconSize: ScreenUtil().setWidth(80),
                               ),
                             ],

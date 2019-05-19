@@ -24,10 +24,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void change() {
     if (preferences.get('token') != null) {
-      Future.delayed(Duration(milliseconds: 3000)).then(
-        (onValue) => Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.GETTING_STARTED, (predicate) => false),
-      );
+      if (preferences.get('setup') != null)
+        Future.delayed(Duration(milliseconds: 3000)).then(
+          (onValue) => Navigator.of(context)
+              .pushNamedAndRemoveUntil(Routes.PETFEED, (predicate) => false),
+        );
+      else
+        Future.delayed(Duration(milliseconds: 3000)).then(
+          (onValue) => Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.GETTING_STARTED, (predicate) => false),
+        );
     } else {
       Future.delayed(Duration(milliseconds: 3000)).then(
         (onValue) => Navigator.of(context)

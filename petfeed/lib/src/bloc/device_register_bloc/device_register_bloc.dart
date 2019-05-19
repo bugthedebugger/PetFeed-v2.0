@@ -127,8 +127,9 @@ class DeviceRegisterBloc extends Bloc {
       final response =
           await repository.getStatus(token: token, deviceID: event.deviceID);
       if (response == false) {
-        dispatch(DeviceRegisterError(
-            (b) => b..message = 'Could not find the device.'));
+        dispatch(
+          DeviceRegisterError((b) => b..message = 'Could not find the device.'),
+        );
       }
     } on NoInternetException catch (_) {
       dispatch(DeviceRegisterError((b) => b..message = _.message));

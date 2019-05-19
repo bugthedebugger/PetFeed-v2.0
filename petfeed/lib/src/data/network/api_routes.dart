@@ -1,5 +1,6 @@
 class LocalApiRoutes {
   static const String WIFI_SETUP = '/wifisetup';
+  static const String TREAT = '/feed';
 }
 
 class ServerApiRoutes {

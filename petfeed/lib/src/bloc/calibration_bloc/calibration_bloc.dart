@@ -87,10 +87,6 @@ class CalibrationBloc extends Bloc {
     );
   }
 
-  void _setupComplete() {
-    preferences.setBool('setup', true);
-  }
-
   void _mapStartHopper(StartHopper event) async {
     try {
       Map<String, String> data = {
@@ -127,6 +123,5 @@ class CalibrationBloc extends Bloc {
   @override
   void dispose() {
     _eventStreamController.close();
-    _setupComplete();
   }
 }

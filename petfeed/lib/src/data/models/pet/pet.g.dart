@@ -24,20 +24,27 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
       'message',
       serializers.serialize(object.message,
           specifiedType: const FullType(String)),
-      'pet_id',
-      serializers.serialize(object.id, specifiedType: const FullType(String)),
       'pet_name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'pet_weight',
-      serializers.serialize(object.weight,
-          specifiedType: const FullType(double)),
       'pet_type',
       serializers.serialize(object.type, specifiedType: const FullType(String)),
     ];
+    if (object.id != null) {
+      result
+        ..add('pet_id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(int)));
+    }
     if (object.age != null) {
       result
         ..add('pet_age')
         ..add(serializers.serialize(object.age,
+            specifiedType: const FullType(double)));
+    }
+    if (object.weight != null) {
+      result
+        ..add('pet_weight')
+        ..add(serializers.serialize(object.weight,
             specifiedType: const FullType(double)));
     }
 
@@ -65,7 +72,7 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
           break;
         case 'pet_id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(int)) as int;
           break;
         case 'pet_name':
           result.name = serializers.deserialize(value,
@@ -96,7 +103,7 @@ class _$Pet extends Pet {
   @override
   final String message;
   @override
-  final String id;
+  final int id;
   @override
   final String name;
   @override
@@ -124,14 +131,8 @@ class _$Pet extends Pet {
     if (message == null) {
       throw new BuiltValueNullFieldError('Pet', 'message');
     }
-    if (id == null) {
-      throw new BuiltValueNullFieldError('Pet', 'id');
-    }
     if (name == null) {
       throw new BuiltValueNullFieldError('Pet', 'name');
-    }
-    if (weight == null) {
-      throw new BuiltValueNullFieldError('Pet', 'weight');
     }
     if (type == null) {
       throw new BuiltValueNullFieldError('Pet', 'type');
@@ -197,9 +198,9 @@ class PetBuilder implements Builder<Pet, PetBuilder> {
   String get message => _$this._message;
   set message(String message) => _$this._message = message;
 
-  String _id;
-  String get id => _$this._id;
-  set id(String id) => _$this._id = id;
+  int _id;
+  int get id => _$this._id;
+  set id(int id) => _$this._id = id;
 
   String _name;
   String get name => _$this._name;
