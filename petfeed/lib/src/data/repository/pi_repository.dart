@@ -16,11 +16,21 @@ class PiRepository {
     @required String ssid,
     @required String key,
   }) async {
-    print('here');
-
     final response = await piSource.setWifi(
       ssid: ssid,
       key: key,
+    );
+
+    return response;
+  }
+
+  Future<LocalStatus> treat({
+    @required String deviceToken,
+    @required double amount,
+  }) async {
+    final response = await piSource.treat(
+      deviceToken: deviceToken,
+      amount: amount,
     );
 
     return response;

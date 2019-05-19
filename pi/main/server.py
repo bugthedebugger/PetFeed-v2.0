@@ -55,8 +55,8 @@ class FlaskServer:
             userRequest = request.get_json(force=True)
             userToken = userRequest['accessToken']
 
-            devices = db.selectAll(Device())
             device = Device()
+            devices = db.selectAll(device)
             device.from_map(devices[0])
             accessToken = device.accessToken
 
@@ -64,7 +64,12 @@ class FlaskServer:
                 amount = userRequest['amount']
 
                 if device.type == 'Fish':
+                    print('here')
                     motors.fish(duration=amount)
+                else:
+                    print(device.type)
+                    print('not here')
+
 
                 response = {
                     'connection': 'local',
