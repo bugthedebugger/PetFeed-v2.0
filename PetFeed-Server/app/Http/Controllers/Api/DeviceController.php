@@ -121,7 +121,7 @@ class DeviceController extends Controller
                     'token' => $token
                 ];
 
-                event(new \App\Events\Configure($device->deviceId, $token));
+                event(new \App\Events\Configure($device->deviceId, $token, $device->type->name));
             }
             else {
                 abort(401, 'Unauthenticated');

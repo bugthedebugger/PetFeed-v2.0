@@ -64,6 +64,7 @@ class PusherContainer:
 
     def configure(self, data):
         data = ast.literal_eval(data)
+        print('configuring...')
         if data['channel'] == self.channel:
             print('here')
             token = data['token']
