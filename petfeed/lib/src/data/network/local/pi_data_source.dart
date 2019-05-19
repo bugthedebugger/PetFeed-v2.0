@@ -20,31 +20,31 @@ class PiDataSource {
   Future<bool> ping() async {
     String ip = preferences.get('deviceIP');
     bool error = false;
-    print(ip);
+    // print(ip);
     bool found = false;
 
     try {
       if (ip == null) {
-        print('no ip');
+        // print('no ip');
         found = await scanner.findDevice();
       } else {
-        print('ip');
+        // print('ip');
         final response = await client.post(ip).catchError((e) {
           error = true;
         });
         if (!error) {
-          print('no-error');
+          // print('no-error');
           if (response.statusCode == 200)
             found = true;
           else
             found = false;
         } else {
-          print('error');
+          // print('error');
           found = await scanner.findDevice();
         }
       }
     } catch (_) {
-      print(_);
+      // print(_);
       found = false;
     }
 
@@ -86,12 +86,16 @@ class PiDataSource {
     bool status = await ping();
     if (status) {
       String ip = preferences.get('deviceIP');
-      final response = await client.post(ip + LocalApiRoutes.TREAT, headers: {
-        'Content-Type': 'application/json',
-      }, body: {
-        'accessToken': deviceToken,
-        'amount': amount,
-      });
+      final response = await client.post(
+        ip + LocalApiRoutes.TREAT,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'accessToken': deviceToken,
+          'amount': amount,
+        }),
+      );
 
       if (response.statusCode == 200)
         return LocalStatus.fromJson(response.body);

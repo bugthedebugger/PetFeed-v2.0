@@ -20,12 +20,15 @@ class PetFeedPage extends StatefulWidget {
 }
 
 class _PetFeedPageState extends State<PetFeedPage> {
-  String treatWeight = '0.50';
-  String deviceType;
   final SharedPreferences preferences =
       kiwi.Container().resolve<SharedPreferences>();
-  String petName;
   final PetFeedBloc _bloc = kiwi.Container().resolve<PetFeedBloc>();
+
+  String deviceType;
+  String petName;
+  String treatWeight = '0.50';
+  double foodRemain = 11.4;
+
   StreamSubscription _eventSub;
   StreamSubscription _pusherSub;
 
@@ -109,7 +112,7 @@ class _PetFeedPageState extends State<PetFeedPage> {
                     vertical: ScreenUtil().setHeight(10),
                     horizontal: ScreenUtil().setWidth(15),
                   ),
-                  child: FoodMeter(percentRemain: 90),
+                  child: FoodMeter(percentRemain: foodRemain),
                 ),
                 // Information Cards
                 Padding(
@@ -151,11 +154,12 @@ class _PetFeedPageState extends State<PetFeedPage> {
                                       },
                                     ),
                                     SizedBox(width: ScreenUtil().setWidth(10)),
-                                    StreamBuilder<PetFeedEvents>(
-                                      stream: _bloc.eventStream,
+                                    StreamBuilder<bool>(
+                                      stream: _bloc.localConnectionStream,
+                                      initialData: false,
                                       builder: (context, snapshot) {
                                         return Icon(
-                                          snapshot.data is LocalDeviceFound
+                                          snapshot.data
                                               ? Icons.signal_wifi_4_bar
                                               : Icons.signal_wifi_off,
                                           size: FontSize.fontSize18,

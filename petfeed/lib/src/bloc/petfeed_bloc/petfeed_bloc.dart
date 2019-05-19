@@ -39,6 +39,11 @@ class PetFeedBloc extends Bloc {
       _pusherStreamController.stream;
   Sink<Map<String, dynamic>> get _pusherSink => _pusherStreamController.sink;
 
+  StreamController<bool> _localConnectionController =
+      StreamController<bool>.broadcast();
+  Stream<bool> get localConnectionStream => _localConnectionController.stream;
+  Sink<bool> get _localConnectionSink => _localConnectionController.sink;
+
   Stream get pusherStatus => pusher.statusStream;
 
   StreamSubscription _pusherStatusSub;
@@ -76,7 +81,7 @@ class PetFeedBloc extends Bloc {
   void _mapTreat(Treat event) async {
     try {
       if (wifiConnected) {
-        final response = await piRepository.treat(
+        await piRepository.treat(
           deviceToken: event.deviceToken,
           amount: event.amount,
         );
@@ -122,8 +127,10 @@ class PetFeedBloc extends Bloc {
       );
       wifiConnected = await piRepository.getStatus();
       if (wifiConnected) {
+        addLocalConnection(true);
         dispatch(LocalDeviceFound());
       } else {
+        addLocalConnection(false);
         dispatch(LocalDeviceNotFound());
       }
     } catch (_) {
@@ -135,6 +142,10 @@ class PetFeedBloc extends Bloc {
     _pusherSink.add(data);
   }
 
+  void addLocalConnection(bool data) {
+    _localConnectionSink.add(data);
+  }
+
   void dispatch(PetFeedEvents event) {
     _eventSink.add(event);
   }
@@ -144,5 +155,6 @@ class PetFeedBloc extends Bloc {
     _pusherStatusSub?.cancel();
     _eventStreamController?.close();
     _pusherStreamController?.close();
+    _localConnectionController?.close();
   }
 }
