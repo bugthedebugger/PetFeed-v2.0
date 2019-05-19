@@ -36,49 +36,47 @@ class PusherContainer:
 
         print(data)
 
-        if data['channel'] == self.channel:
-            device = Device()
-            result = self.db.selectAll(device)
-            device.from_map(result[0])
-            print(data['oldPassword'])
-            print(device.password)
-            print(data['newPassword'])
-            print(device.password == data['oldPassword'])
-            if device.password == data['oldPassword']:
-                device.password = data['newPassword']
-                self.db.update(device)
-                self.pusherEvent.trigger(self.channel, 'petfeed-pi-password-reset', {
-                    'connection': 'global',
-                    'status': 'success',
-                    'message': 'Password reset successful.'
-                })
-            else:
-                self.pusherEvent.trigger(self.channel, 'petfeed-pi-password-reset', {
-                    'connection': 'global',
-                    'status': 'error',
-                    'message': 'Password reset unsuccessful.'
-                })
-                print('cant reset')
+
+        device = Device()
+        result = self.db.selectAll(device)
+        device.from_map(result[0])
+        print(data['oldPassword'])
+        print(device.password)
+        print(data['newPassword'])
+        print(device.password == data['oldPassword'])
+        if device.password == data['oldPassword']:
+            device.password = data['newPassword']
+            self.db.update(device)
+            self.pusherEvent.trigger(self.channel, 'petfeed-pi-password-reset', {
+                'connection': 'global',
+                'status': 'success',
+                'message': 'Password reset successful.'
+            })
         else:
-            print('passed')
+            self.pusherEvent.trigger(self.channel, 'petfeed-pi-password-reset', {
+                'connection': 'global',
+                'status': 'error',
+                'message': 'Password reset unsuccessful.'
+            })
+            print('cant reset')
 
     def configure(self, data):
         data = ast.literal_eval(data)
         print('configuring...')
-        if data['channel'] == self.channel:
-            print('here')
-            token = data['token']
-            device = Device()
-            result = self.db.selectAll(device)
-            device.from_map(result[0])
-            device.accessToken = token
-            r = self.db.update(device)
-            print(r)
-            self.pusherEvent.trigger(self.channel, 'petfeed-pi-configure', {
-                'connection': 'global',
-                'status': 'success',
-                'message': 'Device configured successful.'
-            })
+        print(data['channel'])
+        print(self.channel)
+        token = data['token']
+        device = Device()
+        result = self.db.selectAll(device)
+        device.from_map(result[0])
+        device.accessToken = token
+        r = self.db.update(device)
+        print(r)
+        self.pusherEvent.trigger(self.channel, 'petfeed-pi-configure', {
+            'connection': 'global',
+            'status': 'success',
+            'message': 'Device configured successful.'
+        })
 
     def treat(self, data):
         data = ast.literal_eval(data)
@@ -121,22 +119,21 @@ class PusherContainer:
     def register(self, data):
         data = ast.literal_eval(data)
 
-        if data['channel'] == self.channel:
-            device = Device()
-            results = self.db.selectAll(device)
-            device.from_map(results[0])
+        device = Device()
+        results = self.db.selectAll(device)
+        device.from_map(results[0])
 
-            if device.password == data['oldPassword'] and device.deviceId == data['channel']:
-                device.password = data['newPassword']
-                device.type = data['type']
-                device.typeId = data['typeId']
-                r = self.db.update(device)
+        if device.password == data['oldPassword'] and device.deviceId == data['channel']:
+            device.password = data['newPassword']
+            device.type = data['type']
+            device.typeId = data['typeId']
+            r = self.db.update(device)
 
-                self.pusherEvent.trigger(self.channel, 'petfeed-pi-register', {
-                    'connection': 'global',
-                    'status': 'success',
-                    'message': 'Device registered successful.'
-                })
+            self.pusherEvent.trigger(self.channel, 'petfeed-pi-register', {
+                'connection': 'global',
+                'status': 'success',
+                'message': 'Device registered successful.'
+            })
 
     def status(self, data):
         self.pusherEvent.trigger(self.channel, 'petfeed-pi-status', {
