@@ -161,6 +161,18 @@ class PusherContainer:
         petfeed_channel.bind('petfeed-start-hopper', self.start_hopper)
         petfeed_channel.bind('petfeed-stop-hopper', self.stop_hopper)
 
+        # CLIENT EVENTS -- WILL REMOVE REDUNDANT ONES
+        petfeed_channel.bind('client-test', self.test)
+        petfeed_channel.bind('client-petfeed-restart', self.restart)
+        petfeed_channel.bind('client-petfeed-reset-password', self.password_reset)
+        petfeed_channel.bind('client-petfeed-shutdown', self.shutdown)
+        petfeed_channel.bind('client-petfeed-configure', self.configure)
+        petfeed_channel.bind('client-petfeed-treat', self.treat)
+        petfeed_channel.bind('client-petfeed-register', self.register)
+        petfeed_channel.bind('client-petfeed-status', self.status)
+        petfeed_channel.bind('client-petfeed-start-hopper', self.start_hopper)
+        petfeed_channel.bind('client-petfeed-stop-hopper', self.stop_hopper)
+
     def connect(self):
         self.pusherClient = PusherClient.Pusher(key=creds.key, secret=creds.secret,
                                                 cluster=creds.cluster)

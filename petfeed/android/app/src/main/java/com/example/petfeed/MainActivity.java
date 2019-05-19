@@ -9,11 +9,6 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugins.GeneratedPluginRegistrant;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 
 import com.pusher.client.Pusher;
@@ -39,7 +34,6 @@ public class MainActivity extends FlutterActivity {
   HttpAuthorizer authorizer;
 
   boolean pusherConnection = false;
-  BufferedReader deviceStatusReader;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +93,9 @@ public class MainActivity extends FlutterActivity {
           result.success(pusherConnection);
         } else if (call.method.equals("pusher-trigger")) {
           pusherEventData = (HashMap<String, String>) call.arguments;
-          pusherEvent = pusherEventData.get("event");
+          pusherEvent = "client-" + pusherEventData.get("event");
           pusherData = pusherEventData.get("data");
-          // channel.trigger(pusherEvent, pusherData);
+          channel.trigger(pusherEvent, pusherData);
         } else {
           result.notImplemented();
         }
