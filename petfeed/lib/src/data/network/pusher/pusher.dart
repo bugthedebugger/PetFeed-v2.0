@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/services.dart';
+import 'package:petfeed/src/data/models/pusher_events/pusher_event_model.dart';
 import 'package:petfeed/src/data/network/pusher/pusher-credentials.dart';
 
 class Pusher {
@@ -21,13 +21,13 @@ class Pusher {
     _piConfigure = EventChannel('petfeed/pusher-configure-status');
   }
 
-  Future connect(String deviceID) async {
+  Future connect(String deviceID, String accessToken) async {
     bool connection = await pusherConnection();
 
     if (!connection) {
       this.deviceID = deviceID;
       _credentials = PusherCredentials.toMap();
-      _credentials.addAll({'channel': deviceID});
+      _credentials.addAll({'channel': deviceID, 'token': accessToken});
       _platform.invokeMethod('pusher-initialize', _credentials);
     }
 
@@ -40,5 +40,9 @@ class Pusher {
 
   void dispose() {
     _platform.invokeMethod('pusher-dispose');
+  }
+
+  void trigger(PusherEvent event) {
+    _platform.invokeMethod('pusher-trigger', event.toMap());
   }
 }

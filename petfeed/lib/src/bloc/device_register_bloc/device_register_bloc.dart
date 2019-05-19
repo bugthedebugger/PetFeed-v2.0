@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DeviceRegisterBloc extends Bloc {
   final DeviceRepository repository;
   final SharedPreferences preferences;
+  final Pusher pusher;
 
   String _deviceID;
   String _password;
@@ -26,15 +27,13 @@ class DeviceRegisterBloc extends Bloc {
   Stream<DeviceRegisterEvents> get eventStream => _eventStreamController.stream;
   Sink<DeviceRegisterEvents> get _eventSink => _eventStreamController.sink;
 
-  Pusher _pusher = Pusher();
-
-  Stream get _pusherStatusStream => _pusher.statusStream;
-  Stream get _pusherPiConfigureStream => _pusher.piConfigureStream;
+  Stream get _pusherStatusStream => pusher.statusStream;
+  Stream get _pusherPiConfigureStream => pusher.piConfigureStream;
 
   StreamSubscription _statusSubscription;
   StreamSubscription _piConfigureSubscription;
 
-  DeviceRegisterBloc(this.repository, this.preferences) {
+  DeviceRegisterBloc(this.repository, this.preferences, this.pusher) {
     init();
   }
 
@@ -117,11 +116,11 @@ class DeviceRegisterBloc extends Bloc {
 
   void _mapDeviceRegisterInitiated(DeviceRegisterInitiated event) async {
     try {
+      String token = preferences.get('token');
       if (!listeningStatus) {
-        await _pusher.connect(event.deviceID);
+        await pusher.connect(event.deviceID, token);
         pusherListen();
       }
-      String token = preferences.get('token');
       _deviceID = event.deviceID;
       _password = event.password;
       preferences.setString('deviceID', event.deviceID);
@@ -151,6 +150,6 @@ class DeviceRegisterBloc extends Bloc {
     _eventStreamController.close();
     _statusSubscription?.cancel();
     _piConfigureSubscription?.cancel();
-    _pusher?.dispose();
+    pusher?.dispose();
   }
 }

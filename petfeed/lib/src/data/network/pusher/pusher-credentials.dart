@@ -1,3 +1,5 @@
+import 'package:petfeed/src/data/network/api_routes.dart';
+
 class PusherCredentials {
   static const String APP_ID = '775955';
   static const String KEY = '52dbd8b82ec2d1c42839';
@@ -10,6 +12,7 @@ class PusherCredentials {
       'key': KEY,
       'secret': SECRET,
       'cluster': CLUSTER,
+      'auth': ServerApiRoutes.PUSHER_AUTH,
     };
   }
 }

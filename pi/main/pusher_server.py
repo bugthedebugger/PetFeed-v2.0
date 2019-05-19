@@ -28,7 +28,7 @@ class PusherContainer:
         self.db = DBController()
         results = self.db.selectAll(device)
         device.from_map(results[0])
-        self.channel = device.deviceId
+        self.channel = 'private-' + device.deviceId
         self.motors = motorController
 
     def password_reset(self, data):

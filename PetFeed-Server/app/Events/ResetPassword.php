@@ -37,7 +37,7 @@ class ResetPassword implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel($this->channel);
+        return new PrivateChannel($this->channel);
     }
 
     public function broadcastAs()

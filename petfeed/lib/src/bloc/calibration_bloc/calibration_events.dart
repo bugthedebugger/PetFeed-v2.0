@@ -10,6 +10,7 @@ abstract class StartHopper extends CalibrationEvents
     implements Built<StartHopper, StartHopperBuilder> {
   String get deviceID;
   String get token;
+  String get deviceToken;
 
   StartHopper._();
 
@@ -20,6 +21,7 @@ abstract class StopHopper extends CalibrationEvents
     implements Built<StopHopper, StopHopperBuilder> {
   String get deviceID;
   String get token;
+  String get deviceToken;
 
   StopHopper._();
 

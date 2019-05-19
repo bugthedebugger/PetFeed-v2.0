@@ -11,16 +11,21 @@ class _$StartHopper extends StartHopper {
   final String deviceID;
   @override
   final String token;
+  @override
+  final String deviceToken;
 
   factory _$StartHopper([void Function(StartHopperBuilder) updates]) =>
       (new StartHopperBuilder()..update(updates)).build();
 
-  _$StartHopper._({this.deviceID, this.token}) : super._() {
+  _$StartHopper._({this.deviceID, this.token, this.deviceToken}) : super._() {
     if (deviceID == null) {
       throw new BuiltValueNullFieldError('StartHopper', 'deviceID');
     }
     if (token == null) {
       throw new BuiltValueNullFieldError('StartHopper', 'token');
+    }
+    if (deviceToken == null) {
+      throw new BuiltValueNullFieldError('StartHopper', 'deviceToken');
     }
   }
 
@@ -36,19 +41,22 @@ class _$StartHopper extends StartHopper {
     if (identical(other, this)) return true;
     return other is StartHopper &&
         deviceID == other.deviceID &&
-        token == other.token;
+        token == other.token &&
+        deviceToken == other.deviceToken;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, deviceID.hashCode), token.hashCode));
+    return $jf($jc(
+        $jc($jc(0, deviceID.hashCode), token.hashCode), deviceToken.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('StartHopper')
           ..add('deviceID', deviceID)
-          ..add('token', token))
+          ..add('token', token)
+          ..add('deviceToken', deviceToken))
         .toString();
   }
 }
@@ -64,12 +72,17 @@ class StartHopperBuilder implements Builder<StartHopper, StartHopperBuilder> {
   String get token => _$this._token;
   set token(String token) => _$this._token = token;
 
+  String _deviceToken;
+  String get deviceToken => _$this._deviceToken;
+  set deviceToken(String deviceToken) => _$this._deviceToken = deviceToken;
+
   StartHopperBuilder();
 
   StartHopperBuilder get _$this {
     if (_$v != null) {
       _deviceID = _$v.deviceID;
       _token = _$v.token;
+      _deviceToken = _$v.deviceToken;
       _$v = null;
     }
     return this;
@@ -90,8 +103,9 @@ class StartHopperBuilder implements Builder<StartHopper, StartHopperBuilder> {
 
   @override
   _$StartHopper build() {
-    final _$result =
-        _$v ?? new _$StartHopper._(deviceID: deviceID, token: token);
+    final _$result = _$v ??
+        new _$StartHopper._(
+            deviceID: deviceID, token: token, deviceToken: deviceToken);
     replace(_$result);
     return _$result;
   }
@@ -102,16 +116,21 @@ class _$StopHopper extends StopHopper {
   final String deviceID;
   @override
   final String token;
+  @override
+  final String deviceToken;
 
   factory _$StopHopper([void Function(StopHopperBuilder) updates]) =>
       (new StopHopperBuilder()..update(updates)).build();
 
-  _$StopHopper._({this.deviceID, this.token}) : super._() {
+  _$StopHopper._({this.deviceID, this.token, this.deviceToken}) : super._() {
     if (deviceID == null) {
       throw new BuiltValueNullFieldError('StopHopper', 'deviceID');
     }
     if (token == null) {
       throw new BuiltValueNullFieldError('StopHopper', 'token');
+    }
+    if (deviceToken == null) {
+      throw new BuiltValueNullFieldError('StopHopper', 'deviceToken');
     }
   }
 
@@ -127,19 +146,22 @@ class _$StopHopper extends StopHopper {
     if (identical(other, this)) return true;
     return other is StopHopper &&
         deviceID == other.deviceID &&
-        token == other.token;
+        token == other.token &&
+        deviceToken == other.deviceToken;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, deviceID.hashCode), token.hashCode));
+    return $jf($jc(
+        $jc($jc(0, deviceID.hashCode), token.hashCode), deviceToken.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('StopHopper')
           ..add('deviceID', deviceID)
-          ..add('token', token))
+          ..add('token', token)
+          ..add('deviceToken', deviceToken))
         .toString();
   }
 }
@@ -155,12 +177,17 @@ class StopHopperBuilder implements Builder<StopHopper, StopHopperBuilder> {
   String get token => _$this._token;
   set token(String token) => _$this._token = token;
 
+  String _deviceToken;
+  String get deviceToken => _$this._deviceToken;
+  set deviceToken(String deviceToken) => _$this._deviceToken = deviceToken;
+
   StopHopperBuilder();
 
   StopHopperBuilder get _$this {
     if (_$v != null) {
       _deviceID = _$v.deviceID;
       _token = _$v.token;
+      _deviceToken = _$v.deviceToken;
       _$v = null;
     }
     return this;
@@ -181,8 +208,9 @@ class StopHopperBuilder implements Builder<StopHopper, StopHopperBuilder> {
 
   @override
   _$StopHopper build() {
-    final _$result =
-        _$v ?? new _$StopHopper._(deviceID: deviceID, token: token);
+    final _$result = _$v ??
+        new _$StopHopper._(
+            deviceID: deviceID, token: token, deviceToken: deviceToken);
     replace(_$result);
     return _$result;
   }
