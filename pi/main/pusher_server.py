@@ -87,26 +87,43 @@ class PusherContainer:
         results = self.db.selectAll(device)
         device.from_map(results[0])
 
-        if device.type == 'Fish':
-            self.motors.fish(duration=amount)
+        if data['accessToken'] == device.accessToken:
+            if device.type == 'Fish':
+                self.motors.fish(duration=amount)
 
-        self.pusherEvent.trigger(self.channel, 'petfeed-pi-treat', {
-            'connection': 'global',
-            'status': 'success',
-            'message': 'Device configured successful.'
-        })
+            self.pusherEvent.trigger(self.channel, 'petfeed-pi-treat', {
+                'connection': 'global',
+                'status': 'success',
+                'message': 'Device configured successful.'
+            })
+        else:
+            print('access token mismatch')
 
         print(amount)
 
-    @staticmethod
-    def restart(data):
-        # os.system("sudo reboot")
-        print('received restart')
+    def restart(self, data):
+        data = ast.literal_eval(data)
 
-    @staticmethod
-    def shutdown(data):
-        # os.system("sudo poweroff")
-        print('received shutdown')
+        device = Device()
+        results = self.db.selectAll(device)
+        device.from_map(results[0])
+
+        if data['accessToken'] == device.accessToken:
+            print('received restart')
+        else:
+            print('access token mismatch')
+
+    def shutdown(self, data):
+        data = ast.literal_eval(data)
+
+        device = Device()
+        results = self.db.selectAll(device)
+        device.from_map(results[0])
+
+        if data['accessToken'] == device.accessToken:
+            print('received shutdown')
+        else:
+            print('access token mismatch')
 
     def test(self, data):
         print(data)
@@ -143,10 +160,28 @@ class PusherContainer:
         })
 
     def start_hopper(self, data):
-        self.motors.start()
+        data = ast.literal_eval(data)
+
+        device = Device()
+        results = self.db.selectAll(device)
+        device.from_map(results[0])
+
+        if data['accessToken'] == device.accessToken:
+            self.motors.start()
+        else:
+            print('access token mismatch')
 
     def stop_hopper(self, data):
-        self.motors.stop()
+        data = ast.literal_eval(data)
+
+        device = Device()
+        results = self.db.selectAll(device)
+        device.from_map(results[0])
+
+        if data['accessToken'] == device.accessToken:
+            self.motors.stop()
+        else:
+            print('access token mismatch')
 
     def connect_handler(self, data):
         petfeed_channel = self.pusherClient.subscribe(self.channel)

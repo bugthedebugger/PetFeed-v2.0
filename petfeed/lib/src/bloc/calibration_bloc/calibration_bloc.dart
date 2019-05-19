@@ -53,17 +53,17 @@ class CalibrationBloc extends Bloc {
       };
       StopPusherHopper _stop = StopPusherHopper(data: data);
       pusher.trigger(_stop);
-      final response = await repository.stopHopper(
-        token: event.token,
-        deviceID: event.deviceID,
-      );
-      if (response == true) {
-        dispatch(CalibrationSuccess());
-      } else {
-        dispatch(
-          CalibrationError((b) => b..message = 'Something wen\'t wrong!'),
-        );
-      }
+      // final response = await repository.stopHopper(
+      //   token: event.token,
+      //   deviceID: event.deviceID,
+      // );
+      // if (response == true) {
+      //   dispatch(CalibrationSuccess());
+      // } else {
+      //   dispatch(
+      //     CalibrationError((b) => b..message = 'Something wen\'t wrong!'),
+      //   );
+      // }
     } on CalibrationException catch (_) {
       dispatch(CalibrationError((b) => b..message = _.message));
     } on UnauthenticatedException catch (_) {
@@ -98,17 +98,17 @@ class CalibrationBloc extends Bloc {
       };
       StartPusherHopper _start = StartPusherHopper(data: data);
       pusher.trigger(_start);
-      final response = await repository.startHopper(
-        token: event.token,
-        deviceID: event.deviceID,
-      );
-      if (response == true) {
-        dispatch(CalibrationSuccess());
-      } else {
-        dispatch(
-          CalibrationError((b) => b..message = 'Something wen\'t wrong!'),
-        );
-      }
+      // final response = await repository.startHopper(
+      //   token: event.token,
+      //   deviceID: event.deviceID,
+      // );
+      // if (response == true) {
+      //   dispatch(CalibrationSuccess());
+      // } else {
+      //   dispatch(
+      //     CalibrationError((b) => b..message = 'Something wen\'t wrong!'),
+      //   );
+      // }
     } on CalibrationException catch (_) {
       dispatch(CalibrationError((b) => b..message = _.message));
     } on UnauthenticatedException catch (_) {
