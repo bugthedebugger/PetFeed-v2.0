@@ -40,10 +40,10 @@ class PusherContainer:
         device = Device()
         result = self.db.selectAll(device)
         device.from_map(result[0])
-        print(data['oldPassword'])
-        print(device.password)
-        print(data['newPassword'])
-        print(device.password == data['oldPassword'])
+        # print(data['oldPassword'])
+        # print(device.password)
+        # print(data['newPassword'])
+        # print(device.password == data['oldPassword'])
         if device.password == data['oldPassword']:
             device.password = data['newPassword']
             self.db.update(device)
@@ -62,16 +62,16 @@ class PusherContainer:
 
     def configure(self, data):
         data = ast.literal_eval(data)
-        print('configuring...')
-        print(data['channel'])
-        print(self.channel)
+        # print('configuring...')
+        # print(data['channel'])
+        # print(self.channel)
         token = data['token']
         device = Device()
         result = self.db.selectAll(device)
         device.from_map(result[0])
         device.accessToken = token
         r = self.db.update(device)
-        print(r)
+        # print(r)
         self.pusherEvent.trigger(self.channel, 'petfeed-pi-configure', {
             'connection': 'global',
             'status': 'success',

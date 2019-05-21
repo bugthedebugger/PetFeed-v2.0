@@ -53,7 +53,6 @@ class PetFeedBloc extends Bloc {
     String accessToken = preferences.get('token');
     String deviceID = preferences.get('deviceID');
     await pusher.connect(deviceID, accessToken);
-    print('dispatched');
     _pusherStatusSub = pusherStatus.listen(_mapPusherStatus);
     dispatch(
       PetFeedInitialized((b) => b
@@ -102,6 +101,7 @@ class PetFeedBloc extends Bloc {
 
   void _mapPusherStatus(data) {
     Map<String, dynamic> mappedData = json.decode(data);
+    print('inside map psuerh status');
     try {
       if (mappedData['status'] == 'online') {
         pusherConnected = true;
