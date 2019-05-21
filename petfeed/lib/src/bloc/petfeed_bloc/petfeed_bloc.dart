@@ -53,6 +53,7 @@ class PetFeedBloc extends Bloc {
     String accessToken = preferences.get('token');
     String deviceID = preferences.get('deviceID');
     await pusher.connect(deviceID, accessToken);
+    print('dispatched');
     _pusherStatusSub = pusherStatus.listen(_mapPusherStatus);
     dispatch(
       PetFeedInitialized((b) => b
@@ -121,6 +122,7 @@ class PetFeedBloc extends Bloc {
     try {
       String accessToken = preferences.get('token');
       String deviceID = preferences.get('deviceID');
+      pusher.pusherConnection();
       await deviceRepository.getStatus(
         deviceID: deviceID,
         token: accessToken,

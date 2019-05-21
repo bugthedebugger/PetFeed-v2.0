@@ -53,6 +53,7 @@ class DeviceRegisterBloc extends Bloc {
     Map<String, dynamic> mappedData = json.decode(data);
     try {
       if (mappedData['status'] == 'success') {
+        print(_deviceToken);
         preferences.setString('deviceToken', _deviceToken);
         dispatch(DeviceRegisterSuccess());
       }
@@ -94,6 +95,8 @@ class DeviceRegisterBloc extends Bloc {
           token: token, deviceID: event.deviceID, password: event.password);
       if (response != null) {
         _deviceToken = response.token;
+        // print(_deviceToken);
+        preferences.setString('deviceToken', _deviceToken);
       }
     } on NoInternetException catch (_) {
       dispatch(DeviceRegisterError((b) => b..message = _.message));
@@ -151,6 +154,5 @@ class DeviceRegisterBloc extends Bloc {
     _eventStreamController.close();
     _statusSubscription?.cancel();
     _piConfigureSubscription?.cancel();
-    pusher?.dispose();
   }
 }

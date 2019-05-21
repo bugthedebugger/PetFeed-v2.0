@@ -60,6 +60,9 @@ class FlaskServer:
             device.from_map(devices[0])
             accessToken = device.accessToken
 
+            print(userToken)
+            print(accessToken)
+
             if userToken == accessToken:
                 amount = userRequest['amount']
 

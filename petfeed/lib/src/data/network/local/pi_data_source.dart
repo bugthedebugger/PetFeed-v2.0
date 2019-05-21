@@ -57,6 +57,7 @@ class PiDataSource {
 
     if (status) {
       String ip = preferences.get('deviceIP');
+      print(ip);
       final response = await client.post(
         ip + LocalApiRoutes.WIFI_SETUP,
         headers: {
@@ -96,6 +97,13 @@ class PiDataSource {
           'amount': amount,
         }),
       );
+
+      print(json.encode({
+        'accessToken': deviceToken,
+        'amount': amount,
+      }));
+
+      print(response.body);
 
       if (response.statusCode == 200)
         return LocalStatus.fromJson(response.body);

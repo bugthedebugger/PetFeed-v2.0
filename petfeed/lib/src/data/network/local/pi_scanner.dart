@@ -30,9 +30,9 @@ class PiScanner {
           break;
         }
       } on SocketException catch (_) {
-        // print(e);
+        // print(_);
       } on TimeoutException catch (_) {
-        // print(e);
+        // print(_);
       }
       try {
         // print(ipList[ipList.length - i - 1]);
@@ -40,15 +40,15 @@ class PiScanner {
             .post(ipList[ipList.length - i - 1])
             .timeout(Duration(milliseconds: timeOut));
         if (response.statusCode == 200) {
-          preferences.setString('deviceIP', ipList[i]);
+          preferences.setString('deviceIP', ipList[ipList.length - i - 1]);
           found = true;
           // print(response.body);
           break;
         }
       } on SocketException catch (_) {
-        // print(e);
+        // print(_);
       } on TimeoutException catch (_) {
-        // print(e);
+        // print(_);
       }
     }
 
