@@ -10,7 +10,8 @@ class DBController:
     def __init__(self):
         self.db = pymysql.connect(
             host, user,
-            password, database=database)
+            password, database=database,
+            autocommit=True)
         self.cursor = pymysql.cursors.DictCursor(self.db)
 
     def insert(self, model):
