@@ -47,7 +47,7 @@ class FlaskServer:
         response = {
             'status': 'online',
             'connection': 'local',
-            'food': distanceSensor.distance()
+            'food': distanceSensor.fish()
         }
         if request.method == 'POST':
             return jsonify(response)
