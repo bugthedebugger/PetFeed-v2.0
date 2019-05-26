@@ -40,10 +40,19 @@ class MotorController:
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(0)
 
+    def reverse(self):
+        self.left_pwm.ChangeDutyCycle(100)
+        self.right_pwm.ChangeDutyCycle(0)
+
     def fish(self, duration=1):
         self.start()
-        time.sleep(duration)
+        time.sleep(duration / 2)
         self.stop()
+        time.sleep(duration / 4)
+        self.start()
+        time.sleep(duration / 2)
+        self.stop()
+        time.sleep(duration / 4)
 
     def __del__(self):
         self.GPIO.cleanup()
