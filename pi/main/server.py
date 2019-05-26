@@ -24,13 +24,17 @@ unauthenticated_response = {
 }
 
 motors = None
+distanceSensor = None
 
 
 class FlaskServer:
 
-    def __init__(self, motorController):
+    def __init__(self, motorController, _distanceSensor):
         global motors
         motors = motorController
+        global distanceSensor
+        distanceSensor = _distanceSensor
+
     app = Flask(__name__)
     request_error = {
         'connection': 'local',
@@ -42,7 +46,8 @@ class FlaskServer:
     def home():
         response = {
             'status': 'online',
-            'connection': 'local'
+            'connection': 'local',
+            'food': distanceSensor.distance()
         }
         if request.method == 'POST':
             return jsonify(response)
@@ -72,7 +77,6 @@ class FlaskServer:
                 else:
                     print(device.type)
                     # print('not here')
-
 
                 response = {
                     'connection': 'local',
