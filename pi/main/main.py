@@ -4,7 +4,7 @@ from server import FlaskServer
 from models.model import Model
 import RPi.GPIO as GPIO
 from hw_controllers.motor_controller import MotorController
-from hw_controller.distance import Distance
+from hw_controllers.distance import Distance
 from pusher_server import PusherContainer
 from threading import Thread
 import signal
