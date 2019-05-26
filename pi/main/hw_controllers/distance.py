@@ -57,3 +57,22 @@ class Distance:
         percentRemain = ((int(distance) - min) * 100) / (max - min)
 
         return 100 - percentRemain
+
+    def other(self):
+        max = 11
+        min = 3
+
+        distance = self.distance()
+
+        print(distance)
+
+        if distance >= max:
+            distance = max
+        elif distance <= min:
+            distance = min
+
+        print(distance)
+
+        percentRemain = ((int(distance) - min) * 100) / (max - min)
+
+        return 100 - percentRemain

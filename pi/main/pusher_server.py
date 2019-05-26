@@ -23,19 +23,19 @@ class PusherContainer:
     pusherClient = None
     pusherEvent = None
 
-    def __init__(self, motorController):
+    def __init__(self, motorController, distanceSensor):
         device = Device()
         self.db = DBController()
         results = self.db.selectAll(device)
         device.from_map(results[0])
         self.channel = 'private-' + device.deviceId
         self.motors = motorController
+        self.distanceSensor = distanceSensor
 
     def password_reset(self, data):
         data = ast.literal_eval(data)
 
         print(data)
-
 
         device = Device()
         result = self.db.selectAll(device)
@@ -183,6 +183,24 @@ class PusherContainer:
         else:
             print('access token mismatch')
 
+    def foodMeter(self):
+        device = Device()
+        results = self.db.selectAll(device)
+        device.from_map(results[0])
+
+        if device.type == 'Fish':
+            self.pusherEvent.trigger(self.channel, 'petfeed-pi-food-meter', {
+                'connection': 'global',
+                'status': 'online',
+                'amount': self.distanceSensor.fish()
+            })
+        else:
+            self.pusherEvent.trigger(self.channel, 'petfeed-pi-food-meter', {
+                'connection': 'global',
+                'status': 'online',
+                'amount': self.distanceSensor.other()
+            })
+
     def connect_handler(self, data):
         petfeed_channel = self.pusherClient.subscribe(self.channel)
         petfeed_channel.bind('test', self.test)
@@ -199,7 +217,8 @@ class PusherContainer:
         # CLIENT EVENTS -- WILL REMOVE REDUNDANT ONES
         petfeed_channel.bind('client-test', self.test)
         petfeed_channel.bind('client-petfeed-restart', self.restart)
-        petfeed_channel.bind('client-petfeed-reset-password', self.password_reset)
+        petfeed_channel.bind(
+            'client-petfeed-reset-password', self.password_reset)
         petfeed_channel.bind('client-petfeed-shutdown', self.shutdown)
         petfeed_channel.bind('client-petfeed-configure', self.configure)
         petfeed_channel.bind('client-petfeed-treat', self.treat)

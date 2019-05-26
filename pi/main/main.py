@@ -8,9 +8,11 @@ from hw_controllers.distance import Distance
 from pusher_server import PusherContainer
 from threading import Thread
 import signal
+import time
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
+pusherContainer = None
 
 motorController = MotorController(GPIO=GPIO)
 distanceSensor = Distance(GPIO=GPIO)
@@ -23,13 +25,23 @@ def flask_server():
 
 
 def pusher_server():
-    pusherContainer = PusherContainer(motorController=motorController)
+    pusherContainer = PusherContainer(
+        motorController=motorController, distanceSensor=distanceSensor)
     pusherContainer.connect()
+
+
+def amount_trigger():
+    time.sleep(5)
+    while True:
+        pusherContainer.foodMeter()
+        time.sleep(5)
 
 
 if __name__ == '__main__':
     flask_thread = Thread(target=flask_server)
     pusher_thread = Thread(target=pusher_server)
+    amount_thread = Thread(target=amount_thread)
 
     flask_thread.start()
     pusher_thread.start()
+    amount_thread.start()
