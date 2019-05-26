@@ -33,7 +33,7 @@ def amount_trigger():
     time.sleep(5)
     while True:
         pusherContainer.foodMeter()
-        time.sleep(5)
+        time.sleep(10)
 
 
 if __name__ == '__main__':
