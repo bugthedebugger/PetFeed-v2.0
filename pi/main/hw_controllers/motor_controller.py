@@ -47,12 +47,13 @@ class MotorController:
     def fish(self, duration=1):
         self.start()
         time.sleep(duration / 2)
-        self.stop()
+        self.reverse()
         time.sleep(duration / 4)
         self.start()
         time.sleep(duration / 2)
-        self.stop()
+        self.reverse()
         time.sleep(duration / 4)
+        self.stop()
 
     def __del__(self):
         self.GPIO.cleanup()
