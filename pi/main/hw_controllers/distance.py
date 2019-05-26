@@ -41,9 +41,12 @@ class Distance:
 
     def fish(self):
         max = 11
-        min = 2
+        min = 3
 
         distance = self.distance()
+
+        print(distance)
+
         if distance >= max:
             distance = max
         elif distance <= min:
