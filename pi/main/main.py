@@ -12,7 +12,8 @@ import time
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-pusherContainer = None
+pusherContainer = PusherContainer(
+    motorController=motorController, distanceSensor=distanceSensor)
 
 motorController = MotorController(GPIO=GPIO)
 distanceSensor = Distance(GPIO=GPIO)
@@ -25,8 +26,6 @@ def flask_server():
 
 
 def pusher_server():
-    pusherContainer = PusherContainer(
-        motorController=motorController, distanceSensor=distanceSensor)
     pusherContainer.connect()
 
 
