@@ -98,13 +98,6 @@ class PiDataSource {
         }),
       );
 
-      print(json.encode({
-        'accessToken': deviceToken,
-        'amount': amount,
-      }));
-
-      print(response.body);
-
       if (response.statusCode == 200)
         return LocalStatus.fromJson(response.body);
       else if (response.statusCode == 401)

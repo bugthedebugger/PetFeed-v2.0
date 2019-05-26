@@ -1,19 +1,20 @@
 from .hx711 import HX711
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 import time
 # SET THE PIN LAYOUT TO BCM LAYOUT
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setwarnings(False)
 # MOTOR CONTROLLER CLASS
 
 
 class MotorController:
-    def __init__(self, left_pin=5, right_pin=6):
+    def __init__(self, left_pin=5, right_pin=6, GPIO=None):
+        self.GPIO = GPIO
         # ASSIGN THE PIN NUMBERS, 14 AND 15 IF NONE PASSED
         self.left_pin = left_pin
         self.right_pin = right_pin
         # INITIALIZE LEFT AND RIGHT PINS OF THE MOTOR AS OUTPUT
-        GPIO.setup([self.left_pin, self.right_pin], GPIO.OUT)
+        self.GPIO.setup([self.left_pin, self.right_pin], GPIO.OUT)
         # INITIALIZE LEFT AND RIGHT PINS AS PWM OUTPUT AT 50hz
         self.left_pwm = GPIO.PWM(self.left_pin, 50)
         self.right_pwm = GPIO.PWM(self.right_pin, 50)
@@ -45,8 +46,8 @@ class MotorController:
         self.stop()
 
     def __del__(self):
-        GPIO.cleanup()
+        self.GPIO.cleanup()
 
     # FUNCTION TO CLEAN UP USED RPi CHANNELS
     def end(self):
-        GPIO.cleanup()
+        self.GPIO.cleanup()

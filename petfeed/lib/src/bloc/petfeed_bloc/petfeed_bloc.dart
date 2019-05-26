@@ -66,7 +66,13 @@ class PetFeedBloc extends Bloc {
       _mapPetFeedInitialized(event);
     } else if (event is Treat) {
       _mapTreat(event);
+    } else if (event is LocalDeviceNotFound) {
+      _mapLocalDeviceNotFound(event);
     }
+  }
+
+  void _mapLocalDeviceNotFound(LocalDeviceNotFound event) {
+    addLocalConnection(false);
   }
 
   void treat({@required double amount}) {
@@ -101,7 +107,7 @@ class PetFeedBloc extends Bloc {
 
   void _mapPusherStatus(data) {
     Map<String, dynamic> mappedData = json.decode(data);
-    print('inside map psuerh status');
+    print('inside map pusher status');
     try {
       if (mappedData['status'] == 'online') {
         pusherConnected = true;

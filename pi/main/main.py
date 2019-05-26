@@ -2,13 +2,16 @@
 
 from server import FlaskServer
 from models.model import Model
+import RPi.GPIO as GPIO
 from hw_controllers.motor_controller import MotorController
 from pusher_server import PusherContainer
 from threading import Thread
 import signal
-from hw_controllers.motor_controller import MotorController
 
-motorController = MotorController()
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+motorController = MotorController(GPIO=GPIO)
 
 
 def flask_server():

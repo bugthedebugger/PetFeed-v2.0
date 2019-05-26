@@ -156,15 +156,29 @@ class _PetFeedPageState extends State<PetFeedPage> {
                                     SizedBox(width: ScreenUtil().setWidth(10)),
                                     StreamBuilder<bool>(
                                       stream: _bloc.localConnectionStream,
-                                      initialData: false,
                                       builder: (context, snapshot) {
-                                        return Icon(
-                                          snapshot.data
-                                              ? Icons.signal_wifi_4_bar
-                                              : Icons.signal_wifi_off,
-                                          size: FontSize.fontSize18,
-                                          color: Colors.black,
-                                        );
+                                        if (snapshot.hasData) {
+                                          return Icon(
+                                            snapshot.data
+                                                ? Icons.signal_wifi_4_bar
+                                                : Icons.signal_wifi_off,
+                                            size: FontSize.fontSize18,
+                                            color: Colors.black,
+                                          );
+                                        } else {
+                                          return SizedBox(
+                                            width: FontSize.fontSize12,
+                                            height: FontSize.fontSize12,
+                                            child: Theme(
+                                              data: ThemeData(
+                                                accentColor: Colors.black,
+                                              ),
+                                              child: CircularProgressIndicator(
+                                                backgroundColor: Colors.white,
+                                              ),
+                                            ),
+                                          );
+                                        }
                                       },
                                     ),
                                   ],

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="178252ff-02bd-47f2-9924-499e417dac7f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/main/pusher_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/pusher_server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/server.py" afterDir="false" />
-    </list>
+    <list default="true" id="178252ff-02bd-47f2-9924-499e417dac7f" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +12,7 @@
     <session id="1715599412">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="16" />
+          <entry key="project.closed" value="17" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.12" value="2" />
           <entry key="project.open.time.13" value="2" />
@@ -319,7 +316,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1360" y="27" width="1366" height="741" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24274014" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

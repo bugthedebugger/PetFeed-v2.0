@@ -152,7 +152,7 @@ class DeviceRegisterBloc extends Bloc {
   @override
   void dispose() {
     _eventStreamController.close();
-    _statusSubscription?.cancel();
-    _piConfigureSubscription?.cancel();
+    // _statusSubscription?.cancel();
+    // _piConfigureSubscription?.cancel();
   }
 }
