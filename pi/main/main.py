@@ -17,7 +17,8 @@ distanceSensor = Distance(GPIO=GPIO)
 
 
 def flask_server():
-    flaskServer = FlaskServer(motorController=motorController)
+    flaskServer = FlaskServer(
+        motorController=motorController, _distanceSensor=distanceSensor)
     flaskServer.start()
 
 
