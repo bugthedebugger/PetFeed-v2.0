@@ -40,7 +40,7 @@ def amount_trigger():
 if __name__ == '__main__':
     flask_thread = Thread(target=flask_server)
     pusher_thread = Thread(target=pusher_server)
-    amount_thread = Thread(target=amount_thread)
+    amount_thread = Thread(target=amount_trigger)
 
     flask_thread.start()
     pusher_thread.start()
