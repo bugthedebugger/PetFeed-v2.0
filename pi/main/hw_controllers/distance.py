@@ -49,6 +49,8 @@ class Distance:
         elif distance <= min:
             distance = min
 
+        print(distance)
+
         percentRemain = ((int(distance) - min) * 100) / (max - min)
 
         return percentRemain
