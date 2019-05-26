@@ -38,10 +38,12 @@ class FoodMeter extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               AnimatedPositioned(
-                duration: Duration(microseconds: 3000),
+                curve: Curves.easeInOut,
+                duration: Duration(milliseconds: 1000),
                 top: ScreenUtil().setHeight(meterHeight - remainHeight),
                 child: AnimatedContainer(
-                  duration: Duration(microseconds: 3000),
+                  curve: Curves.easeInOut,
+                  duration: Duration(milliseconds: 1000),
                   height: ScreenUtil().setHeight(remainHeight),
                   width: ScreenUtil().setWidth(20),
                   decoration: BoxDecoration(

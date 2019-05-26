@@ -112,7 +112,13 @@ class _PetFeedPageState extends State<PetFeedPage> {
                     vertical: ScreenUtil().setHeight(10),
                     horizontal: ScreenUtil().setWidth(15),
                   ),
-                  child: FoodMeter(percentRemain: foodRemain),
+                  child: StreamBuilder<double>(
+                    stream: _bloc.foodMeterStream,
+                    initialData: 10.0,
+                    builder: (context, snapshot) {
+                      return FoodMeter(percentRemain: snapshot.data);
+                    },
+                  ),
                 ),
                 // Information Cards
                 Padding(

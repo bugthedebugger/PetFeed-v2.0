@@ -28,6 +28,7 @@ class PetFeedBloc extends Bloc {
     init();
   }
 
+  // Stream controller for events
   StreamController<PetFeedEvents> _eventStreamController =
       StreamController<PetFeedEvents>.broadcast();
   Stream<PetFeedEvents> get eventStream => _eventStreamController.stream;
@@ -44,16 +45,31 @@ class PetFeedBloc extends Bloc {
   Stream<bool> get localConnectionStream => _localConnectionController.stream;
   Sink<bool> get _localConnectionSink => _localConnectionController.sink;
 
+  // FoodMeter StreamController
+  StreamController<double> _foodMeterStreamController =
+      StreamController<double>.broadcast();
+  Stream<double> get foodMeterStream => _foodMeterStreamController.stream;
+  Sink<double> get _foodMeterSink => _foodMeterStreamController.sink;
+
   Stream get pusherStatus => pusher.statusStream;
+  Stream get pusherFoodMeter => pusher.foodMeterStream;
 
   StreamSubscription _pusherStatusSub;
+  StreamSubscription _foodMeterSub;
 
   void init() async {
     _eventStreamController.stream.listen(_mapEventsToState);
     String accessToken = preferences.get('token');
     String deviceID = preferences.get('deviceID');
     await pusher.connect(deviceID, accessToken);
+
+    if (preferences.getDouble('foodMeter') == null)
+      addFood(10.0);
+    else
+      addFood(preferences.getDouble('foodMeter'));
+
     _pusherStatusSub = pusherStatus.listen(_mapPusherStatus);
+    _foodMeterSub = pusherFoodMeter.listen(_mapFoodMeter);
     dispatch(
       PetFeedInitialized((b) => b
         ..token = accessToken
@@ -69,6 +85,11 @@ class PetFeedBloc extends Bloc {
     } else if (event is LocalDeviceNotFound) {
       _mapLocalDeviceNotFound(event);
     }
+  }
+
+  void _mapFoodMeter(data) {
+    Map<String, dynamic> mappedData = json.decode(data);
+    addFood(mappedData['amount']);
   }
 
   void _mapLocalDeviceNotFound(LocalDeviceNotFound event) {
@@ -146,6 +167,11 @@ class PetFeedBloc extends Bloc {
     }
   }
 
+  void addFood(double amount) {
+    _foodMeterSink.add(amount);
+    preferences.setDouble('foodMeter', amount);
+  }
+
   void addData(Map<String, dynamic> data) {
     _pusherSink.add(data);
   }
@@ -160,9 +186,9 @@ class PetFeedBloc extends Bloc {
 
   @override
   void dispose() {
-    _pusherStatusSub?.cancel();
     _eventStreamController?.close();
     _pusherStreamController?.close();
     _localConnectionController?.close();
+    _foodMeterStreamController?.close();
   }
 }

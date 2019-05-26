@@ -23,6 +23,7 @@ public class MainActivity extends FlutterActivity {
   String PUSHER_STATUS = "petfeed/pusher-status";
   String PUSHER_DISPOSE = "petfeed/pusher-dispose";
   String PUSHER_CONFIGURE_STATUS = "petfeed/pusher-configure-status";
+  String PUSHER_FOOD_METER = "petfeed/pusher-food-meter";
 
   HashMap<String, String> pusherEventData;
   String pusherEvent;
@@ -195,6 +196,55 @@ public class MainActivity extends FlutterActivity {
           @Override
           public void onEvent(String channelName, String eventName, final String data) {
             // System.out.println("Unbined");
+          }
+        });
+      }
+    });
+
+    new EventChannel(getFlutterView(), PUSHER_FOOD_METER).setStreamHandler(new EventChannel.StreamHandler() {
+      @Override
+      public void onListen(Object args, EventChannel.EventSink events) {
+        try {
+          // System.out.println("WTF");
+          channel.bind("petfeed-pi-food-meter", new PrivateChannelEventListener() {
+            @Override
+            public void onAuthenticationFailure(String message, Exception e) {
+              System.out.println(String.format("Authentication failure due to [%s], exception was [%s]", message, e));
+            }
+
+            @Override
+            public void onSubscriptionSucceeded(String channelName) {
+              System.out.println("Subscribed to channel: " + channelName);
+            }
+
+            @Override
+            public void onEvent(String channelName, String eventName, final String data) {
+              System.out.println("I am trying to figure this shit");
+              // System.out.println(deviceStatus);
+              events.success(data);
+            }
+          });
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+
+      @Override
+      public void onCancel(Object args) {
+        channel.unbind("petfeed-pi-food-meter", new PrivateChannelEventListener() {
+          @Override
+          public void onAuthenticationFailure(String message, Exception e) {
+            System.out.println(String.format("Authentication failure due to [%s], exception was [%s]", message, e));
+          }
+
+          @Override
+          public void onSubscriptionSucceeded(String channelName) {
+            System.out.println("Subscribed to channel: " + channelName);
+          }
+
+          @Override
+          public void onEvent(String channelName, String eventName, final String data) {
+            System.out.println("Unbined");
           }
         });
       }
