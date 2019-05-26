@@ -38,3 +38,17 @@ class Distance:
         distance = (TimeElapsed * 34300) / 2
 
         return distance
+
+    def fish(self):
+        max = 11
+        min = 2
+
+        distance = self.distance()
+        if distance >= max:
+            distance = max
+        elif distance <= min:
+            distance = min
+
+        percentRemain = ((int(distance) - min) * 100) / (max - min)
+
+        return percentRemain
