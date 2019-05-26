@@ -56,4 +56,4 @@ class Distance:
 
         percentRemain = ((int(distance) - min) * 100) / (max - min)
 
-        return percentRemain
+        return 100 - percentRemain
