@@ -30,9 +30,6 @@ class DeviceRegisterBloc extends Bloc {
   Stream get _pusherStatusStream => pusher.statusStream;
   Stream get _pusherPiConfigureStream => pusher.piConfigureStream;
 
-  StreamSubscription _statusSubscription;
-  StreamSubscription _piConfigureSubscription;
-
   DeviceRegisterBloc(this.repository, this.preferences, this.pusher) {
     init();
   }
@@ -44,8 +41,8 @@ class DeviceRegisterBloc extends Bloc {
   void pusherListen() {
     if (!listeningStatus) {
       listeningStatus = true;
-      _statusSubscription = _pusherStatusStream.listen(_mapRegister);
-      _piConfigureSubscription = _pusherPiConfigureStream.listen(_mapConfigure);
+      _pusherStatusStream.listen(_mapRegister);
+      _pusherPiConfigureStream.listen(_mapConfigure);
     }
   }
 

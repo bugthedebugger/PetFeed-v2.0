@@ -7,6 +7,7 @@ import 'package:petfeed/src/bloc/petfeed_bloc/petfeed_bloc_export.dart';
 import 'package:petfeed/src/widgets/bottom_flow_widget/bottom_flow_widget.dart';
 import 'package:petfeed/src/widgets/chat_bubble/chat_bubble.dart';
 import 'package:petfeed/src/widgets/count_down_timer/count_down_widget.dart';
+import 'package:petfeed/src/widgets/drawer/drawer.dart';
 import 'package:petfeed/src/widgets/food_meter/food_meter.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'package:petfeed/src/widgets/petfeed_card/petfeed_card.dart';
@@ -65,40 +66,27 @@ class _PetFeedPageState extends State<PetFeedPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: Builder(
+        builder: (context) => AppDrawer(),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
         title: PetFeedLogo(),
-        leading: IconButton(
-          icon: Icon(
-            FontAwesomeIcons.bars,
-            color: Colors.black,
-          ),
-          onPressed: () {},
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Icon(
+                FontAwesomeIcons.bars,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
         ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(
-              right: ScreenUtil().setWidth(10),
-              top: ScreenUtil().setHeight(5),
-              bottom: ScreenUtil().setHeight(5),
-            ),
-            child: Container(
-              width: ScreenUtil().setWidth(35),
-              height: ScreenUtil().setWidth(35),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: ClipOval(
-                child: Image.asset(
-                  Photos.BHUNTE,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: <Widget>[

@@ -9,4 +9,5 @@ class Routes {
   static const WIFI_SETUP = '/wifi-setup';
   static const CALLIBRATE_DEVICE = '/callibrate-device';
   static const PET_SETUP = '/pet-setup';
+  static const SCHEDULES = 'schedules';
 }

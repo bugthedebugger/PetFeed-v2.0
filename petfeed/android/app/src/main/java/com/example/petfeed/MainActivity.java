@@ -121,7 +121,7 @@ public class MainActivity extends FlutterActivity {
 
             @Override
             public void onEvent(String channelName, String eventName, final String data) {
-              System.out.println("I am trying to figure this shit");
+              // System.out.println("I am trying to figure this shit");
               // System.out.println(deviceStatus);
               events.success(data);
             }
@@ -219,7 +219,7 @@ public class MainActivity extends FlutterActivity {
 
             @Override
             public void onEvent(String channelName, String eventName, final String data) {
-              System.out.println("I am trying to figure this shit");
+              // System.out.println("I am trying to figure this shit");
               // System.out.println(deviceStatus);
               events.success(data);
             }

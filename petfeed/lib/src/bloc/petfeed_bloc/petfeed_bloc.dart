@@ -54,9 +54,6 @@ class PetFeedBloc extends Bloc {
   Stream get pusherStatus => pusher.statusStream;
   Stream get pusherFoodMeter => pusher.foodMeterStream;
 
-  StreamSubscription _pusherStatusSub;
-  StreamSubscription _foodMeterSub;
-
   void init() async {
     _eventStreamController.stream.listen(_mapEventsToState);
     String accessToken = preferences.get('token');
@@ -68,8 +65,8 @@ class PetFeedBloc extends Bloc {
     else
       addFood(preferences.getDouble('foodMeter'));
 
-    _pusherStatusSub = pusherStatus.listen(_mapPusherStatus);
-    _foodMeterSub = pusherFoodMeter.listen(_mapFoodMeter);
+    pusherStatus.listen(_mapPusherStatus);
+    pusherFoodMeter.listen(_mapFoodMeter);
     dispatch(
       PetFeedInitialized((b) => b
         ..token = accessToken
