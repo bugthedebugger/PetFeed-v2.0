@@ -267,6 +267,7 @@ network={
         results = db.selectAll(device)
         device.from_map(results[0])
         data = request.get_json()
+        responseSchedules = []
 
         if device.accessToken == data['accessToken']:
 
@@ -298,23 +299,21 @@ network={
                         schedule = Schedule()
                         schedule.from_map(schedule_map)
                         db.insert(schedule)
-                response = {
-                    'connection': 'local',
-                    'status': 'success',
-                    'message': 'Schedule(s) added successfully.'
+                        responseSchedules.append(schedule.to_map())
+
+            response = {
+                'connection': 'local',
+                'status': 'success',
+                'message': 'Schedule(s) added successfully.',
+                'data': {
+                    'schedules': responseSchedules
                 }
+            }
+
             return jsonify(response)
 
         else:
             return jsonify(unauthenticated_response), 401
-
-        return 'ok'
-
-        # if userToken == device.accessToken:
-        #     groupId = utils.getID(20)
-
-        # else:
-        #     return jsonify(unauthenticated_response), 401
 
     def start(self):
         self.app.run(host='0.0.0.0', port=8848, debug=False)
