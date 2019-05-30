@@ -269,6 +269,8 @@ network={
 
         print(data)
 
+        return data
+
         # if userToken == device.accessToken:
         #     groupId = utils.getID(20)
 
