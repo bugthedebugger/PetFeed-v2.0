@@ -70,4 +70,4 @@ if __name__ == '__main__':
     flask_thread.start()
     pusher_thread.start()
     amount_thread.start()
-    scheduled_feeding.start()
+    scheduled_feeding_thread.start()
