@@ -54,7 +54,7 @@ def scheduled_feeding():
         for result in results:
             schedule = Schedule()
             schedule.from_map(result)
-            print(now_time + ' --- ' + schedule.time)
+            print(now_time + ' --- ' + schedule.time.strftime('%H:%M:%S'))
             print(now_time == schedule.time)
             if schedule.day == today_day and schedule.time == now_time:
                 print('inside first if')
