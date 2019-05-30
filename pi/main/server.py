@@ -269,13 +269,13 @@ network={
 
         data = request.get_json()
         schedules = data['schedules']
+        petID = data['petId']
 
         for s in schedules:
             groupId = utils.getID(20)
             feedTimes = s['feedTimes']
             amount = s['amount']
             repeats = s['repeat']
-            petID = s['petId']
 
             for day in repeats:
                 for feedTime in feedTimes:
