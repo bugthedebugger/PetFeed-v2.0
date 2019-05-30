@@ -56,7 +56,7 @@ def scheduled_feeding():
             schedule.from_map(result)
             print(now_time + ' --- ' + str(schedule.time))
             print(now_time == schedule.time)
-            if schedule.day == today_day and schedule.time == now_time:
+            if schedule.day == today_day and str(schedule.time) == now_time:
                 print('inside first if')
                 if device.type == 'Fish':
                     motorController.fish(duration=schedule.amount)
