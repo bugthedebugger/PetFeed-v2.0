@@ -32,11 +32,11 @@ class Schedule(Model):
             'day': self.day,
             'feedTime': self.time,
             'amount': self.amount,
-            'synced': self.synced,
+            'synced': True if self.synced == 1 else False,
             'groupId': self.groupId,
             'petId': self.petId,
-            'uploaded': self.uploaded,
-            'deleted': self.deleted,
+            'uploaded': True if self.uploaded == 1 else False,
+            'deleted': True if self.deleted == 1 else False,
             'uId': self.uId
         }
 
@@ -51,9 +51,9 @@ class Schedule(Model):
             self.day = data_map['day']
             self.time = data_map['feedTime']
             self.amount = data_map['amount']
-            self.synced = data_map['synced']
+            self.synced = 1 if data_map['synced'] else 0
             self.groupId = data_map['groupId']
             self.petId = data_map['petId']
-            self.uploaded = data_map['uploaded']
-            self.deleted = data_map['deleted']
+            self.uploaded = 1 if data_map['uploaded'] else 0
+            self.deleted = 1 if data_map['deleted'] else 0
             self.uId = data_map['uId']
