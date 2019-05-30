@@ -269,7 +269,7 @@ network={
 
         print(data)
 
-        return data
+        return 'ok'
 
         # if userToken == device.accessToken:
         #     groupId = utils.getID(20)
