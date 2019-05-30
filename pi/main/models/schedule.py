@@ -32,11 +32,11 @@ class Schedule(Model):
             'day': self.day,
             'feedTime': self.time,
             'amount': self.amount,
-            'synced': True if self.synced == 1 else False,
+            'synced': self.synced,
             'groupId': self.groupId,
             'petId': self.petId,
-            'uploaded': True if self.uploaded == 1 else False,
-            'deleted': True if self.deleted == 1 else False,
+            'uploaded': self.uploaded,
+            'deleted': self.deleted,
             'uId': self.uId
         }
 
