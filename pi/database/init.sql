@@ -41,3 +41,9 @@ IF NOT EXISTS history
 	fed BOOLEAN DEFAULT FALSE,
     synced BOOLEAN DEFAULT FALSE
 );
+
+ALTER TABLE schedule 
+    ADD uploaded BOOLEAN DEFAULT FALSE,
+    ADD deleted BOOLEAN DEFAULT FALSE,
+    ADD groupId VARCHAR(20),
+    ADD petId INTEGER;

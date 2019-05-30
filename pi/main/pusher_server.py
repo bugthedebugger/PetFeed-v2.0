@@ -94,8 +94,10 @@ class PusherContainer:
             self.pusherEvent.trigger(self.channel, 'petfeed-pi-treat', {
                 'connection': 'global',
                 'status': 'success',
-                'message': 'Device configured successful.'
+                'message': 'Treat success.'
             })
+
+            self.foodMeter()
         else:
             print('access token mismatch')
 

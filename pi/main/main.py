@@ -36,6 +36,14 @@ def amount_trigger():
         time.sleep(10)
 
 
+def scheduled_feeding():
+    pass
+
+
+def sync_to_server():
+    pass
+
+
 if __name__ == '__main__':
     flask_thread = Thread(target=flask_server)
     pusher_thread = Thread(target=pusher_server)
