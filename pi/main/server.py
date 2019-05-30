@@ -7,7 +7,9 @@ from flask import request
 # from hw_controllers.motor_controller import MotorController
 from models.device import Device
 from models.dbcontroller import DBController
+from models.schedule import Schedule
 import utils
+from datetime import datetime
 
 
 # motors = MotorController()
@@ -266,6 +268,34 @@ network={
         device.from_map(results[0])
 
         data = request.get_json()
+        schedules = data['schedules']
+
+        for s in schedules:
+            groupId = utils.getID(20)
+            feedTimes = s['feedTimes']
+            amount = s['amount']
+            repeats = s['repeat']
+            petID = s['petId']
+
+            for day in repeats:
+                for feedTime in feedTimes:
+                    uniqueId = utils.getID(20)
+                    time = datetime.strptime(
+                        feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M:%S')
+                    schedule_map = {
+                        'day': day,
+                        'uId': uniqueId,
+                        'feedTime': time,
+                        'amount': amount,
+                        'synced': False,
+                        'groupId': groupId,
+                        'petId': petID,
+                        'uploaded': False,
+                        'deleted': False
+                    }
+                    schedule = Schedule()
+                    schedule.from_map(schedule_map)
+                    db.insert(schedule)
 
         print(data)
 
