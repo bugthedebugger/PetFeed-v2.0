@@ -266,38 +266,47 @@ network={
         device = Device()
         results = db.selectAll(device)
         device.from_map(results[0])
-
         data = request.get_json()
-        schedules = data['schedules']
-        petID = data['petId']
 
-        for s in schedules:
-            groupId = utils.getID(20)
-            feedTimes = s['feedTimes']
-            amount = s['amount']
-            repeats = s['repeat']
+        if device.accessToken == data['accessToken']:
 
-            for day in repeats:
-                for feedTime in feedTimes:
-                    uniqueId = utils.getID(20)
-                    time = datetime.strptime(
-                        feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M:%S')
-                    schedule_map = {
-                        'day': day,
-                        'uId': uniqueId,
-                        'feedTime': time,
-                        'amount': amount,
-                        'synced': False,
-                        'groupId': groupId,
-                        'petId': petID,
-                        'uploaded': False,
-                        'deleted': False
-                    }
-                    schedule = Schedule()
-                    schedule.from_map(schedule_map)
-                    db.insert(schedule)
+            schedules = data['schedules']
+            petID = data['petId']
 
-        print(data)
+            for s in schedules:
+                groupId = utils.getID(20)
+                feedTimes = s['feedTimes']
+                amount = s['amount']
+                repeats = s['repeat']
+
+                for day in repeats:
+                    for feedTime in feedTimes:
+                        uniqueId = utils.getID(20)
+                        time = datetime.strptime(
+                            feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M:%S')
+                        schedule_map = {
+                            'day': day,
+                            'uId': uniqueId,
+                            'feedTime': time,
+                            'amount': amount,
+                            'synced': False,
+                            'groupId': groupId,
+                            'petId': petID,
+                            'uploaded': False,
+                            'deleted': False
+                        }
+                        schedule = Schedule()
+                        schedule.from_map(schedule_map)
+                        db.insert(schedule)
+                response = {
+                    'connection': 'local',
+                    'status': 'success',
+                    'message': 'Schedule(s) added successfully.'
+                }
+            return jsonify(response)
+
+        else:
+            return jsonify(unauthenticated_response), 401
 
         return 'ok'
 
