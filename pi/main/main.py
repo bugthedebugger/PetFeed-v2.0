@@ -4,6 +4,7 @@ from server import FlaskServer
 from models.model import Model
 from models.dbcontroller import DBController
 from models.schedule import Schedule
+from models.device import Device
 import RPi.GPIO as GPIO
 from hw_controllers.motor_controller import MotorController
 from hw_controllers.distance import Distance
