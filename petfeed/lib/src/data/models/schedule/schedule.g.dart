@@ -20,16 +20,22 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
     final result = <Object>[
       'feedTimes',
       serializers.serialize(object.feedTimes,
-          specifiedType: const FullType(
-              BuiltList, const [const FullType(prefix0.TimeOfDay)])),
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
       'amount',
       serializers.serialize(object.amount,
           specifiedType: const FullType(double)),
-      'repeatDays',
-      serializers.serialize(object.repeatDays,
+      'repeat',
+      serializers.serialize(object.repeat,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
     ];
+    if (object.groupID != null) {
+      result
+        ..add('groupID')
+        ..add(serializers.serialize(object.groupID,
+            specifiedType: const FullType(String)));
+    }
 
     return result;
   }
@@ -47,19 +53,23 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
       switch (key) {
         case 'feedTimes':
           result.feedTimes.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(prefix0.TimeOfDay)]))
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(String)]))
               as BuiltList);
           break;
         case 'amount':
           result.amount = serializers.deserialize(value,
               specifiedType: const FullType(double)) as double;
           break;
-        case 'repeatDays':
-          result.repeatDays.replace(serializers.deserialize(value,
+        case 'repeat':
+          result.repeat.replace(serializers.deserialize(value,
                   specifiedType:
                       const FullType(BuiltList, const [const FullType(String)]))
               as BuiltList);
+          break;
+        case 'groupID':
+          result.groupID = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
       }
     }
@@ -70,24 +80,27 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
 
 class _$Schedule extends Schedule {
   @override
-  final BuiltList<prefix0.TimeOfDay> feedTimes;
+  final BuiltList<String> feedTimes;
   @override
   final double amount;
   @override
-  final BuiltList<String> repeatDays;
+  final BuiltList<String> repeat;
+  @override
+  final String groupID;
 
   factory _$Schedule([void Function(ScheduleBuilder) updates]) =>
       (new ScheduleBuilder()..update(updates)).build();
 
-  _$Schedule._({this.feedTimes, this.amount, this.repeatDays}) : super._() {
+  _$Schedule._({this.feedTimes, this.amount, this.repeat, this.groupID})
+      : super._() {
     if (feedTimes == null) {
       throw new BuiltValueNullFieldError('Schedule', 'feedTimes');
     }
     if (amount == null) {
       throw new BuiltValueNullFieldError('Schedule', 'amount');
     }
-    if (repeatDays == null) {
-      throw new BuiltValueNullFieldError('Schedule', 'repeatDays');
+    if (repeat == null) {
+      throw new BuiltValueNullFieldError('Schedule', 'repeat');
     }
   }
 
@@ -104,13 +117,15 @@ class _$Schedule extends Schedule {
     return other is Schedule &&
         feedTimes == other.feedTimes &&
         amount == other.amount &&
-        repeatDays == other.repeatDays;
+        repeat == other.repeat &&
+        groupID == other.groupID;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc(0, feedTimes.hashCode), amount.hashCode), repeatDays.hashCode));
+        $jc($jc($jc(0, feedTimes.hashCode), amount.hashCode), repeat.hashCode),
+        groupID.hashCode));
   }
 
   @override
@@ -118,7 +133,8 @@ class _$Schedule extends Schedule {
     return (newBuiltValueToStringHelper('Schedule')
           ..add('feedTimes', feedTimes)
           ..add('amount', amount)
-          ..add('repeatDays', repeatDays))
+          ..add('repeat', repeat)
+          ..add('groupID', groupID))
         .toString();
   }
 }
@@ -126,21 +142,23 @@ class _$Schedule extends Schedule {
 class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
   _$Schedule _$v;
 
-  ListBuilder<prefix0.TimeOfDay> _feedTimes;
-  ListBuilder<prefix0.TimeOfDay> get feedTimes =>
-      _$this._feedTimes ??= new ListBuilder<prefix0.TimeOfDay>();
-  set feedTimes(ListBuilder<prefix0.TimeOfDay> feedTimes) =>
-      _$this._feedTimes = feedTimes;
+  ListBuilder<String> _feedTimes;
+  ListBuilder<String> get feedTimes =>
+      _$this._feedTimes ??= new ListBuilder<String>();
+  set feedTimes(ListBuilder<String> feedTimes) => _$this._feedTimes = feedTimes;
 
   double _amount;
   double get amount => _$this._amount;
   set amount(double amount) => _$this._amount = amount;
 
-  ListBuilder<String> _repeatDays;
-  ListBuilder<String> get repeatDays =>
-      _$this._repeatDays ??= new ListBuilder<String>();
-  set repeatDays(ListBuilder<String> repeatDays) =>
-      _$this._repeatDays = repeatDays;
+  ListBuilder<String> _repeat;
+  ListBuilder<String> get repeat =>
+      _$this._repeat ??= new ListBuilder<String>();
+  set repeat(ListBuilder<String> repeat) => _$this._repeat = repeat;
+
+  String _groupID;
+  String get groupID => _$this._groupID;
+  set groupID(String groupID) => _$this._groupID = groupID;
 
   ScheduleBuilder();
 
@@ -148,7 +166,8 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
     if (_$v != null) {
       _feedTimes = _$v.feedTimes?.toBuilder();
       _amount = _$v.amount;
-      _repeatDays = _$v.repeatDays?.toBuilder();
+      _repeat = _$v.repeat?.toBuilder();
+      _groupID = _$v.groupID;
       _$v = null;
     }
     return this;
@@ -175,15 +194,16 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
           new _$Schedule._(
               feedTimes: feedTimes.build(),
               amount: amount,
-              repeatDays: repeatDays.build());
+              repeat: repeat.build(),
+              groupID: groupID);
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'feedTimes';
         feedTimes.build();
 
-        _$failedField = 'repeatDays';
-        repeatDays.build();
+        _$failedField = 'repeat';
+        repeat.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'Schedule', _$failedField, e.toString());

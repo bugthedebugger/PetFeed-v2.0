@@ -7,6 +7,7 @@ from flask import request
 # from hw_controllers.motor_controller import MotorController
 from models.device import Device
 from models.dbcontroller import DBController
+import utils
 
 
 # motors = MotorController()
@@ -264,12 +265,15 @@ network={
         results = db.selectAll(device)
         device.from_map(results[0])
 
-        userToken = request.get_json()['accessToken']
+        data = request.get_json()
 
-        if userToken == device.accessToken:
-            pass
-        else:
-            return jsonify(unauthenticated_response), 401
+        print(data)
+
+        # if userToken == device.accessToken:
+        #     groupId = utils.getID(20)
+
+        # else:
+        #     return jsonify(unauthenticated_response), 401
 
     def start(self):
         self.app.run(host='0.0.0.0', port=8848, debug=False)

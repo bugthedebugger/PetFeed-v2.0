@@ -13,8 +13,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Schedule.serializer)
       ..add(User.serializer)
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(TimeOfDay)]),
-          () => new ListBuilder<TimeOfDay>())
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>()))

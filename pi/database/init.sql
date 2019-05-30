@@ -46,4 +46,5 @@ ALTER TABLE schedule
     ADD uploaded BOOLEAN DEFAULT FALSE,
     ADD deleted BOOLEAN DEFAULT FALSE,
     ADD groupId VARCHAR(20),
-    ADD petId INTEGER;
+    ADD petId INTEGER,
+    ADD uId VARCHAR(20) UNIQUE;

@@ -21,6 +21,7 @@ part 'serializer.g.dart';
   BuiltList,
   Schedule,
   Schedules,
+  DateTime,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

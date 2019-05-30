@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/data/network/local/pi_data_source.dart';
 import 'package:petfeed/src/widgets/feed_time_title/feed_time_title.dart';
 import 'package:petfeed/src/widgets/schedule_checkbox/schedule_checkbox.dart';
 import 'package:petfeed/src/widgets/schedule_time_list/schedule_time_list.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 
 class AddScheduleDialog extends StatefulWidget {
   const AddScheduleDialog({
@@ -17,6 +19,8 @@ class AddScheduleDialog extends StatefulWidget {
 class _AddScheduleDialogState extends State<AddScheduleDialog> {
   List<TimeOfDay> feedTimes = List<TimeOfDay>();
   List<String> repeatDays = List<String>();
+
+  final PiDataSource dataSource = kiwi.Container().resolve<PiDataSource>();
 
   bool sunday = false;
   bool monday = false;
@@ -246,7 +250,9 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
                       RaisedButton(
                         elevation: 0,
                         color: Color(AppColors.GREEN),
-                        onPressed: () {},
+                        onPressed: () async {
+                          dataSource.addSchedule();
+                        },
                         child: Text(
                           'Save',
                           style: TextStyle(
