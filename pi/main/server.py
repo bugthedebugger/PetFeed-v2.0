@@ -305,9 +305,7 @@ network={
                 'connection': 'local',
                 'status': 'success',
                 'message': 'Schedule(s) added successfully.',
-                'data': {
-                    'schedules': responseSchedules
-                }
+                'schedules': responseSchedules
             }
 
             return jsonify(response)
