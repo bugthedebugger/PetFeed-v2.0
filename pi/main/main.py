@@ -16,7 +16,6 @@ import time
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-db = DBController()
 motorController = MotorController(GPIO=GPIO)
 distanceSensor = Distance(GPIO=GPIO)
 pusherContainer = PusherContainer(
@@ -41,7 +40,7 @@ def amount_trigger():
 
 
 def scheduled_feeding():
-
+    db = DBController()
     results = db.selectAll(Device())
     device.from_map(results[0])
 
