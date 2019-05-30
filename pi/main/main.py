@@ -43,6 +43,7 @@ def amount_trigger():
 def scheduled_feeding():
     db = DBController()
     results = db.selectAll(Device())
+    device = Device()
     device.from_map(results[0])
 
     while True:
@@ -51,6 +52,7 @@ def scheduled_feeding():
         results = db.selectAll(Schedule())
 
         for result in results:
+            schedule = Schedule()
             schedule.from_map(result)
             if schedule.day == today_day and schedule.time == now_time:
                 if device.type == 'Fish':
