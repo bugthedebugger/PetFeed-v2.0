@@ -2,6 +2,7 @@
 
 from server import FlaskServer
 from models.model import Model
+from models.dbcontroller import DBController
 from models.schedule import Schedule
 import RPi.GPIO as GPIO
 from hw_controllers.motor_controller import MotorController
@@ -15,6 +16,7 @@ import time
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
+db = DBController()
 motorController = MotorController(GPIO=GPIO)
 distanceSensor = Distance(GPIO=GPIO)
 pusherContainer = PusherContainer(
