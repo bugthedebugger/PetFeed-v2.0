@@ -1,12 +1,11 @@
 import 'dart:convert';
-
-import 'package:built_collection/built_collection.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:petfeed/src/data/exceptions/custom_exceptions.dart';
 import 'package:petfeed/src/data/exceptions/device_not_found_exception.dart';
 import 'package:petfeed/src/data/models/local_status/local_status.dart';
-import 'package:petfeed/src/data/models/schedule/schedule.dart';
+import 'package:petfeed/src/data/models/local_status/schedule_status.dart';
+import 'package:petfeed/src/data/models/schedules/schedules.dart';
 import 'package:petfeed/src/data/network/api_routes.dart';
 import 'package:petfeed/src/data/network/local/pi_scanner.dart';
 import 'dart:async';
@@ -111,22 +110,29 @@ class PiDataSource {
     }
   }
 
-  Future addSchedule() async {
-    String url = "https://test.com";
-    Schedule schedule = Schedule(
-      (b) => b
-        ..amount = 20
-        ..feedTimes = ListBuilder<String>(
-          [
-            DateTime.now().toLocal().toString(),
-            DateTime.now().toLocal().toString(),
-            DateTime.now().toLocal().toString(),
-          ],
-        )
-        ..repeat = ListBuilder<String>(['Sunday', 'Monday']),
-    );
+  Future<ScheduleStatus> addSchedule({@required Schedules schedules}) async {
+    bool status = await ping();
+    if (status) {
+      String ip = preferences.get('deviceIP');
+      print(schedules.toJson());
+      final response = await client.post(
+        ip + LocalApiRoutes.CREATE_SCHEDULE,
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: schedules.toJson(),
+      );
 
-    print(schedule.toJson());
-    // client.post(url, body: {schedule: schedule.toJson()});
+      print(response.body);
+
+      if (response.statusCode == 200)
+        return ScheduleStatus.fromJson(response.body);
+      else if (response.statusCode == 401)
+        throw UnauthenticatedException();
+      else
+        throw LocalException(response.body);
+    } else {
+      throw DeviceNotFoundException();
+    }
   }
 }

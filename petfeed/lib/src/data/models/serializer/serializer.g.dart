@@ -8,10 +8,19 @@ part of serializer;
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DeviceAccessToken.serializer)
+      ..add(LocalSchedule.serializer)
       ..add(LocalStatus.serializer)
       ..add(Pet.serializer)
       ..add(Schedule.serializer)
+      ..add(ScheduleStatus.serializer)
+      ..add(Schedules.serializer)
       ..add(User.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(LocalSchedule)]),
+          () => new ListBuilder<LocalSchedule>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Schedule)]),
+          () => new ListBuilder<Schedule>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

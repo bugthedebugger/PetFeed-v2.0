@@ -22,6 +22,11 @@ class _$SchedulesSerializer implements StructuredSerializer<Schedules> {
       serializers.serialize(object.schedules,
           specifiedType:
               const FullType(BuiltList, const [const FullType(Schedule)])),
+      'petId',
+      serializers.serialize(object.petId, specifiedType: const FullType(int)),
+      'accessToken',
+      serializers.serialize(object.accessToken,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -43,6 +48,14 @@ class _$SchedulesSerializer implements StructuredSerializer<Schedules> {
               specifiedType: const FullType(
                   BuiltList, const [const FullType(Schedule)])) as BuiltList);
           break;
+        case 'petId':
+          result.petId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'accessToken':
+          result.accessToken = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
       }
     }
 
@@ -53,13 +66,23 @@ class _$SchedulesSerializer implements StructuredSerializer<Schedules> {
 class _$Schedules extends Schedules {
   @override
   final BuiltList<Schedule> schedules;
+  @override
+  final int petId;
+  @override
+  final String accessToken;
 
   factory _$Schedules([void Function(SchedulesBuilder) updates]) =>
       (new SchedulesBuilder()..update(updates)).build();
 
-  _$Schedules._({this.schedules}) : super._() {
+  _$Schedules._({this.schedules, this.petId, this.accessToken}) : super._() {
     if (schedules == null) {
       throw new BuiltValueNullFieldError('Schedules', 'schedules');
+    }
+    if (petId == null) {
+      throw new BuiltValueNullFieldError('Schedules', 'petId');
+    }
+    if (accessToken == null) {
+      throw new BuiltValueNullFieldError('Schedules', 'accessToken');
     }
   }
 
@@ -73,18 +96,24 @@ class _$Schedules extends Schedules {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Schedules && schedules == other.schedules;
+    return other is Schedules &&
+        schedules == other.schedules &&
+        petId == other.petId &&
+        accessToken == other.accessToken;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, schedules.hashCode));
+    return $jf($jc(
+        $jc($jc(0, schedules.hashCode), petId.hashCode), accessToken.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Schedules')
-          ..add('schedules', schedules))
+          ..add('schedules', schedules)
+          ..add('petId', petId)
+          ..add('accessToken', accessToken))
         .toString();
   }
 }
@@ -98,11 +127,21 @@ class SchedulesBuilder implements Builder<Schedules, SchedulesBuilder> {
   set schedules(ListBuilder<Schedule> schedules) =>
       _$this._schedules = schedules;
 
+  int _petId;
+  int get petId => _$this._petId;
+  set petId(int petId) => _$this._petId = petId;
+
+  String _accessToken;
+  String get accessToken => _$this._accessToken;
+  set accessToken(String accessToken) => _$this._accessToken = accessToken;
+
   SchedulesBuilder();
 
   SchedulesBuilder get _$this {
     if (_$v != null) {
       _schedules = _$v.schedules?.toBuilder();
+      _petId = _$v.petId;
+      _accessToken = _$v.accessToken;
       _$v = null;
     }
     return this;
@@ -125,7 +164,11 @@ class SchedulesBuilder implements Builder<Schedules, SchedulesBuilder> {
   _$Schedules build() {
     _$Schedules _$result;
     try {
-      _$result = _$v ?? new _$Schedules._(schedules: schedules.build());
+      _$result = _$v ??
+          new _$Schedules._(
+              schedules: schedules.build(),
+              petId: petId,
+              accessToken: accessToken);
     } catch (_) {
       String _$failedField;
       try {

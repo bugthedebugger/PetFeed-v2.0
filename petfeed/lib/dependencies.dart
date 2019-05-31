@@ -7,6 +7,7 @@ import 'package:petfeed/src/bloc/login_bloc/login_bloc.dart';
 import 'package:petfeed/src/bloc/pet_bloc/pet_bloc.dart';
 import 'package:petfeed/src/bloc/petfeed_bloc/petfeed_bloc.dart';
 import 'package:petfeed/src/bloc/register_bloc/register_bloc.dart';
+import 'package:petfeed/src/bloc/schedules_bloc/schedules_bloc.dart';
 import 'package:petfeed/src/bloc/wifi_setup_bloc/wifi_setup_bloc_export.dart';
 import 'package:petfeed/src/data/network/local/pi_data_source.dart';
 import 'package:petfeed/src/data/network/local/pi_scanner.dart';
@@ -48,4 +49,5 @@ Future initKiwi() async {
       (c) => PetBloc(c.resolve(), c.resolve<SharedPreferences>()));
   Container().registerFactory((c) => PetFeedBloc(
       c.resolve(), c.resolve(), c.resolve<SharedPreferences>(), c.resolve()));
+  Container().registerFactory((c) => SchedulesBloc(c.resolve(), c.resolve<SharedPreferences>()));
 }

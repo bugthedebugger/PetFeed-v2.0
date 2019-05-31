@@ -34,6 +34,7 @@ dependencies:
   connectivity: ^0.4.3+1
   get_ip: ^0.3.0
   shared_preferences: ^0.5.2
+  sqflite: ^1.1.5
 
 dev_dependencies:
   flutter_test:

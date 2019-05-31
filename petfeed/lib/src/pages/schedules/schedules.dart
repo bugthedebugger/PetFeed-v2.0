@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/app_colors.dart';
 import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/bloc/bloc_provider.dart';
+import 'package:petfeed/src/bloc/schedules_bloc/schedules_bloc_export.dart';
 import 'package:petfeed/src/widgets/add_schedule_dialog/add_schedule_dialog.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'package:petfeed/src/widgets/schedule_card/schedule_card.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 
 class Schedules extends StatefulWidget {
   @override
@@ -12,6 +15,20 @@ class Schedules extends StatefulWidget {
 }
 
 class _SchedulesState extends State<Schedules> {
+  final SchedulesBloc bloc = kiwi.Container().resolve<SchedulesBloc>();
+  Widget test;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
+
   List<TimeOfDay> feedTimes = [
     TimeOfDay.now(),
     TimeOfDay.now(),
@@ -23,6 +40,10 @@ class _SchedulesState extends State<Schedules> {
 
   @override
   Widget build(BuildContext context) {
+    test = BlocProvider<SchedulesBloc>(
+      bloc: bloc,
+      child: AddScheduleDialog(),
+    );
     ScreenUtil.instance = ScreenUtil(
       width: ScreenSize.screenWidth,
       height: ScreenSize.screenHeight,
@@ -95,7 +116,7 @@ class _SchedulesState extends State<Schedules> {
                           context: context,
                           barrierDismissible: true,
                           builder: (context) {
-                            return AddScheduleDialog();
+                            return test;
                           },
                         );
                       },

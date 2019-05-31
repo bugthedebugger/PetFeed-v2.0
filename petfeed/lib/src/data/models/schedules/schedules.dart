@@ -12,6 +12,8 @@ part 'schedules.g.dart';
 
 abstract class Schedules implements Built<Schedules, SchedulesBuilder> {
   BuiltList<Schedule> get schedules;
+  int get petId;
+  String get accessToken;
 
   Schedules._();
 

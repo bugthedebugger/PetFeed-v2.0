@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
-import 'package:petfeed/src/data/network/local/pi_data_source.dart';
+import 'package:petfeed/src/bloc/bloc_provider.dart';
+import 'package:petfeed/src/bloc/schedules_bloc/schedules_bloc_export.dart';
 import 'package:petfeed/src/widgets/feed_time_title/feed_time_title.dart';
 import 'package:petfeed/src/widgets/schedule_checkbox/schedule_checkbox.dart';
 import 'package:petfeed/src/widgets/schedule_time_list/schedule_time_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
 class AddScheduleDialog extends StatefulWidget {
-  const AddScheduleDialog({
-    Key key,
-  }) : super(key: key);
+  const AddScheduleDialog({Key key}) : super(key: key);
 
   @override
   _AddScheduleDialogState createState() => _AddScheduleDialogState();
 }
 
 class _AddScheduleDialogState extends State<AddScheduleDialog> {
-  List<TimeOfDay> feedTimes = List<TimeOfDay>();
+  final SharedPreferences preferences =
+      kiwi.Container().resolve<SharedPreferences>();
+  final formKey = GlobalKey<FormState>();
+
+  SchedulesBloc bloc;
+
+  List<TimeOfDay> feedTimesOfDay = List<TimeOfDay>();
+  List<String> feedTimes = List<String>();
   List<String> repeatDays = List<String>();
 
-  final PiDataSource dataSource = kiwi.Container().resolve<PiDataSource>();
-
-  bool sunday = false;
+  bool sunday = true;
   bool monday = false;
   bool tuesday = false;
   bool wednesday = false;
@@ -30,8 +35,15 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
   bool friday = false;
   bool saturday = false;
 
+  double amount = 0.0;
+
+  String deviceType = 'Fish';
+
   @override
   Widget build(BuildContext context) {
+    bloc = BlocProvider.of<SchedulesBloc>(context);
+    deviceType = preferences.getString('petType');
+
     ScreenUtil.instance = ScreenUtil(
       width: ScreenSize.screenWidth,
       height: ScreenSize.screenHeight,
@@ -43,231 +55,286 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
       child: Container(
         height: ScreenUtil().setHeight(500),
         width: ScreenUtil().setWidth(300),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              width: ScreenUtil().setWidth(300),
-              height: ScreenUtil().setHeight(50),
-              color: Color(AppColors.BLUE),
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(10),
-                vertical: ScreenUtil().setHeight(5),
-              ),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Add Schedule',
-                style: TextStyle(
-                  fontSize: FontSize.fontSize18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: ScreenUtil().setWidth(300),
+                height: ScreenUtil().setHeight(50),
+                color: Color(AppColors.BLUE),
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(10),
+                  vertical: ScreenUtil().setHeight(5),
+                ),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Add Schedule',
+                  style: TextStyle(
+                    fontSize: FontSize.fontSize18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: ScreenUtil().setHeight(5)),
-            Container(
-              padding: EdgeInsets.symmetric(
-                vertical: ScreenUtil().setHeight(15),
-                horizontal: ScreenUtil().setWidth(15),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  FeedTimeTitle(),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(5),
-                  ),
-                  Container(
-                    width: ScreenUtil().setWidth(270),
-                    height: ScreenUtil().setHeight(20),
-                    child: TimeList(
-                      feedTimes: feedTimes,
+              SizedBox(height: ScreenUtil().setHeight(5)),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: ScreenUtil().setHeight(15),
+                  horizontal: ScreenUtil().setWidth(15),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    FeedTimeTitle(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(5),
                     ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(5),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      var tempTime = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay(
-                          hour: 0,
-                          minute: 0,
+                    Container(
+                      width: ScreenUtil().setWidth(270),
+                      height: ScreenUtil().setHeight(20),
+                      child: TimeList(
+                        feedTimes: feedTimesOfDay,
+                      ),
+                    ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(5),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        var tempTime = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(
+                            hour: 0,
+                            minute: 0,
+                          ),
+                        );
+                        setState(() {
+                          feedTimesOfDay.add(tempTime);
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(15),
                         ),
-                      );
-                      setState(() {
-                        feedTimes.add(tempTime);
-                      });
-                    },
-                    child: Container(
+                        width: ScreenUtil().setWidth(270),
+                        height: ScreenUtil().setHeight(30),
+                        color: Colors.grey[200],
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                'Select time: ',
+                                style: TextStyle(
+                                  fontSize: FontSize.fontSize14,
+                                ),
+                              ),
+                            ),
+                            Icon(
+                              FontAwesomeIcons.solidPlusSquare,
+                              color: Color(AppColors.BLUE),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(10),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          FontAwesomeIcons.bone,
+                          size: FontSize.fontSize12,
+                        ),
+                        SizedBox(
+                          width: ScreenUtil().setWidth(10),
+                        ),
+                        Text(
+                          'Food per Serving (gm or ms)',
+                          style: TextStyle(
+                            fontSize: FontSize.fontSize14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(5),
+                    ),
+                    Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: ScreenUtil().setWidth(15),
                       ),
                       width: ScreenUtil().setWidth(270),
                       height: ScreenUtil().setHeight(30),
                       color: Colors.grey[200],
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              'Select time: ',
-                              style: TextStyle(
-                                fontSize: FontSize.fontSize14,
-                              ),
+                      child: TextFormField(
+                        initialValue: deviceType == 'Fish' ? '1.0' : '5.0',
+                        validator: (value) {
+                          if (deviceType == 'Fish') {
+                            if (value.isEmpty) {
+                              return 'Amount should be > 0.5 and < 3';
+                            }
+                            if (double.parse(value) < 0.5 ||
+                                double.parse(value) > 3) {
+                              return 'Amount should be > 0.5 and < 3';
+                            } else {
+                              amount = double.parse(value);
+                            }
+                          } else {
+                            if (value.isEmpty) {
+                              return 'Amount should be > 5 and < 200';
+                            }
+                            if (double.parse(value) < 5 ||
+                                double.parse(value) > 200) {
+                              return 'Amount should be > 5 and < 200';
+                            } else {
+                              amount = double.parse(value);
+                            }
+                          }
+                        },
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                            borderSide: BorderSide.none,
+                          ),
+                          fillColor: Colors.grey[200],
+                          filled: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(10),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          FontAwesomeIcons.calendar,
+                          size: FontSize.fontSize14,
+                        ),
+                        SizedBox(width: ScreenUtil().setWidth(5)),
+                        Text(
+                          'Repeat',
+                          style: TextStyle(
+                            fontSize: FontSize.fontSize14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: ScreenUtil().setHeight(5),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        ScheduleCheckbox(
+                          label: 'Sunday',
+                          onChanged: (value) =>
+                              handleRepeatDays(value, 'Sunday'),
+                          selected: sunday,
+                        ),
+                        ScheduleCheckbox(
+                          label: 'Monday',
+                          onChanged: (value) =>
+                              handleRepeatDays(value, 'Monday'),
+                          selected: monday,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        ScheduleCheckbox(
+                          label: 'Tuesday',
+                          onChanged: (value) =>
+                              handleRepeatDays(value, 'Tuesday'),
+                          selected: tuesday,
+                        ),
+                        ScheduleCheckbox(
+                          label: 'Wednesday',
+                          onChanged: (value) =>
+                              handleRepeatDays(value, 'Wednesday'),
+                          selected: wednesday,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        ScheduleCheckbox(
+                          label: 'Thursday',
+                          onChanged: (value) =>
+                              handleRepeatDays(value, 'Thursday'),
+                          selected: thursday,
+                        ),
+                        ScheduleCheckbox(
+                          label: 'Friday',
+                          onChanged: (value) =>
+                              handleRepeatDays(value, 'Friday'),
+                          selected: friday,
+                        ),
+                      ],
+                    ),
+                    ScheduleCheckbox(
+                      label: 'Saturday',
+                      onChanged: (value) => handleRepeatDays(value, 'Saturday'),
+                      selected: saturday,
+                    ),
+                    SizedBox(height: ScreenUtil().setHeight(82)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        RaisedButton(
+                          elevation: 0,
+                          color: Color(AppColors.GREEN),
+                          onPressed: () {
+                            if (formKey.currentState.validate()) {
+                              if (feedTimesOfDay.isEmpty) {
+                                feedTimes.add(
+                                  DateTime(1996, 1, 1, 12, 0)
+                                      .toLocal()
+                                      .toString(),
+                                );
+                              } else {
+                                for (var t in feedTimesOfDay) {
+                                  feedTimes.add(
+                                    DateTime(1996, 1, 1, t.hour, t.minute)
+                                        .toLocal()
+                                        .toString(),
+                                  );
+                                }
+                              }
+                              if (repeatDays.isEmpty) {
+                                repeatDays.add('Sunday');
+                              }
+                              bloc.addSchedule(
+                                amount: amount,
+                                feedTimes: feedTimes,
+                                repeat: repeatDays,
+                              );
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          child: Text(
+                            'Save',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: FontSize.fontSize14,
                             ),
                           ),
-                          Icon(
-                            FontAwesomeIcons.solidPlusSquare,
-                            color: Color(AppColors.BLUE),
-                          ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        FontAwesomeIcons.bone,
-                        size: FontSize.fontSize12,
-                      ),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(10),
-                      ),
-                      Text(
-                        'Food per Serving (gm or ms)',
-                        style: TextStyle(
-                          fontSize: FontSize.fontSize14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(5),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: ScreenUtil().setWidth(15),
-                    ),
-                    width: ScreenUtil().setWidth(270),
-                    height: ScreenUtil().setHeight(30),
-                    color: Colors.grey[200],
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0),
-                          borderSide: BorderSide.none,
-                        ),
-                        fillColor: Colors.grey[200],
-                        filled: true,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        FontAwesomeIcons.calendar,
-                        size: FontSize.fontSize14,
-                      ),
-                      SizedBox(width: ScreenUtil().setWidth(5)),
-                      Text(
-                        'Repeat',
-                        style: TextStyle(
-                          fontSize: FontSize.fontSize14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: ScreenUtil().setHeight(5),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      ScheduleCheckbox(
-                        label: 'Sunday',
-                        onChanged: (value) => handleRepeatDays(value, 'Sunday'),
-                        selected: sunday,
-                      ),
-                      ScheduleCheckbox(
-                        label: 'Monday',
-                        onChanged: (value) => handleRepeatDays(value, 'Monday'),
-                        selected: monday,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      ScheduleCheckbox(
-                        label: 'Tuesday',
-                        onChanged: (value) =>
-                            handleRepeatDays(value, 'Tuesday'),
-                        selected: tuesday,
-                      ),
-                      ScheduleCheckbox(
-                        label: 'Wednesday',
-                        onChanged: (value) =>
-                            handleRepeatDays(value, 'Wednesday'),
-                        selected: wednesday,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      ScheduleCheckbox(
-                        label: 'Thursday',
-                        onChanged: (value) =>
-                            handleRepeatDays(value, 'Thursday'),
-                        selected: thursday,
-                      ),
-                      ScheduleCheckbox(
-                        label: 'Friday',
-                        onChanged: (value) => handleRepeatDays(value, 'Friday'),
-                        selected: friday,
-                      ),
-                    ],
-                  ),
-                  ScheduleCheckbox(
-                    label: 'Saturday',
-                    onChanged: (value) => handleRepeatDays(value, 'Saturday'),
-                    selected: saturday,
-                  ),
-                  SizedBox(height: ScreenUtil().setHeight(82)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      RaisedButton(
-                        elevation: 0,
-                        color: Color(AppColors.GREEN),
-                        onPressed: () async {
-                          dataSource.addSchedule();
-                        },
-                        child: Text(
-                          'Save',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: FontSize.fontSize14,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -29,6 +29,10 @@ class _$ScheduleStatusSerializer
       'status',
       serializers.serialize(object.status,
           specifiedType: const FullType(String)),
+      'schedules',
+      serializers.serialize(object.schedules,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(LocalSchedule)])),
     ];
 
     return result;
@@ -57,6 +61,12 @@ class _$ScheduleStatusSerializer
           result.status = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'schedules':
+          result.schedules.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(LocalSchedule)]))
+              as BuiltList);
+          break;
       }
     }
 
@@ -71,11 +81,15 @@ class _$ScheduleStatus extends ScheduleStatus {
   final String message;
   @override
   final String status;
+  @override
+  final BuiltList<LocalSchedule> schedules;
 
   factory _$ScheduleStatus([void Function(ScheduleStatusBuilder) updates]) =>
       (new ScheduleStatusBuilder()..update(updates)).build();
 
-  _$ScheduleStatus._({this.connection, this.message, this.status}) : super._() {
+  _$ScheduleStatus._(
+      {this.connection, this.message, this.status, this.schedules})
+      : super._() {
     if (connection == null) {
       throw new BuiltValueNullFieldError('ScheduleStatus', 'connection');
     }
@@ -84,6 +98,9 @@ class _$ScheduleStatus extends ScheduleStatus {
     }
     if (status == null) {
       throw new BuiltValueNullFieldError('ScheduleStatus', 'status');
+    }
+    if (schedules == null) {
+      throw new BuiltValueNullFieldError('ScheduleStatus', 'schedules');
     }
   }
 
@@ -101,13 +118,16 @@ class _$ScheduleStatus extends ScheduleStatus {
     return other is ScheduleStatus &&
         connection == other.connection &&
         message == other.message &&
-        status == other.status;
+        status == other.status &&
+        schedules == other.schedules;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc(0, connection.hashCode), message.hashCode), status.hashCode));
+        $jc($jc($jc(0, connection.hashCode), message.hashCode),
+            status.hashCode),
+        schedules.hashCode));
   }
 
   @override
@@ -115,7 +135,8 @@ class _$ScheduleStatus extends ScheduleStatus {
     return (newBuiltValueToStringHelper('ScheduleStatus')
           ..add('connection', connection)
           ..add('message', message)
-          ..add('status', status))
+          ..add('status', status)
+          ..add('schedules', schedules))
         .toString();
   }
 }
@@ -136,6 +157,12 @@ class ScheduleStatusBuilder
   String get status => _$this._status;
   set status(String status) => _$this._status = status;
 
+  ListBuilder<LocalSchedule> _schedules;
+  ListBuilder<LocalSchedule> get schedules =>
+      _$this._schedules ??= new ListBuilder<LocalSchedule>();
+  set schedules(ListBuilder<LocalSchedule> schedules) =>
+      _$this._schedules = schedules;
+
   ScheduleStatusBuilder();
 
   ScheduleStatusBuilder get _$this {
@@ -143,6 +170,7 @@ class ScheduleStatusBuilder
       _connection = _$v.connection;
       _message = _$v.message;
       _status = _$v.status;
+      _schedules = _$v.schedules?.toBuilder();
       _$v = null;
     }
     return this;
@@ -163,9 +191,25 @@ class ScheduleStatusBuilder
 
   @override
   _$ScheduleStatus build() {
-    final _$result = _$v ??
-        new _$ScheduleStatus._(
-            connection: connection, message: message, status: status);
+    _$ScheduleStatus _$result;
+    try {
+      _$result = _$v ??
+          new _$ScheduleStatus._(
+              connection: connection,
+              message: message,
+              status: status,
+              schedules: schedules.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'schedules';
+        schedules.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'ScheduleStatus', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

@@ -31,8 +31,7 @@ class _$LocalScheduleSerializer implements StructuredSerializer<LocalSchedule> {
       serializers.serialize(object.groupID,
           specifiedType: const FullType(String)),
       'petId',
-      serializers.serialize(object.petID,
-          specifiedType: const FullType(String)),
+      serializers.serialize(object.petID, specifiedType: const FullType(int)),
       'uId',
       serializers.serialize(object.uID, specifiedType: const FullType(String)),
     ];
@@ -69,7 +68,7 @@ class _$LocalScheduleSerializer implements StructuredSerializer<LocalSchedule> {
           break;
         case 'petId':
           result.petID = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(int)) as int;
           break;
         case 'uId':
           result.uID = serializers.deserialize(value,
@@ -92,7 +91,7 @@ class _$LocalSchedule extends LocalSchedule {
   @override
   final String groupID;
   @override
-  final String petID;
+  final int petID;
   @override
   final String uID;
 
@@ -191,9 +190,9 @@ class LocalScheduleBuilder
   String get groupID => _$this._groupID;
   set groupID(String groupID) => _$this._groupID = groupID;
 
-  String _petID;
-  String get petID => _$this._petID;
-  set petID(String petID) => _$this._petID = petID;
+  int _petID;
+  int get petID => _$this._petID;
+  set petID(int petID) => _$this._petID = petID;
 
   String _uID;
   String get uID => _$this._uID;

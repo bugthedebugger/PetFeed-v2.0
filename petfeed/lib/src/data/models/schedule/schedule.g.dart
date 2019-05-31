@@ -30,6 +30,12 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
     ];
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(int)));
+    }
     if (object.groupID != null) {
       result
         ..add('groupID')
@@ -51,6 +57,10 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
         case 'feedTimes':
           result.feedTimes.replace(serializers.deserialize(value,
                   specifiedType:
@@ -80,6 +90,8 @@ class _$ScheduleSerializer implements StructuredSerializer<Schedule> {
 
 class _$Schedule extends Schedule {
   @override
+  final int id;
+  @override
   final BuiltList<String> feedTimes;
   @override
   final double amount;
@@ -91,7 +103,8 @@ class _$Schedule extends Schedule {
   factory _$Schedule([void Function(ScheduleBuilder) updates]) =>
       (new ScheduleBuilder()..update(updates)).build();
 
-  _$Schedule._({this.feedTimes, this.amount, this.repeat, this.groupID})
+  _$Schedule._(
+      {this.id, this.feedTimes, this.amount, this.repeat, this.groupID})
       : super._() {
     if (feedTimes == null) {
       throw new BuiltValueNullFieldError('Schedule', 'feedTimes');
@@ -115,6 +128,7 @@ class _$Schedule extends Schedule {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is Schedule &&
+        id == other.id &&
         feedTimes == other.feedTimes &&
         amount == other.amount &&
         repeat == other.repeat &&
@@ -124,13 +138,15 @@ class _$Schedule extends Schedule {
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, feedTimes.hashCode), amount.hashCode), repeat.hashCode),
+        $jc($jc($jc($jc(0, id.hashCode), feedTimes.hashCode), amount.hashCode),
+            repeat.hashCode),
         groupID.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Schedule')
+          ..add('id', id)
           ..add('feedTimes', feedTimes)
           ..add('amount', amount)
           ..add('repeat', repeat)
@@ -141,6 +157,10 @@ class _$Schedule extends Schedule {
 
 class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
   _$Schedule _$v;
+
+  int _id;
+  int get id => _$this._id;
+  set id(int id) => _$this._id = id;
 
   ListBuilder<String> _feedTimes;
   ListBuilder<String> get feedTimes =>
@@ -164,6 +184,7 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
 
   ScheduleBuilder get _$this {
     if (_$v != null) {
+      _id = _$v.id;
       _feedTimes = _$v.feedTimes?.toBuilder();
       _amount = _$v.amount;
       _repeat = _$v.repeat?.toBuilder();
@@ -192,6 +213,7 @@ class ScheduleBuilder implements Builder<Schedule, ScheduleBuilder> {
     try {
       _$result = _$v ??
           new _$Schedule._(
+              id: id,
               feedTimes: feedTimes.build(),
               amount: amount,
               repeat: repeat.build(),

@@ -9,6 +9,8 @@ import 'package:petfeed/src/data/models/serializer/serializer.dart';
 part 'schedule.g.dart';
 
 abstract class Schedule implements Built<Schedule, ScheduleBuilder> {
+  @nullable
+  int get id;
   BuiltList<String> get feedTimes;
   double get amount;
   BuiltList<String> get repeat;

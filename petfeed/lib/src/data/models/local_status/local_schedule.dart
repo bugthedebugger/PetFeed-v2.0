@@ -1,8 +1,6 @@
 library local_schedule;
 
 import 'dart:convert';
-
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:petfeed/src/data/models/serializer/serializer.dart';
@@ -17,7 +15,7 @@ abstract class LocalSchedule
   @BuiltValueField(wireName: 'groupId')
   String get groupID;
   @BuiltValueField(wireName: 'petId')
-  String get petID;
+  int get petID;
   @BuiltValueField(wireName: 'uId')
   String get uID;
 

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:petfeed/src/data/models/local_status/local_schedule.dart';
 import 'package:petfeed/src/data/models/serializer/serializer.dart';
 
 part 'schedule_status.g.dart';
@@ -14,6 +15,7 @@ abstract class ScheduleStatus
   String get connection;
   String get message;
   String get status;
+  BuiltList<LocalSchedule> get schedules;
 
   ScheduleStatus._();
 
