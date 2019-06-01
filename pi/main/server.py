@@ -287,7 +287,7 @@ network={
                             feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M:%S')
                         print(time)
                         print(int(datetime.strptime(
-                            feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime("%s")) * 1000 )
+                            feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime("%s")) * 1000)
                         schedule_map = {
                             'day': day,
                             'uId': uniqueId,
@@ -303,7 +303,7 @@ network={
                         schedule.from_map(schedule_map)
                         db.insert(schedule)
                         schedule.time = int(datetime.strptime(
-                            feedTime, '%Y-%m-%d %H:%M:%S.%f').timestamp())
+                            feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime("%s")) * 1000
                         responseSchedules.append(schedule.to_map())
 
             response = {
