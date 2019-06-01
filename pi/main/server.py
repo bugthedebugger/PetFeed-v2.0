@@ -299,7 +299,8 @@ network={
                         schedule = Schedule()
                         schedule.from_map(schedule_map)
                         db.insert(schedule)
-                        schedule.time = schedule.time.timestamp();
+                        schedule.time = datetime.strptime(
+                            feedTime, '%Y-%m-%d %H:%M:%S.%f').timestamp;
                         responseSchedules.append(schedule.to_map())
 
             response = {
