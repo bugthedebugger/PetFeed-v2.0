@@ -32,8 +32,7 @@ class Schedule {
     id = map[columnId];
     amount = map[columnAmount];
     day = map[columnDay];
-    feedTime =
-        DateTime.fromMillisecondsSinceEpoch(int.parse(map[columnFeedTime]));
+    feedTime = DateTime.fromMillisecondsSinceEpoch(map[columnFeedTime].round());
     groupID = map[columnGroupId];
     uID = map[columnUID];
     petID = map[columnPetId];

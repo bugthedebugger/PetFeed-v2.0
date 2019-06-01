@@ -97,15 +97,11 @@ class SchedulesBloc extends Bloc {
     List tempList = List();
     tempList.addAll(convertedSchedules);
 
-    print(convertedResponse['schedules']);
-
     List<dbSchedule.Schedule> schedules = List<dbSchedule.Schedule>();
 
     for (int i = 0; i < tempList.length; i++) {
-      print('----------------------------------------------');
       var temp = Map<String, dynamic>.from(tempList[i]);
-      print(dbSchedule.Schedule.fromMap(temp));
-      print('----------------------------------------------');
+      schedules.add(dbSchedule.Schedule.fromMap(temp));
     }
 
     print('finally here');
@@ -113,6 +109,8 @@ class SchedulesBloc extends Bloc {
     print(schedules);
 
     // provider.insert(schedules[0]);
+
+    // await provider.insertAll(schedules);
 
     // print(await provider.getGroupedSchedules());
     // } on DeviceNotFoundException catch (_) {
