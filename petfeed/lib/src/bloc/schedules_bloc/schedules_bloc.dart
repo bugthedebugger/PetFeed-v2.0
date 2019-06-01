@@ -101,6 +101,8 @@ class SchedulesBloc extends Bloc {
 
     for (int i = 0; i < tempList.length; i++) {
       var temp = Map<String, dynamic>.from(tempList[i]);
+      var a = dbSchedule.Schedule.fromMap(temp);
+      print(a.feedTime);
       schedules.add(dbSchedule.Schedule.fromMap(temp));
     }
 

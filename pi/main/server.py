@@ -285,6 +285,9 @@ network={
                         uniqueId = utils.getID(20)
                         time = datetime.strptime(
                             feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M:%S')
+                        print(time)
+                        print(datetime.strptime(
+                            feedTime, '%Y-%m-%d %H:%M:%S.%f').timestamp())
                         schedule_map = {
                             'day': day,
                             'uId': uniqueId,

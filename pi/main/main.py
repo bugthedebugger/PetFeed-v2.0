@@ -54,8 +54,8 @@ def scheduled_feeding():
         for result in results:
             schedule = Schedule()
             schedule.from_map(result)
-            print(now_time + ' --- ' + str(schedule.time))
-            print(now_time == schedule.time)
+            # print(now_time + ' --- ' + str(schedule.time))
+            # print(now_time == schedule.time)
             if schedule.day == today_day and str(schedule.time) == now_time:
                 # print('inside first if')
                 if device.type == 'Fish':
