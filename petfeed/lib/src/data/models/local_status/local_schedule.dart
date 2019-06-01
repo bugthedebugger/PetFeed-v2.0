@@ -11,7 +11,7 @@ abstract class LocalSchedule
     implements Built<LocalSchedule, LocalScheduleBuilder> {
   double get amount;
   String get day;
-  String get feedTime;
+  double get feedTime;
   @BuiltValueField(wireName: 'groupId')
   String get groupID;
   @BuiltValueField(wireName: 'petId')
