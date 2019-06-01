@@ -292,6 +292,9 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
                           elevation: 0,
                           color: Color(AppColors.GREEN),
                           onPressed: () {
+                            print(DateTime(1996, 1, 1, 12, 0)
+                                .toLocal()
+                                .millisecondsSinceEpoch);
                             if (formKey.currentState.validate()) {
                               if (feedTimesOfDay.isEmpty) {
                                 if (feedTimes.indexOf(

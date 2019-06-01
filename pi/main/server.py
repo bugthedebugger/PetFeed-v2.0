@@ -286,8 +286,8 @@ network={
                         time = datetime.strptime(
                             feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M:%S')
                         print(time)
-                        print(datetime.strptime(
-                            feedTime, '%Y-%m-%d %H:%M:%S.%f').timestamp())
+                        print(int(datetime.strptime(
+                            feedTime, '%Y-%m-%d %H:%M:%S.%f').strftime("%s")) * 1000 )
                         schedule_map = {
                             'day': day,
                             'uId': uniqueId,
