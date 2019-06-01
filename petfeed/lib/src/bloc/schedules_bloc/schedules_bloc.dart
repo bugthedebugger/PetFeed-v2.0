@@ -1,14 +1,18 @@
+import 'dart:convert';
+
 import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 import 'package:petfeed/src/bloc/bloc_provider.dart';
 import 'package:petfeed/src/bloc/schedules_bloc/schedules_bloc_events.dart';
 import 'package:petfeed/src/data/database/database_name.dart';
+import 'package:petfeed/src/data/database/schedules/schedules_provider.dart';
 import 'package:petfeed/src/data/exceptions/device_not_found_exception.dart';
 import 'package:petfeed/src/data/models/schedule/schedule.dart';
 import 'package:petfeed/src/data/models/schedules/schedules.dart';
 import 'package:petfeed/src/data/network/local/pi_data_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:petfeed/src/data/database/models/schedule.dart' as dbSchedule;
 import 'dart:async';
 
 import 'package:sqflite/sqflite.dart';
@@ -16,16 +20,18 @@ import 'package:sqflite/sqflite.dart';
 class SchedulesBloc extends Bloc {
   final PiDataSource dataSource;
   final SharedPreferences preferences;
+  SchedulesProvider provider;
   String path;
 
-  SchedulesBloc(this.dataSource, this.preferences) {
+  SchedulesBloc(this.dataSource, this.preferences, this.provider) {
     initDB();
     init();
   }
 
-  void initDB() async {
+  Future initDB() async {
     var databasesPath = await getDatabasesPath();
     path = join(databasesPath, DATABASE_NAME);
+    return await provider.open(path);
   }
 
   StreamController<ScheduleEvents> _eventStreamController =
@@ -46,7 +52,9 @@ class SchedulesBloc extends Bloc {
     // _eventStreamController
     this._eventStreamController = StreamController<ScheduleEvents>.broadcast();
     this._dataStreamController = StreamController<Schedules>.broadcast();
+    // this.provider = kiwi.Container().resolve<SchedulesProvider>();
     init();
+    // initDB();
   }
 
   void _mapEventsToState(ScheduleEvents event) {
@@ -79,13 +87,39 @@ class SchedulesBloc extends Bloc {
   }
 
   void _mapAddSchedule(AddSchedule event) async {
-    try {
-      final response = await dataSource.addSchedule(schedules: event.schedules);
-    } on DeviceNotFoundException catch (_) {
-      dispatch(ScheduleError((b) => b..message = _.message));
-    } catch (_) {
-      dispatch(ScheduleError((b) => b..message = _.toString()));
+    // try {
+    print('here2');
+    final response = await dataSource.addSchedule(schedules: event.schedules);
+    print('here3');
+    final convertedResponse = json.decode(response.toJson());
+    var convertedSchedules = convertedResponse['schedules'];
+
+    List tempList = List();
+    tempList.addAll(convertedSchedules);
+
+    print(convertedResponse['schedules']);
+
+    List<dbSchedule.Schedule> schedules = List<dbSchedule.Schedule>();
+
+    for (int i = 0; i < tempList.length; i++) {
+      print('----------------------------------------------');
+      var temp = Map<String, dynamic>.from(tempList[i]);
+      print(dbSchedule.Schedule.fromMap(temp));
+      print('----------------------------------------------');
     }
+
+    print('finally here');
+
+    print(schedules);
+
+    // provider.insert(schedules[0]);
+
+    // print(await provider.getGroupedSchedules());
+    // } on DeviceNotFoundException catch (_) {
+    //   dispatch(ScheduleError((b) => b..message = _.message));
+    // } catch (_) {
+    //   dispatch(ScheduleError((b) => b..message = _.toString()));
+    // }
   }
 
   void addData(Schedules data) {
@@ -94,9 +128,6 @@ class SchedulesBloc extends Bloc {
 
   void dispatch(ScheduleEvents event) {
     if (_eventStreamController.isClosed) reinit();
-    print('.................................');
-    print(_eventStreamController.isClosed);
-    print('.................................');
     _eventSink.add(event);
   }
 

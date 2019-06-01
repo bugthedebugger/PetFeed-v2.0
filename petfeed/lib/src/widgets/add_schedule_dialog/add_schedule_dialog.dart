@@ -294,29 +294,44 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
                           onPressed: () {
                             if (formKey.currentState.validate()) {
                               if (feedTimesOfDay.isEmpty) {
-                                feedTimes.add(
-                                  DateTime(1996, 1, 1, 12, 0)
-                                      .toLocal()
-                                      .toString(),
-                                );
-                              } else {
-                                for (var t in feedTimesOfDay) {
+                                if (feedTimes.indexOf(
+                                        DateTime(1996, 1, 1, 12, 0)
+                                            .toLocal()
+                                            .toString()) ==
+                                    -1) {
                                   feedTimes.add(
-                                    DateTime(1996, 1, 1, t.hour, t.minute)
+                                    DateTime(1996, 1, 1, 12, 0)
                                         .toLocal()
                                         .toString(),
                                   );
                                 }
+                              } else {
+                                for (var t in feedTimesOfDay) {
+                                  if (feedTimes.indexOf(
+                                          DateTime(1996, 1, 1, t.hour, t.minute)
+                                              .toLocal()
+                                              .toString()) ==
+                                      -1) {
+                                    feedTimes.add(
+                                      DateTime(1996, 1, 1, t.hour, t.minute)
+                                          .toLocal()
+                                          .toString(),
+                                    );
+                                  }
+                                }
                               }
+                              print('repeat days');
+                              print(repeatDays);
                               if (repeatDays.isEmpty) {
                                 repeatDays.add('Sunday');
                               }
+                              print(repeatDays);
                               bloc.addSchedule(
                                 amount: amount,
                                 feedTimes: feedTimes,
                                 repeat: repeatDays,
                               );
-                              Navigator.of(context).pop();
+                              // Navigator.of(context).pop();
                             }
                           },
                           child: Text(

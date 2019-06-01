@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:petfeed/src/data/database/models/schedule.dart';
 import 'package:petfeed/src/data/database/schedules/schedules_wirename.dart';
@@ -7,6 +5,8 @@ import 'package:sqflite/sqflite.dart';
 
 class SchedulesProvider {
   Database db;
+
+  SchedulesProvider();
 
   final String createQuery = '''
     CREATE TABLE $tableSchedules (
@@ -21,13 +21,18 @@ class SchedulesProvider {
   ''';
 
   Future open(String path) async {
-    db = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute(createQuery);
-    });
+    print('open');
+    db = await openDatabase(
+      path,
+      version: 1,
+      onCreate: (Database db, int version) async {
+        await db.execute(createQuery);
+      },
+    );
   }
 
   Future<Schedule> insert(Schedule schedule) async {
+    print('insert');
     schedule.id = await db.insert(tableSchedules, schedule.toMap());
 
     print(schedule);
@@ -36,9 +41,11 @@ class SchedulesProvider {
   }
 
   Future insertAll(List<Schedule> schedules) async {
+    print('insertall');
     return await db.transaction((txn) async {
       var batch = txn.batch();
       schedules.forEach((schedule) {
+        print(schedule);
         batch.insert(tableSchedules, schedule.toMap());
       });
       return await batch.commit();
@@ -105,6 +112,10 @@ class SchedulesProvider {
         groupBy<Schedule, String>(schedules, (obj) => obj.uID);
 
     return newMap;
+  }
+
+  Future test() async {
+    print(await db.query('schedules'));
   }
 
   Future close() async => db.close();

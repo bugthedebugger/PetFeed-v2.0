@@ -58,7 +58,7 @@ class PiDataSource {
 
     if (status) {
       String ip = preferences.get('deviceIP');
-      print(ip);
+      // print(ip);
       final response = await client.post(
         ip + LocalApiRoutes.WIFI_SETUP,
         headers: {

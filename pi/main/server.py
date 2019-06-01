@@ -299,6 +299,7 @@ network={
                         schedule = Schedule()
                         schedule.from_map(schedule_map)
                         db.insert(schedule)
+                        schedule.time = schedule.time.timestamp();
                         responseSchedules.append(schedule.to_map())
 
             response = {

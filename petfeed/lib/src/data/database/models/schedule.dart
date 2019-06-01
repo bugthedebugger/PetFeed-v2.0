@@ -2,7 +2,7 @@ import 'package:petfeed/src/data/database/schedules/schedules_wirename.dart';
 
 class Schedule {
   int id;
-  int amount;
+  double amount;
   String day;
   DateTime feedTime;
   String groupID;
