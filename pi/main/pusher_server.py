@@ -249,6 +249,7 @@ class PusherContainer:
         petfeed_channel.bind('client-petfeed-register', self.register)
         petfeed_channel.bind('client-petfeed-status', self.status)
         petfeed_channel.bind('client-petfeed-start-hopper', self.start_hopper)
+        petfeed_channel.bind('client-petfeed-reverse-hopper', self.reverse_hopper)
         petfeed_channel.bind('client-petfeed-stop-hopper', self.stop_hopper)
 
     def connect(self):
