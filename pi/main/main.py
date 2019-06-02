@@ -8,6 +8,7 @@ from models.device import Device
 import RPi.GPIO as GPIO
 from hw_controllers.motor_controller import MotorController
 from hw_controllers.distance import Distance
+from hw_controllers.weight import WeightSensor
 from pusher_server import PusherContainer
 from threading import Thread
 from datetime import datetime
@@ -20,7 +21,7 @@ GPIO.setwarnings(False)
 weightSensor = None
 
 # try:
-weightSensor = HX711(GPIO=GPIO, dout_pin=21, pd_sck_pin=20)
+weightSensor = WeightSensor(GPIO=GPIO, dout_pin=21, pd_sck_pin=20)
 # except:
 #     weightSensor = None
 
