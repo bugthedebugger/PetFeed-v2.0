@@ -62,6 +62,19 @@ class _CountDownTimerState extends State<CountDownTimer> {
             SizedBox(width: ScreenUtil().setWidth(5)),
             ClockCard(time: snapshot.hasData ? snapshot.data['min2'] : 0),
             SizedBox(width: ScreenUtil().setWidth(5)),
+            Text(
+              ':',
+              style: TextStyle(
+                color: blink ? Colors.black26 : Colors.white,
+                fontSize: FontSize.fontSize28,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(width: ScreenUtil().setWidth(5)),
+            ClockCard(time: snapshot.hasData ? snapshot.data['second1'] : 0),
+            SizedBox(width: ScreenUtil().setWidth(5)),
+            ClockCard(time: snapshot.hasData ? snapshot.data['second2'] : 0),
+            SizedBox(width: ScreenUtil().setWidth(5)),
           ],
         );
       },

@@ -123,14 +123,14 @@ class _PetFeedPageState extends State<PetFeedPage> {
                     children: <Widget>[
                       PetFeedCard(
                         height: 100,
-                        width: 250,
+                        width: 255,
                         child: Column(
                           children: <Widget>[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  "Time to the next feed: ",
+                                  "Time till next feed: ",
                                   style: TextStyle(
                                     fontSize: FontSize.fontSize14,
                                   ),
@@ -205,7 +205,7 @@ class _PetFeedPageState extends State<PetFeedPage> {
                       ),
                       SizedBox(height: ScreenUtil().setHeight(10)),
                       PetFeedCard(
-                        width: 250,
+                        width: 255,
                         height: 90,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,7 +241,7 @@ class _PetFeedPageState extends State<PetFeedPage> {
                       ),
                       SizedBox(height: ScreenUtil().setHeight(10)),
                       PetFeedCard(
-                        width: 250,
+                        width: 255,
                         height: 200,
                         child: RadialSlider(
                           onChange: _radialSliderChange,

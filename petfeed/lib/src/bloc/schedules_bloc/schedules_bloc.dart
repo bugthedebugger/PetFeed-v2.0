@@ -79,8 +79,7 @@ class SchedulesBloc extends Bloc {
   void _mapDeleteAllSchedules(DeleteAllSchedules event) async {
     try {
       await initDB();
-      // await provider.deleteAll();
-      await provider.getNextFeedTime();
+      await provider.deleteAll();
       getSchedules();
     } catch (_) {
       print(_);
