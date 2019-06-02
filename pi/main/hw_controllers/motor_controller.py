@@ -83,6 +83,7 @@ class MotorController:
             self.slowReverse()
             time.sleep(0.3)
             self.slowStart()
+            print('Weight: ', self.weightSensor.getWeight())
 
         self.stop()
 
