@@ -45,6 +45,10 @@ class MotorController:
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(70)
 
+    def slwReverse(self):
+        self.left_pwm.ChangeDutyCycle(70)
+        self.right_pwm.ChangeDutyCycle(0)
+
     def stop(self):
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(0)
