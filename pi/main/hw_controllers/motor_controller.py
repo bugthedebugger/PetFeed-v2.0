@@ -83,7 +83,7 @@ class MotorController:
             self.slowStart()
             time.sleep(1)
             self.slowReverse()
-            time.sleep(0.3)
+            time.sleep(0.2)
             foodWeight = self.weightSensor.getWeight()
             print(foodWeight)
 
