@@ -59,7 +59,7 @@ class Distance:
         return 100 - percentRemain
 
     def other(self):
-        max = 11
+        max = 20
         min = 3
 
         distance = self.distance()
