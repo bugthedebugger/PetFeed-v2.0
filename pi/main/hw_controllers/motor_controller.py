@@ -25,7 +25,7 @@ class MotorController:
             self.weightSensor = None
             self.weightSensorMounted = False
         else:
-            self.weightSensor = None
+            self.weightSensor = weightSensor
             self.weightSensorMounted = False
         # try:
         #     self.wt = weightSensor
