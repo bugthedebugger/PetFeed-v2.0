@@ -48,7 +48,7 @@ def scheduled_feeding():
 
     while True:
         today_day = datetime.now().strftime('%A')
-        now_time = datetime.now().strftime('%H:%M:%S')
+        now_time = datetime.now().strftime('%-H:%M:%S')
         results = db.selectAll(Schedule())
 
         for result in results:
