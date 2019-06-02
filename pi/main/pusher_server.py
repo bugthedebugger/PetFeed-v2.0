@@ -88,14 +88,23 @@ class PusherContainer:
         device.from_map(results[0])
 
         if data['accessToken'] == device.accessToken:
-            if device.type == 'Fish':
-                self.motors.fish(duration=amount)
+            if self.distanceSensor.fish() > 5:
+                if device.type == 'Fish':
+                    self.motors.fish(duration=amount)
+                else:
+                    self.motors.wtFeed(amount=amount)
 
-            self.pusherEvent.trigger(self.channel, 'petfeed-pi-treat', {
-                'connection': 'global',
-                'status': 'success',
-                'message': 'Treat success.'
-            })
+                self.pusherEvent.trigger(self.channel, 'petfeed-pi-treat', {
+                    'connection': 'global',
+                    'status': 'success',
+                    'message': 'Treat success.'
+                })
+            else:
+                self.pusherEvent.trigger(self.channel, 'petfeed-pi-treat', {
+                    'connection': 'global',
+                    'status': 'error',
+                    'message': 'Low food'
+                })
 
             self.foodMeter()
         else:

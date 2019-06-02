@@ -25,6 +25,13 @@ unauthenticated_response = {
     'status': 'error',
     'message': 'Unauthenticated'
 }
+food_low_response = {
+    'connection': 'local',
+    'status': 'error',
+    'message': 'fed successfully',
+    'remaining': 80
+}
+
 
 motors = None
 distanceSensor = None
@@ -74,19 +81,26 @@ class FlaskServer:
             if userToken == accessToken:
                 amount = userRequest['amount']
 
-                if device.type == 'Fish':
-                    # print('here')
-                    motors.fish(duration=amount)
+                if distanceSensor.fish() > 10:
+                    if device.type == 'Fish':
+                        # print('here')
+                        motors.fish(duration=amount)
+                    else:
+                        motors.wtFeed(amount=amount)
+                        # print('not here')
+                    response = {
+                        'connection': 'local',
+                        'status': 'success',
+                        'message': 'fed successfully',
+                        'remaining': distanceSensor.fish()
+                    }
                 else:
-                    print(device.type)
-                    # print('not here')
-
-                response = {
-                    'connection': 'local',
-                    'status': 'success',
-                    'message': 'fed successfully',
-                    'remaining': 80
-                }
+                    response = {
+                        'connection': 'local',
+                        'status': 'error',
+                        'message': 'food low',
+                        'remaining': distanceSensor.fish()
+                    }
 
                 return jsonify(response)
             else:

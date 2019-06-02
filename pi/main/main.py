@@ -45,7 +45,7 @@ def amount_trigger():
     time.sleep(5)
     while True:
         pusherContainer.foodMeter()
-        time.sleep(10)
+        time.sleep(5)
 
 
 def scheduled_feeding():
@@ -68,6 +68,8 @@ def scheduled_feeding():
                 # print('inside first if')
                 if device.type == 'Fish':
                     motorController.fish(duration=schedule.amount)
+                else:
+                    motorController.wtFeed(amount=schedule.amount)
 
         time.sleep(1)
 

@@ -76,8 +76,8 @@ class MotorController:
         time.sleep(0.1)
         self.stop()
 
-    def wtFeed(self, weight=50):
-        while(self.weightSensor.getWeight() < weight):
+    def wtFeed(self, amount=50):
+        while(self.weightSensor.getWeight() < amount):
             self.slowStart()
             time.sleep(1)
             self.slowReverse()
