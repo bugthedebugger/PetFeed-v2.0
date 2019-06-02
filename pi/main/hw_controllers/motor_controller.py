@@ -80,6 +80,8 @@ class MotorController:
             foodWeight = self.weightSensor.getWeight()
             print(foodWeight)
 
+        self.stop()
+
     def __del__(self):
         self.GPIO.cleanup()
 
