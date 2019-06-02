@@ -30,7 +30,7 @@ class Schedule {
 
   Schedule.fromMap(Map<String, dynamic> map) {
     id = map[columnId];
-    amount = map[columnAmount];
+    amount = map[columnAmount].toDouble();
     day = map[columnDay];
     feedTime = DateTime.fromMillisecondsSinceEpoch(map[columnFeedTime].round());
     groupID = map[columnGroupId];

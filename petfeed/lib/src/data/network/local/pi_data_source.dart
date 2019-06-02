@@ -114,7 +114,7 @@ class PiDataSource {
     bool status = await ping();
     if (status) {
       String ip = preferences.get('deviceIP');
-      print(schedules.toJson());
+      // print(schedules.toJson());
       final response = await client.post(
         ip + LocalApiRoutes.CREATE_SCHEDULE,
         headers: {
@@ -123,7 +123,7 @@ class PiDataSource {
         body: schedules.toJson(),
       );
 
-      print(response.body);
+      // print(response.body);
 
       if (response.statusCode == 200)
         return ScheduleStatus.fromJson(response.body);

@@ -5,7 +5,10 @@ import 'package:petfeed/src/assets/assets.dart';
 class TimeList extends StatelessWidget {
   final List<TimeOfDay> feedTimes;
 
-  const TimeList({Key key, @required this.feedTimes}) : super(key: key);
+  const TimeList({
+    Key key,
+    @required this.feedTimes,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

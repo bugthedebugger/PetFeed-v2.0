@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
-import 'package:petfeed/src/bloc/bloc_provider.dart';
 import 'package:petfeed/src/bloc/schedules_bloc/schedules_bloc_export.dart';
 import 'package:petfeed/src/widgets/feed_time_title/feed_time_title.dart';
+import 'package:petfeed/src/widgets/loading_dialog/loading_dialog.dart';
 import 'package:petfeed/src/widgets/schedule_checkbox/schedule_checkbox.dart';
 import 'package:petfeed/src/widgets/schedule_time_list/schedule_time_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,11 +23,12 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
       kiwi.Container().resolve<SharedPreferences>();
   final formKey = GlobalKey<FormState>();
 
-  SchedulesBloc bloc;
+  final SchedulesBloc bloc = kiwi.Container().resolve<SchedulesBloc>();
+  StreamSubscription _sub;
 
   List<TimeOfDay> feedTimesOfDay = List<TimeOfDay>();
   List<String> feedTimes = List<String>();
-  List<String> repeatDays = List<String>();
+  List<String> repeatDays = ['Sunday'];
 
   bool sunday = true;
   bool monday = false;
@@ -40,8 +43,47 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
   String deviceType = 'Fish';
 
   @override
+  void initState() {
+    _sub = bloc.eventStream.listen(_eventListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _sub?.cancel();
+    bloc?.dispose();
+    super.dispose();
+  }
+
+  void _eventListener(event) {
+    // print(event);
+
+    if (event is AddSchedule) {
+      // print('add');
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => LoadingDialog(),
+      );
+    } else if (event is ScheduleAddedSuccessfully) {
+      // print('success');
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+    } else if (event is ScheduleError) {
+      // print('error');
+      Navigator.of(context).pop();
+      showDialog(
+        context: context,
+        builder: (context) => LoadingDialog(
+              error: true,
+              message: event.message,
+            ),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bloc = BlocProvider.of<SchedulesBloc>(context);
     deviceType = preferences.getString('petType');
 
     ScreenUtil.instance = ScreenUtil(
@@ -115,6 +157,7 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
                         setState(() {
                           feedTimesOfDay.add(tempTime);
                         });
+                        print(feedTimesOfDay);
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(
@@ -292,9 +335,6 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
                           elevation: 0,
                           color: Color(AppColors.GREEN),
                           onPressed: () {
-                            print(DateTime(1996, 1, 1, 12, 0)
-                                .toLocal()
-                                .millisecondsSinceEpoch);
                             if (formKey.currentState.validate()) {
                               if (feedTimesOfDay.isEmpty) {
                                 if (feedTimes.indexOf(
@@ -323,18 +363,14 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
                                   }
                                 }
                               }
-                              print('repeat days');
-                              print(repeatDays);
                               if (repeatDays.isEmpty) {
                                 repeatDays.add('Sunday');
                               }
-                              print(repeatDays);
                               bloc.addSchedule(
                                 amount: amount,
                                 feedTimes: feedTimes,
                                 repeat: repeatDays,
                               );
-                              // Navigator.of(context).pop();
                             }
                           },
                           child: Text(

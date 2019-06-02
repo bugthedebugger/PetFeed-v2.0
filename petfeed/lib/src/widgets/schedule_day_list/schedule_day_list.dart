@@ -5,7 +5,10 @@ import 'package:petfeed/src/assets/assets.dart';
 class ScheduleDayList extends StatelessWidget {
   final List<String> feedDays;
 
-  const ScheduleDayList({Key key, @required this.feedDays}) : super(key: key);
+  const ScheduleDayList({
+    Key key,
+    @required this.feedDays,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

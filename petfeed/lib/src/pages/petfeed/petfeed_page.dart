@@ -36,15 +36,18 @@ class _PetFeedPageState extends State<PetFeedPage> {
   @override
   void initState() {
     _eventSub = _bloc.eventStream.listen((event) {
-      print(event);
+      // print(event);
     });
 
     _pusherSub = _bloc.pusherStream.listen((event) {
-      print(event);
+      // print(event);
     });
 
     deviceType = preferences.get('petType');
     petName = preferences.get('pet');
+
+    _bloc.getCountDown();
+
     super.initState();
   }
 
@@ -180,8 +183,22 @@ class _PetFeedPageState extends State<PetFeedPage> {
                               ],
                             ),
                             SizedBox(height: ScreenUtil().setHeight(10)),
-                            CountDownTimer(
-                              countDownTo: TimeOfDay(hour: 23, minute: 00),
+                            StreamBuilder<DateTime>(
+                              stream: _bloc.countDownStream,
+                              builder: (context, snapshot) {
+                                print(snapshot);
+                                if (snapshot.hasData) {
+                                  if (snapshot.data != null) {
+                                    print('not null');
+                                    return CountDownTimer();
+                                  } else {
+                                    print('null');
+                                    return CountDownTimer();
+                                  }
+                                } else {
+                                  return CountDownTimer();
+                                }
+                              },
                             ),
                           ],
                         ),

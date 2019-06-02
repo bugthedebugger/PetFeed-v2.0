@@ -4,9 +4,13 @@ import 'package:petfeed/src/assets/assets.dart';
 
 class LoadingDialog extends StatelessWidget {
   final String message;
+  final bool error;
 
-  const LoadingDialog({Key key, this.message = 'Please wait ...'})
-      : super(key: key);
+  const LoadingDialog({
+    Key key,
+    this.message = 'Please wait ...',
+    this.error = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +29,23 @@ class LoadingDialog extends StatelessWidget {
         height: ScreenUtil().setHeight(50),
         child: Row(
           children: <Widget>[
-            SizedBox(
-              height: ScreenUtil().setHeight(20),
-              width: ScreenUtil().setHeight(20),
-              child: Theme(
-                data: ThemeData(
-                  accentColor: Colors.black,
-                ),
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(width: ScreenUtil().setWidth(15)),
+            !this.error
+                ? SizedBox(
+                    height: ScreenUtil().setHeight(20),
+                    width: ScreenUtil().setHeight(20),
+                    child: Theme(
+                      data: ThemeData(
+                        accentColor: Colors.black,
+                      ),
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  )
+                : Container(),
+            !this.error
+                ? SizedBox(width: ScreenUtil().setWidth(15))
+                : Container(),
             Text(
               message,
               style: TextStyle(

@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:petfeed/src/data/database/models/schedule.dart';
 import 'package:petfeed/src/data/database/schedules/schedules_wirename.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:intl/intl.dart';
 
 class SchedulesProvider {
   Database db;
@@ -21,7 +22,7 @@ class SchedulesProvider {
   ''';
 
   Future open(String path) async {
-    print('open');
+    // print('open');
     db = await openDatabase(
       path,
       version: 1,
@@ -32,20 +33,20 @@ class SchedulesProvider {
   }
 
   Future<Schedule> insert(Schedule schedule) async {
-    print('insert');
+    // print('insert');
     schedule.id = await db.insert(tableSchedules, schedule.toMap());
 
-    print(schedule);
+    // print(schedule);
 
     return schedule;
   }
 
   Future insertAll(List<Schedule> schedules) async {
-    print('insertall');
+    // print('insertall');
     return await db.transaction((txn) async {
       var batch = txn.batch();
       schedules.forEach((schedule) {
-        print(schedule);
+        // print(schedule);
         batch.insert(tableSchedules, schedule.toMap());
       });
       return await batch.commit();
@@ -67,11 +68,84 @@ class SchedulesProvider {
     return null;
   }
 
+  Future<DateTime> getNextFeedTime() async {
+    DateTime now = DateTime.now();
+    DateFormat day = DateFormat.EEEE();
+
+    List<DateTime> tempTimes = List<DateTime>();
+    List<DateTime> timeList = List<DateTime>();
+
+    String searchDay = day.format(now);
+    bool found = false;
+    bool today = true;
+
+    for (int i = 0; i < 2; i++) {
+      tempTimes.clear();
+      List<Map> maps = await db.query(
+        tableSchedules,
+        columns: schedulesColumns,
+        where: '$columnDay == ?',
+        whereArgs: [searchDay],
+      );
+
+      if (maps.isNotEmpty) {
+        maps.forEach((data) {
+          tempTimes.add(Schedule.fromMap(data).feedTime);
+        });
+        tempTimes.sort();
+
+        if (today) {
+          for (var time in tempTimes) {
+            if (time.hour == now.hour) {
+              if (time.minute >= now.minute) {
+                timeList.add(time);
+              }
+            } else if (time.hour > now.hour) {
+              timeList.add(time);
+            }
+          }
+        } else {
+          timeList = tempTimes;
+        }
+        if (timeList.isNotEmpty) {
+          found = true;
+          timeList.sort();
+          break;
+        }
+      }
+      now = now.add(Duration(days: 1));
+      searchDay = day.format(now);
+      today = false;
+    }
+    if (found) {
+      return DateTime(
+        2019,
+        now.month,
+        now.day,
+        timeList[0].hour,
+        timeList[0].minute,
+      );
+    }
+    return null;
+  }
+
   Future<int> delete(int id) async {
     return await db.delete(
       tableSchedules,
       where: '$columnId = ?',
       whereArgs: [id],
+    );
+  }
+
+  Future<int> deleteAll() async {
+    return await db.delete(tableSchedules);
+  }
+
+  Future<int> batchDelete(String groupId) async {
+    return await db.delete(
+      tableSchedules,
+      where: '$columnGroupId = ?',
+      whereArgs: [groupId],
     );
   }
 
@@ -106,10 +180,11 @@ class SchedulesProvider {
     List<Map> map = await db.query(tableSchedules, columns: schedulesColumns);
 
     List<Schedule> schedules = List<Schedule>();
+
     map.forEach((schedule) => schedules.add(Schedule.fromMap(schedule)));
 
     Map<String, List<Schedule>> newMap =
-        groupBy<Schedule, String>(schedules, (obj) => obj.uID);
+        groupBy<Schedule, String>(schedules, (obj) => obj.groupID);
 
     return newMap;
   }

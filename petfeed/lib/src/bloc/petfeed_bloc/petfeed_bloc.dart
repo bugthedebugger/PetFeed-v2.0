@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:meta/meta.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:petfeed/src/bloc/bloc_provider.dart';
 import 'package:petfeed/src/bloc/petfeed_bloc/petfeed_events.dart';
+import 'package:petfeed/src/data/database/database_name.dart';
+import 'package:petfeed/src/data/database/schedules/schedules_provider.dart';
 import 'package:petfeed/src/data/models/pusher_events/pusher_treat.dart';
 import 'package:petfeed/src/data/network/pusher/pusher.dart';
 import 'package:petfeed/src/data/repository/device_repository.dart';
@@ -15,17 +18,22 @@ class PetFeedBloc extends Bloc {
   final Pusher pusher;
   final SharedPreferences preferences;
   final DeviceRepository deviceRepository;
+  final SchedulesProvider provider;
 
   bool wifiConnected = false;
   bool pusherConnected = false;
+
+  String path;
 
   PetFeedBloc(
     this.piRepository,
     this.pusher,
     this.preferences,
     this.deviceRepository,
+    this.provider,
   ) {
     init();
+    initDB();
   }
 
   // Stream controller for events
@@ -54,6 +62,11 @@ class PetFeedBloc extends Bloc {
   Stream get pusherStatus => pusher.statusStream;
   Stream get pusherFoodMeter => pusher.foodMeterStream;
 
+  StreamController<DateTime> _countDownController =
+      StreamController<DateTime>.broadcast();
+  Stream<DateTime> get countDownStream => _countDownController.stream;
+  Sink<DateTime> get _countDownSink => _countDownController.sink;
+
   void init() async {
     _eventStreamController.stream.listen(_mapEventsToState);
     String accessToken = preferences.get('token');
@@ -74,6 +87,12 @@ class PetFeedBloc extends Bloc {
     );
   }
 
+  Future initDB() async {
+    var databasesPath = await getDatabasesPath();
+    path = join(databasesPath, DATABASE_NAME);
+    return await provider.open(path);
+  }
+
   void _mapEventsToState(PetFeedEvents event) {
     if (event is PetFeedInitialized) {
       _mapPetFeedInitialized(event);
@@ -81,6 +100,25 @@ class PetFeedBloc extends Bloc {
       _mapTreat(event);
     } else if (event is LocalDeviceNotFound) {
       _mapLocalDeviceNotFound(event);
+    } else if (event is GetCountDown) {
+      _mapGetCountDown(event);
+    }
+  }
+
+  void getCountDown() {
+    dispatch(GetCountDown());
+  }
+
+  void _mapGetCountDown(GetCountDown event) async {
+    try {
+      await initDB();
+      final date = await provider.getNextFeedTime();
+      addCountDown(date);
+      print(date);
+    } catch (_) {
+      dispatch(
+        PetFeedError((b) => b..message = _.toString()),
+      );
     }
   }
 
@@ -177,6 +215,10 @@ class PetFeedBloc extends Bloc {
     _localConnectionSink.add(data);
   }
 
+  void addCountDown(DateTime date) {
+    _countDownSink.add(date);
+  }
+
   void dispatch(PetFeedEvents event) {
     _eventSink.add(event);
   }
@@ -187,5 +229,6 @@ class PetFeedBloc extends Bloc {
     _pusherStreamController?.close();
     _localConnectionController?.close();
     _foodMeterStreamController?.close();
+    _countDownController?.close();
   }
 }

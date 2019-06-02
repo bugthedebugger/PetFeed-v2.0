@@ -26,7 +26,7 @@ class _$LocalScheduleSerializer implements StructuredSerializer<LocalSchedule> {
       serializers.serialize(object.day, specifiedType: const FullType(String)),
       'feedTime',
       serializers.serialize(object.feedTime,
-          specifiedType: const FullType(double)),
+          specifiedType: const FullType(int)),
       'groupId',
       serializers.serialize(object.groupID,
           specifiedType: const FullType(String)),
@@ -60,7 +60,7 @@ class _$LocalScheduleSerializer implements StructuredSerializer<LocalSchedule> {
           break;
         case 'feedTime':
           result.feedTime = serializers.deserialize(value,
-              specifiedType: const FullType(double)) as double;
+              specifiedType: const FullType(int)) as int;
           break;
         case 'groupId':
           result.groupID = serializers.deserialize(value,
@@ -87,7 +87,7 @@ class _$LocalSchedule extends LocalSchedule {
   @override
   final String day;
   @override
-  final double feedTime;
+  final int feedTime;
   @override
   final String groupID;
   @override
@@ -182,9 +182,9 @@ class LocalScheduleBuilder
   String get day => _$this._day;
   set day(String day) => _$this._day = day;
 
-  double _feedTime;
-  double get feedTime => _$this._feedTime;
-  set feedTime(double feedTime) => _$this._feedTime = feedTime;
+  int _feedTime;
+  int get feedTime => _$this._feedTime;
+  set feedTime(int feedTime) => _$this._feedTime = feedTime;
 
   String _groupID;
   String get groupID => _$this._groupID;

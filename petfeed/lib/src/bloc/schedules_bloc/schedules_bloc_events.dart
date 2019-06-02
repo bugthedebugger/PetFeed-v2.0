@@ -34,3 +34,26 @@ abstract class ScheduleError extends ScheduleEvents
 
   factory ScheduleError([updates(ScheduleErrorBuilder b)]) = _$ScheduleError;
 }
+
+abstract class GetSchedules extends ScheduleEvents
+    implements Built<GetSchedules, GetSchedulesBuilder> {
+  GetSchedules._();
+
+  factory GetSchedules([updates(GetSchedulesBuilder b)]) = _$GetSchedules;
+}
+
+abstract class GetSchedulesSuccess extends ScheduleEvents
+    implements Built<GetSchedulesSuccess, GetSchedulesSuccessBuilder> {
+  GetSchedulesSuccess._();
+
+  factory GetSchedulesSuccess([updates(GetSchedulesSuccessBuilder b)]) =
+      _$GetSchedulesSuccess;
+}
+
+abstract class DeleteAllSchedules extends ScheduleEvents
+    implements Built<DeleteAllSchedules, DeleteAllSchedulesBuilder> {
+  DeleteAllSchedules._();
+
+  factory DeleteAllSchedules([updates(DeleteAllSchedulesBuilder b)]) =
+      _$DeleteAllSchedules;
+}

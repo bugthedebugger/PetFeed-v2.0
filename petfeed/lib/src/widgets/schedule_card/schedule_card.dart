@@ -5,16 +5,22 @@ import 'package:petfeed/src/widgets/feed_time_title/feed_time_title.dart';
 import 'package:petfeed/src/widgets/petfeed_card/petfeed_card.dart';
 import 'package:petfeed/src/widgets/schedule_day_list/schedule_day_list.dart';
 import 'package:petfeed/src/widgets/schedule_time_list/schedule_time_list.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({
+  ScheduleCard({
     Key key,
     @required this.feedTimes,
     @required this.feedDays,
+    this.amount = 0.1,
   }) : super(key: key);
 
   final List<TimeOfDay> feedTimes;
   final List<String> feedDays;
+  final double amount;
+  final SharedPreferences preferences =
+      kiwi.Container().resolve<SharedPreferences>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +55,7 @@ class ScheduleCard extends StatelessWidget {
                 ),
                 SizedBox(width: ScreenUtil().setWidth(15)),
                 Text(
-                  '450 gm',
+                  '$amount ${preferences.getString("petType") == "Fish" ? "ms" : "gm"}',
                   style: TextStyle(
                     fontSize: FontSize.fontSize12,
                   ),

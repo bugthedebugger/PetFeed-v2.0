@@ -2,6 +2,7 @@ import 'package:kiwi/kiwi.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:petfeed/src/bloc/calibration_bloc/calibration_bloc.dart';
+import 'package:petfeed/src/bloc/count_down_bloc/count_down_bloc.dart';
 import 'package:petfeed/src/bloc/device_register_bloc/device_register_bloc.dart';
 import 'package:petfeed/src/bloc/login_bloc/login_bloc.dart';
 import 'package:petfeed/src/bloc/pet_bloc/pet_bloc.dart';
@@ -48,9 +49,10 @@ Future initKiwi() async {
   Container().registerFactory((c) => PetRepository(c.resolve()));
   Container().registerFactory(
       (c) => PetBloc(c.resolve(), c.resolve<SharedPreferences>()));
-  Container().registerFactory((c) => PetFeedBloc(
-      c.resolve(), c.resolve(), c.resolve<SharedPreferences>(), c.resolve()));
   Container().registerFactory((c) => SchedulesProvider());
+  Container().registerFactory((c) => PetFeedBloc(c.resolve(), c.resolve(),
+      c.resolve<SharedPreferences>(), c.resolve(), c.resolve()));
   Container().registerFactory((c) =>
       SchedulesBloc(c.resolve(), c.resolve<SharedPreferences>(), c.resolve()));
+  Container().registerFactory((c) => TimerBloc(c.resolve()));
 }

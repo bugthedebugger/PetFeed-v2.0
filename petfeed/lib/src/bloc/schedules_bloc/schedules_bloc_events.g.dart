@@ -236,4 +236,181 @@ class ScheduleErrorBuilder
   }
 }
 
+class _$GetSchedules extends GetSchedules {
+  factory _$GetSchedules([void Function(GetSchedulesBuilder) updates]) =>
+      (new GetSchedulesBuilder()..update(updates)).build();
+
+  _$GetSchedules._() : super._();
+
+  @override
+  GetSchedules rebuild(void Function(GetSchedulesBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetSchedulesBuilder toBuilder() => new GetSchedulesBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GetSchedules;
+  }
+
+  @override
+  int get hashCode {
+    return 665358489;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('GetSchedules').toString();
+  }
+}
+
+class GetSchedulesBuilder
+    implements Builder<GetSchedules, GetSchedulesBuilder> {
+  _$GetSchedules _$v;
+
+  GetSchedulesBuilder();
+
+  @override
+  void replace(GetSchedules other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$GetSchedules;
+  }
+
+  @override
+  void update(void Function(GetSchedulesBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GetSchedules build() {
+    final _$result = _$v ?? new _$GetSchedules._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GetSchedulesSuccess extends GetSchedulesSuccess {
+  factory _$GetSchedulesSuccess(
+          [void Function(GetSchedulesSuccessBuilder) updates]) =>
+      (new GetSchedulesSuccessBuilder()..update(updates)).build();
+
+  _$GetSchedulesSuccess._() : super._();
+
+  @override
+  GetSchedulesSuccess rebuild(
+          void Function(GetSchedulesSuccessBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetSchedulesSuccessBuilder toBuilder() =>
+      new GetSchedulesSuccessBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GetSchedulesSuccess;
+  }
+
+  @override
+  int get hashCode {
+    return 708007985;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('GetSchedulesSuccess').toString();
+  }
+}
+
+class GetSchedulesSuccessBuilder
+    implements Builder<GetSchedulesSuccess, GetSchedulesSuccessBuilder> {
+  _$GetSchedulesSuccess _$v;
+
+  GetSchedulesSuccessBuilder();
+
+  @override
+  void replace(GetSchedulesSuccess other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$GetSchedulesSuccess;
+  }
+
+  @override
+  void update(void Function(GetSchedulesSuccessBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GetSchedulesSuccess build() {
+    final _$result = _$v ?? new _$GetSchedulesSuccess._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$DeleteAllSchedules extends DeleteAllSchedules {
+  factory _$DeleteAllSchedules(
+          [void Function(DeleteAllSchedulesBuilder) updates]) =>
+      (new DeleteAllSchedulesBuilder()..update(updates)).build();
+
+  _$DeleteAllSchedules._() : super._();
+
+  @override
+  DeleteAllSchedules rebuild(
+          void Function(DeleteAllSchedulesBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  DeleteAllSchedulesBuilder toBuilder() =>
+      new DeleteAllSchedulesBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is DeleteAllSchedules;
+  }
+
+  @override
+  int get hashCode {
+    return 577395081;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('DeleteAllSchedules').toString();
+  }
+}
+
+class DeleteAllSchedulesBuilder
+    implements Builder<DeleteAllSchedules, DeleteAllSchedulesBuilder> {
+  _$DeleteAllSchedules _$v;
+
+  DeleteAllSchedulesBuilder();
+
+  @override
+  void replace(DeleteAllSchedules other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$DeleteAllSchedules;
+  }
+
+  @override
+  void update(void Function(DeleteAllSchedulesBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$DeleteAllSchedules build() {
+    final _$result = _$v ?? new _$DeleteAllSchedules._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

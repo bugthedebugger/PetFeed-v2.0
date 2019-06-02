@@ -60,3 +60,10 @@ abstract class PetFeedError extends PetFeedEvents
 
   factory PetFeedError([updates(PetFeedErrorBuilder b)]) = _$PetFeedError;
 }
+
+abstract class GetCountDown extends PetFeedEvents
+    implements Built<GetCountDown, GetCountDownBuilder> {
+  GetCountDown._();
+
+  factory GetCountDown([updates(GetCountDownBuilder b)]) = _$GetCountDown;
+}
