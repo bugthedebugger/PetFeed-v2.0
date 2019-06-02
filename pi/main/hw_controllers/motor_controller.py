@@ -7,7 +7,7 @@ import time
 
 
 class MotorController:
-    def __init__(self, left_pin=5, right_pin=6, GPIO=None):
+    def __init__(self, left_pin=5, right_pin=6, GPIO=None, weightSensor=None):
         self.GPIO = GPIO
         # ASSIGN THE PIN NUMBERS, 14 AND 15 IF NONE PASSED
         self.left_pin = left_pin
@@ -21,8 +21,14 @@ class MotorController:
         self.left_pwm.start(0)
         self.right_pwm.start(0)
         # INITIALIZE WEIGHT SENSOR
+        if weightSensor == None:
+            self.weightSensor = None
+            self.weightSensorMounted = False
+        else:
+            self.weightSensor = None
+            self.weightSensorMounted = False
         try:
-            self.wt = HX711(dout_pin=21, pd_sck_pin=20)
+            self.wt = weightSensor
             self.weightSensor = True
         except:
             self.wt = None
@@ -44,23 +50,24 @@ class MotorController:
         self.right_pwm.ChangeDutyCycle(0)
 
     def fish(self, duration=1):
-        self.start()
-        time.sleep(duration / 4)
-        self.reverse()
-        time.sleep(0.1)
-        self.start()
-        time.sleep(duration / 4)
-        self.reverse()
-        time.sleep(0.1)
-        self.start()
-        time.sleep(duration / 4)
-        self.reverse()
-        time.sleep(0.1)
-        self.start()
-        time.sleep(duration / 4)
-        self.reverse()
-        time.sleep(0.1)
-        self.stop()
+        print(self.weightSensor.getWeight())
+        # self.start()
+        # time.sleep(duration / 4)
+        # self.reverse()
+        # time.sleep(0.1)
+        # self.start()
+        # time.sleep(duration / 4)
+        # self.reverse()
+        # time.sleep(0.1)
+        # self.start()
+        # time.sleep(duration / 4)
+        # self.reverse()
+        # time.sleep(0.1)
+        # self.start()
+        # time.sleep(duration / 4)
+        # self.reverse()
+        # time.sleep(0.1)
+        # self.stop()
 
     def __del__(self):
         self.GPIO.cleanup()

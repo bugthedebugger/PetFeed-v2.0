@@ -17,7 +17,14 @@ import time
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-motorController = MotorController(GPIO=GPIO)
+weightSensor = None
+
+try:
+    weightSensor = HX711(GPIO=GPIO, dout_pin=21, pd_sck_pin=20)
+except:
+    weightSensor = None
+
+motorController = MotorController(GPIO=GPIO, weightSensor=weightSensor)
 distanceSensor = Distance(GPIO=GPIO)
 pusherContainer = PusherContainer(
     motorController=motorController, distanceSensor=distanceSensor)
