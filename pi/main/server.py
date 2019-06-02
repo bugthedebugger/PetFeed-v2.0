@@ -81,6 +81,10 @@ class FlaskServer:
             if userToken == accessToken:
                 amount = userRequest['amount']
 
+                print('------------------------------------------')
+                print(distanceSensor.fish())
+                print('------------------------------------------')
+
                 if distanceSensor.fish() > 10:
                     if device.type == 'Fish':
                         # print('here')
