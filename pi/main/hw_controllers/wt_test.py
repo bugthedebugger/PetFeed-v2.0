@@ -13,7 +13,7 @@ try:
     if err:
         raise ValueError('Tare is unsuccessful.')
 
-    reading = hx.get_raw_data_mean()
+    reading = hx.get_raw_data_mean(readings=10)
     if reading:  # always check if you get correct value or only False
         # now the value is close to 0
         print('Data subtracted by offset but still not converted to units:',
@@ -24,7 +24,7 @@ try:
     # In order to calculate the conversion ratio to some units, in my case I want grams,
     # you must have known weight.
     input('Put known weight on the scale and then press Enter')
-    reading = hx.get_data_mean()
+    reading = hx.get_data_mean(readings=10)
     if reading:
         print('Mean value from HX711 subtracted by offset:', reading)
         known_weight_grams = input(
