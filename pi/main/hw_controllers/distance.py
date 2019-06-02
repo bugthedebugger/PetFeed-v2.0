@@ -40,7 +40,7 @@ class Distance:
         return distance
 
     def fish(self):
-        max = 40
+        max = 11
         min = 3
 
         distance = self.distance()
@@ -59,7 +59,7 @@ class Distance:
         return 100 - percentRemain
 
     def other(self):
-        max = 40
+        max = 11
         min = 3
 
         distance = self.distance()
