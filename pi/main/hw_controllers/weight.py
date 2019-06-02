@@ -10,4 +10,4 @@ class WeightSensor:
         self.hx.set_scale_ratio(self.ratio)
 
     def getWeight(self):
-        return hx.get_weight_mean(10)
+        return self.hx.get_weight_mean(10)
