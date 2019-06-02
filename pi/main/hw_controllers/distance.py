@@ -40,7 +40,7 @@ class Distance:
         return distance
 
     def fish(self):
-        max = 11
+        max = 20
         min = 3
 
         distance = self.distance()
