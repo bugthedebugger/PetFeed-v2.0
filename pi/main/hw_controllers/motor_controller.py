@@ -27,12 +27,12 @@ class MotorController:
         else:
             self.weightSensor = None
             self.weightSensorMounted = False
-        try:
-            self.wt = weightSensor
-            self.weightSensor = True
-        except:
-            self.wt = None
-            self.weightSensor = False
+        # try:
+        #     self.wt = weightSensor
+        #     self.weightSensor = True
+        # except:
+        #     self.wt = None
+        #     self.weightSensor = False
 
     # FUNCTION THAT RUNS THE MOTOR
     def start(self):
