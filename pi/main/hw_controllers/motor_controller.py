@@ -43,10 +43,10 @@ class MotorController:
 
     def slowStart(self):
         self.left_pwm.ChangeDutyCycle(0)
-        self.right_pwm.ChangeDutyCycle(70)
+        self.right_pwm.ChangeDutyCycle(100)
 
     def slowReverse(self):
-        self.left_pwm.ChangeDutyCycle(70)
+        self.left_pwm.ChangeDutyCycle(100)
         self.right_pwm.ChangeDutyCycle(0)
 
     def stop(self):
