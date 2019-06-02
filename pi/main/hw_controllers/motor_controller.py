@@ -74,8 +74,11 @@ class MotorController:
         # self.stop()
 
     def wtFeed(self, weight=50):
-        while(self.weightSensor.getWeight() < weight):
+        foodWeight = self.weightSensor.getWeight()
+        while(foodWeight < weight):
             self.slowStart()
+            foodWeight = self.weightSensor.getWeight()
+            print(foodWeight)
 
     def __del__(self):
         self.GPIO.cleanup()
