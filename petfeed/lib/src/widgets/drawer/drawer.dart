@@ -40,7 +40,9 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(Routes.SETUP_PAGE);
+            },
             child: ListTile(
               dense: true,
               leading: Icon(

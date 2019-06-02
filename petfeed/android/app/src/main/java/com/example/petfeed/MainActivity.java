@@ -221,6 +221,8 @@ public class MainActivity extends FlutterActivity {
             public void onEvent(String channelName, String eventName, final String data) {
               // System.out.println("I am trying to figure this shit");
               // System.out.println(deviceStatus);
+              System.out.print("Food Meter from Pusher: ");
+              System.out.println(data);
               events.success(data);
             }
           });

@@ -111,6 +111,112 @@ class StartHopperBuilder implements Builder<StartHopper, StartHopperBuilder> {
   }
 }
 
+class _$ReverseHopper extends ReverseHopper {
+  @override
+  final String deviceID;
+  @override
+  final String token;
+  @override
+  final String deviceToken;
+
+  factory _$ReverseHopper([void Function(ReverseHopperBuilder) updates]) =>
+      (new ReverseHopperBuilder()..update(updates)).build();
+
+  _$ReverseHopper._({this.deviceID, this.token, this.deviceToken}) : super._() {
+    if (deviceID == null) {
+      throw new BuiltValueNullFieldError('ReverseHopper', 'deviceID');
+    }
+    if (token == null) {
+      throw new BuiltValueNullFieldError('ReverseHopper', 'token');
+    }
+    if (deviceToken == null) {
+      throw new BuiltValueNullFieldError('ReverseHopper', 'deviceToken');
+    }
+  }
+
+  @override
+  ReverseHopper rebuild(void Function(ReverseHopperBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ReverseHopperBuilder toBuilder() => new ReverseHopperBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ReverseHopper &&
+        deviceID == other.deviceID &&
+        token == other.token &&
+        deviceToken == other.deviceToken;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc(0, deviceID.hashCode), token.hashCode), deviceToken.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ReverseHopper')
+          ..add('deviceID', deviceID)
+          ..add('token', token)
+          ..add('deviceToken', deviceToken))
+        .toString();
+  }
+}
+
+class ReverseHopperBuilder
+    implements Builder<ReverseHopper, ReverseHopperBuilder> {
+  _$ReverseHopper _$v;
+
+  String _deviceID;
+  String get deviceID => _$this._deviceID;
+  set deviceID(String deviceID) => _$this._deviceID = deviceID;
+
+  String _token;
+  String get token => _$this._token;
+  set token(String token) => _$this._token = token;
+
+  String _deviceToken;
+  String get deviceToken => _$this._deviceToken;
+  set deviceToken(String deviceToken) => _$this._deviceToken = deviceToken;
+
+  ReverseHopperBuilder();
+
+  ReverseHopperBuilder get _$this {
+    if (_$v != null) {
+      _deviceID = _$v.deviceID;
+      _token = _$v.token;
+      _deviceToken = _$v.deviceToken;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ReverseHopper other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ReverseHopper;
+  }
+
+  @override
+  void update(void Function(ReverseHopperBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ReverseHopper build() {
+    final _$result = _$v ??
+        new _$ReverseHopper._(
+            deviceID: deviceID, token: token, deviceToken: deviceToken);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$StopHopper extends StopHopper {
   @override
   final String deviceID;

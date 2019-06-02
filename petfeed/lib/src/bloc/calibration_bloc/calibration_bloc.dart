@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:petfeed/src/bloc/bloc_provider.dart';
 import 'package:petfeed/src/bloc/calibration_bloc/calibration_bloc_export.dart';
 import 'package:petfeed/src/data/exceptions/custom_exceptions.dart';
+import 'package:petfeed/src/data/models/pusher_events/reverse_pusher_hopper.dart';
 import 'package:petfeed/src/data/models/pusher_events/start_pusher_hopper.dart';
 import 'package:petfeed/src/data/models/pusher_events/stop_pusher_hopper.dart';
 import 'package:petfeed/src/data/network/pusher/pusher.dart';
@@ -31,6 +32,38 @@ class CalibrationBloc extends Bloc {
       _mapStartHopper(event);
     } else if (event is StopHopper) {
       _mapStopHopper(event);
+    } else if (event is ReverseHopper) {
+      _mapReverseHopper(event);
+    }
+  }
+
+  void reverseHopper() {
+    String token = preferences.get('token');
+    String deviceID = preferences.get('deviceID');
+    String deviceToken = preferences.get('deviceToken');
+    dispatch(
+      ReverseHopper((b) => b
+        ..token = token
+        ..deviceID = deviceID
+        ..deviceToken = deviceToken),
+    );
+  }
+
+  void _mapReverseHopper(ReverseHopper event) async {
+    try {
+      Map<String, String> data = {
+        'accessToken': event.deviceToken,
+      };
+      ReversePusherHopper _reverse = ReversePusherHopper(data: data);
+      pusher.trigger(_reverse);
+    } on CalibrationException catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.message));
+    } on UnauthenticatedException catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.message));
+    } on NoInternetException catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.message));
+    } catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.toString()));
     }
   }
 

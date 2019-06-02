@@ -10,6 +10,7 @@ import 'package:petfeed/src/pages/pet_setup/pet_setup.dart';
 import 'package:petfeed/src/pages/petfeed/petfeed_page.dart';
 import 'package:petfeed/src/pages/register/register.dart';
 import 'package:petfeed/src/pages/schedules/schedules.dart';
+import 'package:petfeed/src/pages/setup/setup_page.dart';
 import 'package:petfeed/src/pages/splash_screen/splash_screen.dart';
 
 void main() async {
@@ -37,6 +38,7 @@ class PetFeed extends StatelessWidget {
         Routes.CALLIBRATE_DEVICE: (context) => DeviceCalibration(),
         Routes.PET_SETUP: (context) => PetSetup(),
         Routes.SCHEDULES: (context) => Schedules(),
+        Routes.SETUP_PAGE: (context) => SetupPage(),
       },
     );
   }

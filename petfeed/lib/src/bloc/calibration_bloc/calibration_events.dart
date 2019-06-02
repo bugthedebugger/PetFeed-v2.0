@@ -17,6 +17,17 @@ abstract class StartHopper extends CalibrationEvents
   factory StartHopper([updates(StartHopperBuilder b)]) = _$StartHopper;
 }
 
+abstract class ReverseHopper extends CalibrationEvents
+    implements Built<ReverseHopper, ReverseHopperBuilder> {
+  String get deviceID;
+  String get token;
+  String get deviceToken;
+
+  ReverseHopper._();
+
+  factory ReverseHopper([updates(ReverseHopperBuilder b)]) = _$ReverseHopper;
+}
+
 abstract class StopHopper extends CalibrationEvents
     implements Built<StopHopper, StopHopperBuilder> {
   String get deviceID;

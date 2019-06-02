@@ -10,4 +10,5 @@ class Routes {
   static const CALLIBRATE_DEVICE = '/callibrate-device';
   static const PET_SETUP = '/pet-setup';
   static const SCHEDULES = 'schedules';
+  static const SETUP_PAGE = '/setup';
 }

@@ -182,6 +182,18 @@ class PusherContainer:
         else:
             print('access token mismatch')
 
+    def reverse_hopper(self, data):
+        data = ast.literal_eval(data)
+
+        device = Device()
+        results = self.db.selectAll(device)
+        device.from_map(results[0])
+
+        if data['accessToken'] == device.accessToken:
+            self.motors.reverse()
+        else:
+            print('access token mismatch')
+
     def stop_hopper(self, data):
         data = ast.literal_eval(data)
 
@@ -223,6 +235,7 @@ class PusherContainer:
         petfeed_channel.bind('petfeed-register', self.register)
         petfeed_channel.bind('petfeed-status', self.status)
         petfeed_channel.bind('petfeed-start-hopper', self.start_hopper)
+        petfeed_channel.bind('petfeed-reverse-hopper', self.reverse_hopper)
         petfeed_channel.bind('petfeed-stop-hopper', self.stop_hopper)
 
         # CLIENT EVENTS -- WILL REMOVE REDUNDANT ONES
