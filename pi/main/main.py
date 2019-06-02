@@ -19,10 +19,10 @@ GPIO.setwarnings(False)
 
 weightSensor = None
 
-try:
-    weightSensor = HX711(GPIO=GPIO, dout_pin=21, pd_sck_pin=20)
-except:
-    weightSensor = None
+# try:
+weightSensor = HX711(GPIO=GPIO, dout_pin=21, pd_sck_pin=20)
+# except:
+#     weightSensor = None
 
 motorController = MotorController(GPIO=GPIO, weightSensor=weightSensor)
 distanceSensor = Distance(GPIO=GPIO)
