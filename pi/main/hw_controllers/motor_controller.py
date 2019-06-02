@@ -1,4 +1,3 @@
-from .hx711 import HX711
 # import RPi.GPIO as GPIO
 import time
 # SET THE PIN LAYOUT TO BCM LAYOUT
