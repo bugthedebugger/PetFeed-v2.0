@@ -41,6 +41,10 @@ class MotorController:
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(100)
 
+    def slowStart(self):
+        self.left_pwm.ChangeDutyCycle(0)
+        self.right_pwm.ChangeDutyCycle(70)
+
     def stop(self):
         self.left_pwm.ChangeDutyCycle(0)
         self.right_pwm.ChangeDutyCycle(0)
@@ -50,7 +54,7 @@ class MotorController:
         self.right_pwm.ChangeDutyCycle(0)
 
     def fish(self, duration=1):
-        print(self.weightSensor.getWeight())
+        self.wtFeed()
         # self.start()
         # time.sleep(duration / 4)
         # self.reverse()
@@ -68,6 +72,10 @@ class MotorController:
         # self.reverse()
         # time.sleep(0.1)
         # self.stop()
+
+    def wtFeed(self, weight=50):
+        while(self.weightSensor.getWeight() < weight):
+            self.slowStart()
 
     def __del__(self):
         self.GPIO.cleanup()
