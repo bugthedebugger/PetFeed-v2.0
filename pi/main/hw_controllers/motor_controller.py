@@ -78,13 +78,12 @@ class MotorController:
         # self.stop()
 
     def wtFeed(self, weight=50):
-        foodWeight = self.weightSensor.getWeight()
-        while(foodWeight < weight):
+        while(self.weightSensor.getWeight() < weight):
             self.slowStart()
             time.sleep(1)
             self.slowReverse()
-            foodWeight = self.weightSensor.getWeight()
-            print(foodWeight)
+            time.sleep(0.3)
+            self.slowStart()
 
         self.stop()
 
