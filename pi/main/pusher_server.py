@@ -121,6 +121,7 @@ class PusherContainer:
 
         if data['accessToken'] == device.accessToken:
             print('received restart')
+            os.sys('sudo reboot')
         else:
             print('access token mismatch')
 
@@ -133,6 +134,7 @@ class PusherContainer:
 
         if data['accessToken'] == device.accessToken:
             print('received shutdown')
+            os.sys('sudo poweroff')
         else:
             print('access token mismatch')
 
@@ -249,7 +251,8 @@ class PusherContainer:
         petfeed_channel.bind('client-petfeed-register', self.register)
         petfeed_channel.bind('client-petfeed-status', self.status)
         petfeed_channel.bind('client-petfeed-start-hopper', self.start_hopper)
-        petfeed_channel.bind('client-petfeed-reverse-hopper', self.reverse_hopper)
+        petfeed_channel.bind(
+            'client-petfeed-reverse-hopper', self.reverse_hopper)
         petfeed_channel.bind('client-petfeed-stop-hopper', self.stop_hopper)
 
     def connect(self):

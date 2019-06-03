@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:petfeed/src/bloc/bloc_provider.dart';
 import 'package:petfeed/src/bloc/calibration_bloc/calibration_bloc_export.dart';
 import 'package:petfeed/src/data/exceptions/custom_exceptions.dart';
+import 'package:petfeed/src/data/models/pusher_events/restart_pusher_device.dart';
 import 'package:petfeed/src/data/models/pusher_events/reverse_pusher_hopper.dart';
+import 'package:petfeed/src/data/models/pusher_events/shutdown_pusher_device.dart';
 import 'package:petfeed/src/data/models/pusher_events/start_pusher_hopper.dart';
 import 'package:petfeed/src/data/models/pusher_events/stop_pusher_hopper.dart';
 import 'package:petfeed/src/data/network/pusher/pusher.dart';
@@ -34,6 +36,70 @@ class CalibrationBloc extends Bloc {
       _mapStopHopper(event);
     } else if (event is ReverseHopper) {
       _mapReverseHopper(event);
+    } else if (event is ShutdownDevice) {
+      _mapShutdownDevice(event);
+    } else if (event is RestartDevice) {
+      _mapRestartDevice(event);
+    }
+  }
+
+  void restartDevice() {
+    String token = preferences.get('token');
+    String deviceID = preferences.get('deviceID');
+    String deviceToken = preferences.get('deviceToken');
+    dispatch(
+      RestartDevice((b) => b
+        ..token = token
+        ..deviceID = deviceID
+        ..deviceToken = deviceToken),
+    );
+  }
+
+  void _mapRestartDevice(RestartDevice event) async {
+    try {
+      Map<String, String> data = {
+        'accessToken': event.deviceToken,
+      };
+      RestartPusherDevice _restart = RestartPusherDevice(data: data);
+      pusher.trigger(_restart);
+    } on CalibrationException catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.message));
+    } on UnauthenticatedException catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.message));
+    } on NoInternetException catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.message));
+    } catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.toString()));
+    }
+  }
+
+  void shutdownDevice() {
+    String token = preferences.get('token');
+    String deviceID = preferences.get('deviceID');
+    String deviceToken = preferences.get('deviceToken');
+    dispatch(
+      ShutdownDevice((b) => b
+        ..token = token
+        ..deviceID = deviceID
+        ..deviceToken = deviceToken),
+    );
+  }
+
+  void _mapShutdownDevice(ShutdownDevice event) async {
+    try {
+      Map<String, String> data = {
+        'accessToken': event.deviceToken,
+      };
+      ShutdownPusherDevice _shutdown = ShutdownPusherDevice(data: data);
+      pusher.trigger(_shutdown);
+    } on CalibrationException catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.message));
+    } on UnauthenticatedException catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.message));
+    } on NoInternetException catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.message));
+    } catch (_) {
+      dispatch(CalibrationError((b) => b..message = _.toString()));
     }
   }
 

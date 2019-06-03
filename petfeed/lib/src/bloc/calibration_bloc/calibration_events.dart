@@ -6,6 +6,28 @@ part 'calibration_events.g.dart';
 
 abstract class CalibrationEvents {}
 
+abstract class ShutdownDevice extends CalibrationEvents
+    implements Built<ShutdownDevice, ShutdownDeviceBuilder> {
+  String get deviceID;
+  String get token;
+  String get deviceToken;
+
+  ShutdownDevice._();
+
+  factory ShutdownDevice([updates(ShutdownDeviceBuilder b)]) = _$ShutdownDevice;
+}
+
+abstract class RestartDevice extends CalibrationEvents
+    implements Built<RestartDevice, RestartDeviceBuilder> {
+  String get deviceID;
+  String get token;
+  String get deviceToken;
+
+  RestartDevice._();
+
+  factory RestartDevice([updates(RestartDeviceBuilder b)]) = _$RestartDevice;
+}
+
 abstract class StartHopper extends CalibrationEvents
     implements Built<StartHopper, StartHopperBuilder> {
   String get deviceID;

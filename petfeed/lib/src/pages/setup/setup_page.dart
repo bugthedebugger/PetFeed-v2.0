@@ -143,7 +143,9 @@ class _SetupPageState extends State<SetupPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              _calibrationBloc.shutdownDevice();
+                            },
                             child: Container(
                               height: ScreenUtil().setHeight(91),
                               width: ScreenUtil().setWidth(100),
@@ -172,7 +174,9 @@ class _SetupPageState extends State<SetupPage> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              _calibrationBloc.restartDevice();
+                            },
                             child: Container(
                               height: ScreenUtil().setHeight(91),
                               width: ScreenUtil().setWidth(100),

@@ -6,6 +6,220 @@ part of calibration_events;
 // BuiltValueGenerator
 // **************************************************************************
 
+class _$ShutdownDevice extends ShutdownDevice {
+  @override
+  final String deviceID;
+  @override
+  final String token;
+  @override
+  final String deviceToken;
+
+  factory _$ShutdownDevice([void Function(ShutdownDeviceBuilder) updates]) =>
+      (new ShutdownDeviceBuilder()..update(updates)).build();
+
+  _$ShutdownDevice._({this.deviceID, this.token, this.deviceToken})
+      : super._() {
+    if (deviceID == null) {
+      throw new BuiltValueNullFieldError('ShutdownDevice', 'deviceID');
+    }
+    if (token == null) {
+      throw new BuiltValueNullFieldError('ShutdownDevice', 'token');
+    }
+    if (deviceToken == null) {
+      throw new BuiltValueNullFieldError('ShutdownDevice', 'deviceToken');
+    }
+  }
+
+  @override
+  ShutdownDevice rebuild(void Function(ShutdownDeviceBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ShutdownDeviceBuilder toBuilder() =>
+      new ShutdownDeviceBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ShutdownDevice &&
+        deviceID == other.deviceID &&
+        token == other.token &&
+        deviceToken == other.deviceToken;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc(0, deviceID.hashCode), token.hashCode), deviceToken.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ShutdownDevice')
+          ..add('deviceID', deviceID)
+          ..add('token', token)
+          ..add('deviceToken', deviceToken))
+        .toString();
+  }
+}
+
+class ShutdownDeviceBuilder
+    implements Builder<ShutdownDevice, ShutdownDeviceBuilder> {
+  _$ShutdownDevice _$v;
+
+  String _deviceID;
+  String get deviceID => _$this._deviceID;
+  set deviceID(String deviceID) => _$this._deviceID = deviceID;
+
+  String _token;
+  String get token => _$this._token;
+  set token(String token) => _$this._token = token;
+
+  String _deviceToken;
+  String get deviceToken => _$this._deviceToken;
+  set deviceToken(String deviceToken) => _$this._deviceToken = deviceToken;
+
+  ShutdownDeviceBuilder();
+
+  ShutdownDeviceBuilder get _$this {
+    if (_$v != null) {
+      _deviceID = _$v.deviceID;
+      _token = _$v.token;
+      _deviceToken = _$v.deviceToken;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ShutdownDevice other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ShutdownDevice;
+  }
+
+  @override
+  void update(void Function(ShutdownDeviceBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ShutdownDevice build() {
+    final _$result = _$v ??
+        new _$ShutdownDevice._(
+            deviceID: deviceID, token: token, deviceToken: deviceToken);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$RestartDevice extends RestartDevice {
+  @override
+  final String deviceID;
+  @override
+  final String token;
+  @override
+  final String deviceToken;
+
+  factory _$RestartDevice([void Function(RestartDeviceBuilder) updates]) =>
+      (new RestartDeviceBuilder()..update(updates)).build();
+
+  _$RestartDevice._({this.deviceID, this.token, this.deviceToken}) : super._() {
+    if (deviceID == null) {
+      throw new BuiltValueNullFieldError('RestartDevice', 'deviceID');
+    }
+    if (token == null) {
+      throw new BuiltValueNullFieldError('RestartDevice', 'token');
+    }
+    if (deviceToken == null) {
+      throw new BuiltValueNullFieldError('RestartDevice', 'deviceToken');
+    }
+  }
+
+  @override
+  RestartDevice rebuild(void Function(RestartDeviceBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  RestartDeviceBuilder toBuilder() => new RestartDeviceBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is RestartDevice &&
+        deviceID == other.deviceID &&
+        token == other.token &&
+        deviceToken == other.deviceToken;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc(0, deviceID.hashCode), token.hashCode), deviceToken.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('RestartDevice')
+          ..add('deviceID', deviceID)
+          ..add('token', token)
+          ..add('deviceToken', deviceToken))
+        .toString();
+  }
+}
+
+class RestartDeviceBuilder
+    implements Builder<RestartDevice, RestartDeviceBuilder> {
+  _$RestartDevice _$v;
+
+  String _deviceID;
+  String get deviceID => _$this._deviceID;
+  set deviceID(String deviceID) => _$this._deviceID = deviceID;
+
+  String _token;
+  String get token => _$this._token;
+  set token(String token) => _$this._token = token;
+
+  String _deviceToken;
+  String get deviceToken => _$this._deviceToken;
+  set deviceToken(String deviceToken) => _$this._deviceToken = deviceToken;
+
+  RestartDeviceBuilder();
+
+  RestartDeviceBuilder get _$this {
+    if (_$v != null) {
+      _deviceID = _$v.deviceID;
+      _token = _$v.token;
+      _deviceToken = _$v.deviceToken;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(RestartDevice other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$RestartDevice;
+  }
+
+  @override
+  void update(void Function(RestartDeviceBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$RestartDevice build() {
+    final _$result = _$v ??
+        new _$RestartDevice._(
+            deviceID: deviceID, token: token, deviceToken: deviceToken);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$StartHopper extends StartHopper {
   @override
   final String deviceID;
