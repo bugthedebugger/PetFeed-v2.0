@@ -121,7 +121,7 @@ class PusherContainer:
 
         if data['accessToken'] == device.accessToken:
             print('received restart')
-            os.sys('sudo reboot')
+            os.system('sudo reboot')
         else:
             print('access token mismatch')
 
@@ -134,7 +134,7 @@ class PusherContainer:
 
         if data['accessToken'] == device.accessToken:
             print('received shutdown')
-            os.sys('sudo poweroff')
+            os.system('sudo poweroff')
         else:
             print('access token mismatch')
 
