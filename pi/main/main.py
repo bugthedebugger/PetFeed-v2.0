@@ -86,67 +86,69 @@ def sync_to_server():
     schedules = db.selectAll(schedule)
     tempSchedule = Schedule()
 
-    # while True:
-    # try:
-    for s in schedules:
-        print(s)
-        tempSchedule = Schedule()
-        tempSchedule.from_map(s)
-        if tempSchedule.synced == 0:
-            if tempSchedule.deleted == 0:
-                schedule_from_server = requests.post(
-                    url='https://prayush.karkhana.asia/api/schedule/set',
-                    headers={
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + accessToken,
-                        'Content-Type': 'application/json'
-                    },
-                    json={
-                        'day': tempSchedule.day,
-                        'feedTime': str(tempSchedule.time),
-                        'amount': tempSchedule.amount,
-                        'groupId': tempSchedule.groupId,
-                        'deleted': False,
-                        'uId': tempSchedule.uId,
-                        'deviceId': deviceId,
-                        'petId': tempSchedule.petId,
-                        'serverId': tempSchedule.serverId
-                    }
-                )
-                print(schedule_from_server.text)
-                print(schedule_from_server.status_code)
-                if schedule_from_server.status_code == 200:
-                    print('````````````````````````````````````````````````````')
-                    schedule_from_server = schedule_from_server.json()
-                    tempSchedule.serverId = schedule_from_server['id']
-                    db.update(tempSchedule)
-                    print('db update')
-                    print('````````````````````````````````````````````````````')
-            else:
-                schedule_from_server = requests.post(
-                    url='https://prayush.karkhana.asia/api/schedule/set',
-                    headers={
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + accessToken,
-                        'Content-Type': 'application/json'
-                    },
-                    json={
-                        'day': tempSchedule.day,
-                        'feedTime': str(tempSchedule.time),
-                        'amount': tempSchedule.amount,
-                        'groupId': tempSchedule.groupId,
-                        'deleted': True,
-                        'uId': tempSchedule.uId,
-                        'deviceId': deviceId,
-                        'petId': tempSchedule.petId,
-                        'serverId': tempSchedule.serverId
-                    }
-                )
-                print(schedule_from_server.text)
-                if schedule_from_server.status_code == 200:
-                    db.delete(tempSchedule)
-        # except:
-        #     print('Exception occured')
+    while True:
+        try:
+            for s in schedules:
+                print(s)
+                tempSchedule = Schedule()
+                tempSchedule.from_map(s)
+                if tempSchedule.synced == 0:
+                    if tempSchedule.deleted == 0:
+                        schedule_from_server = requests.post(
+                            url='https://prayush.karkhana.asia/api/schedule/set',
+                            headers={
+                                'Accept': 'application/json',
+                                'Authorization': 'Bearer ' + accessToken,
+                                'Content-Type': 'application/json'
+                            },
+                            json={
+                                'day': tempSchedule.day,
+                                'feedTime': str(tempSchedule.time),
+                                'amount': tempSchedule.amount,
+                                'groupId': tempSchedule.groupId,
+                                'deleted': False,
+                                'uId': tempSchedule.uId,
+                                'deviceId': deviceId,
+                                'petId': tempSchedule.petId,
+                                'serverId': tempSchedule.serverId
+                            }
+                        )
+                        print(schedule_from_server.text)
+                        print(schedule_from_server.status_code)
+                        if schedule_from_server.status_code == 200:
+                            print(
+                                '````````````````````````````````````````````````````')
+                            schedule_from_server = schedule_from_server.json()
+                            tempSchedule.serverId = schedule_from_server['id']
+                            db.update(tempSchedule)
+                            print('db update')
+                            print(
+                                '````````````````````````````````````````````````````')
+                    else:
+                        schedule_from_server = requests.post(
+                            url='https://prayush.karkhana.asia/api/schedule/set',
+                            headers={
+                                'Accept': 'application/json',
+                                'Authorization': 'Bearer ' + accessToken,
+                                'Content-Type': 'application/json'
+                            },
+                            json={
+                                'day': tempSchedule.day,
+                                'feedTime': str(tempSchedule.time),
+                                'amount': tempSchedule.amount,
+                                'groupId': tempSchedule.groupId,
+                                'deleted': True,
+                                'uId': tempSchedule.uId,
+                                'deviceId': deviceId,
+                                'petId': tempSchedule.petId,
+                                'serverId': tempSchedule.serverId
+                            }
+                        )
+                        print(schedule_from_server.text)
+                        if schedule_from_server.status_code == 200:
+                            db.delete(tempSchedule)
+        except:
+            print('Exception occured')
         time.sleep(5)
 
 
