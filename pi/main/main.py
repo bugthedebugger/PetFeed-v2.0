@@ -84,12 +84,14 @@ def sync_to_server():
     deviceId = device.deviceId
     schedule = Schedule()
     schedules = db.selectAll(schedule)
+    tempSchedule = Schedule()
 
     while True:
         # try:
         for s in schedules:
-            if s.synced == 0:
-                if s.deleted == 0:
+            tempSchedule.from_map(s)
+            if tempSchedule.synced == 0:
+                if tempSchedule.deleted == 0:
                     schedule_from_server = requests.post(
                         url='https://prayush.karkhana.asia/api/schedule/set',
                         headers={
@@ -97,13 +99,13 @@ def sync_to_server():
                             'Authorization': 'Bearer ' + accessToken,
                             'Content-Type': 'application/json'
                         },
-                        json=s.to_map()
+                        json=tempSchedule.to_map()
                     )
                     print(schedule_from_server.text)
                     if schedule_from_server.status_code == 200:
                         schedule_from_server = schedule_from_server.json
-                        s.serverId = schedule_from_server['id']
-                        db.update(s)
+                        tempSchedule.serverId = schedule_from_server['id']
+                        db.update(tempSchedule)
                 else:
                     schedule_from_server = requests.post(
                         url='https://prayush.karkhana.asia/api/schedule/set',
@@ -112,11 +114,11 @@ def sync_to_server():
                             'Authorization': 'Bearer ' + accessToken,
                             'Content-Type': 'application/json'
                         },
-                        json=s.to_map()
+                        json=tempSchedule.to_map()
                     )
                     print(schedule_from_server.text)
                     if schedule_from_server.status_code == 200:
-                        db.delete(s)
+                        db.delete(tempSchedule)
         # except:
         #     print('Exception occured')
         time.sleep(5)
