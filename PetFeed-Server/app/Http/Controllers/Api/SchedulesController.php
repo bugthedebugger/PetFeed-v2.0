@@ -22,6 +22,7 @@ class SchedulesController extends Controller
             'deleted' => 'required',
             'uId' => 'required',
             'deviceId' => 'required',
+            'serverId' => 'required'
         ]);
 
         $device = Device::where('deviceId', $request->deviceId)->first();
@@ -29,7 +30,7 @@ class SchedulesController extends Controller
         $schedule = [];
         try{
             \DB::beginTransaction();
-            if (!$request->has('serverId'))
+            if ($request->serverId == -1)
             {
                 $schedule = Schedule::create([
                     'day' => $request->day,
@@ -41,7 +42,7 @@ class SchedulesController extends Controller
                     'uId' => $request->uId,
                     'groupId' => $request->groupId
                 ]);
-            } else if ($request->has('serverId')) {
+            } else {
                 $schedule = Schedule::find($request->serverId);
                 if ($request->deleted == true) {
                     $schedule->delete();
