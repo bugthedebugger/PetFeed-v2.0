@@ -59,6 +59,6 @@ class SchedulesController extends Controller
             abort(500, $e);
         }
 
-        return $schedule;
+        return response()->json($schedule, 200);
     }
 }
