@@ -117,7 +117,7 @@ def sync_to_server():
                 print(schedule_from_server.status_code)
                 if schedule_from_server.status_code == 200:
                     print('````````````````````````````````````````````````````')
-                    schedule_from_server = schedule_from_server.json
+                    schedule_from_server = schedule_from_server.json()
                     tempSchedule.serverId = schedule_from_server['id']
                     db.update(tempSchedule)
                     print('db update')
