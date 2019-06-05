@@ -316,7 +316,7 @@ network={
                             'petId': petID,
                             'uploaded': False,
                             'deleted': False,
-                            'serverId': None
+                            'serverId': 'null'
                         }
                         schedule = Schedule()
                         schedule.from_map(schedule_map)
