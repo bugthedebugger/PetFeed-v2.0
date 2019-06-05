@@ -114,7 +114,8 @@ def sync_to_server():
                     }
                 )
                 print(schedule_from_server.text)
-                if schedule_from_server.status_code == 200:
+                print(schedule_from_server.status_code)
+                if schedule_from_server.status_code == requests.codes.ok:
                     print('````````````````````````````````````````````````````')
                     schedule_from_server = schedule_from_server.json
                     tempSchedule.serverId = schedule_from_server['id']
@@ -142,7 +143,7 @@ def sync_to_server():
                     }
                 )
                 print(schedule_from_server.text)
-                if schedule_from_server.status_code == 200:
+                if schedule_from_server.status_code == requests.codes.ok:
                     db.delete(tempSchedule)
         # except:
         #     print('Exception occured')
