@@ -114,7 +114,7 @@ def sync_to_server():
                     }
                 )
                 print(schedule_from_server.text)
-                print(schedule_from_server.status_code)
+                print('Status Code: ', schedule_from_server.status_code)
                 if schedule_from_server.status_code == requests.codes.ok:
                     print('````````````````````````````````````````````````````')
                     schedule_from_server = schedule_from_server.json
