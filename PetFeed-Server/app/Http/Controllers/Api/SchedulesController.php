@@ -29,7 +29,7 @@ class SchedulesController extends Controller
         $schedule = [];
         try{
             \DB::beginTransaction();
-            if (!$request->has('id'))
+            if (!$request->has('serverId'))
             {
                 $schedule = Schedule::create([
                     'day' => $request->day,
@@ -41,8 +41,8 @@ class SchedulesController extends Controller
                     'uId' => $request->uId,
                     'groupId' => $request->groupId
                 ]);
-            } else if ($request->has('id')) {
-                $schedule = Schedule::find($request->id);
+            } else if ($request->has('serverId')) {
+                $schedule = Schedule::find($request->serverId);
                 if ($request->deleted == true) {
                     $schedule->delete();
                 } else {
