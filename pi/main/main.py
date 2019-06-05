@@ -99,7 +99,7 @@ def sync_to_server():
                             'Authorization': 'Bearer ' + accessToken,
                             'Content-Type': 'application/json'
                         },
-                        json=tempSchedule.to_map()
+                        json=s
                     )
                     print(schedule_from_server.text)
                     if schedule_from_server.status_code == 200:
@@ -114,7 +114,7 @@ def sync_to_server():
                             'Authorization': 'Bearer ' + accessToken,
                             'Content-Type': 'application/json'
                         },
-                        json=tempSchedule.to_map()
+                        json=s
                     )
                     print(schedule_from_server.text)
                     if schedule_from_server.status_code == 200:
