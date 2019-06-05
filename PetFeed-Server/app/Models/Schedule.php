@@ -12,7 +12,9 @@ class Schedule extends Model
         'user_id',
         'pet_id',
         'amount',
-        'device_id'
+        'device_id',
+        'uId',
+        'groupId',
     ];
 
     public function user(){

@@ -37,4 +37,6 @@ Route::group(['middleware' => ['auth:api', 'verified']], function () {
     Route::post('/device/stop-hopper', 'Api\DeviceController@stopHopper');
     Route::post('/pets/create', 'Api\PetsController@create');
     Route::post('/broadcast/auth', 'Api\BroadcastAuthController@auth');
+    // SCHEDULES ROUTES
+    Route::post('/schedule/set', 'Api\SchedulesController@create');
 });
