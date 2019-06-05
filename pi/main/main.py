@@ -120,6 +120,7 @@ def sync_to_server():
                                 '````````````````````````````````````````````````````')
                             schedule_from_server = schedule_from_server.json()
                             tempSchedule.serverId = schedule_from_server['id']
+                            tempSchedule.synced = True
                             db.update(tempSchedule)
                             print('db update')
                             print(
