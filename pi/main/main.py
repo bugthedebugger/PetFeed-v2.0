@@ -83,10 +83,10 @@ def sync_to_server():
     accessToken = device.accessToken
     deviceId = device.deviceId
     schedule = Schedule()
-    schedules = db.selectAll(schedule)
     tempSchedule = Schedule()
 
     while True:
+        schedules = db.selectAll(schedule)
         try:
             for s in schedules:
                 print(s)
