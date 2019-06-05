@@ -100,7 +100,17 @@ def sync_to_server():
                             'Authorization': 'Bearer ' + accessToken,
                             'Content-Type': 'application/json'
                         },
-                        json=s
+                        json={
+                            'day': tempSchedule.day,
+                            'feedTime': str(tempSchedule.time),
+                            'amount': tempSchedule.amount,
+                            'groupId': tempSchedule.groupId,
+                            'deleted': False,
+                            'uId': tempSchedule.uId,
+                            'deviceId': deviceId,
+                            'petId': tempSchedule.petId,
+                            'serverId': tempSchedule.serverId
+                        }
                     )
                     print(schedule_from_server.text)
                     if schedule_from_server.status_code == 200:
@@ -115,7 +125,17 @@ def sync_to_server():
                             'Authorization': 'Bearer ' + accessToken,
                             'Content-Type': 'application/json'
                         },
-                        json=s
+                        json={
+                            'day': tempSchedule.day,
+                            'feedTime': str(tempSchedule.time),
+                            'amount': tempSchedule.amount,
+                            'groupId': tempSchedule.groupId,
+                            'deleted': True,
+                            'uId': tempSchedule.uId,
+                            'deviceId': deviceId,
+                            'petId': tempSchedule.petId,
+                            'serverId': tempSchedule.serverId
+                        }
                     )
                     print(schedule_from_server.text)
                     if schedule_from_server.status_code == 200:
