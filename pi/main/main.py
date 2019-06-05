@@ -89,6 +89,7 @@ def sync_to_server():
     while True:
         # try:
         for s in schedules:
+            print(s)
             tempSchedule.from_map(s)
             if tempSchedule.synced == 0:
                 if tempSchedule.deleted == 0:
