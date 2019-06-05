@@ -13,6 +13,7 @@ class Schedule(Model):
     deleted = None
     uId = None
     tableName = 'schedule'
+    serverId = None
     columnNames = [
         'id',
         'day',
@@ -23,7 +24,8 @@ class Schedule(Model):
         'synced',
         'uploaded',
         'deleted',
-        'uId'
+        'uId',
+        'serverId'
     ]
 
     def to_map(self):
@@ -37,7 +39,8 @@ class Schedule(Model):
             'petId': self.petId,
             'uploaded': self.uploaded,
             'deleted': self.deleted,
-            'uId': self.uId
+            'uId': self.uId,
+            'serverId': self.serverId
         }
 
     def from_map(self, data_map):
@@ -57,3 +60,4 @@ class Schedule(Model):
             self.uploaded = 1 if data_map['uploaded'] else 0
             self.deleted = 1 if data_map['deleted'] else 0
             self.uId = data_map['uId']
+            self.serverId = data_map['serverId']

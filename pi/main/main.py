@@ -14,6 +14,7 @@ from threading import Thread
 from datetime import datetime
 import signal
 import time
+import requests
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -75,7 +76,50 @@ def scheduled_feeding():
 
 
 def sync_to_server():
-    pass
+    device = Device()
+    db = DBController()
+    results = db.selectAll(device)
+    device.from_map(results[0])
+    accessToken = device.accessToken
+    deviceId = device.deviceId
+    schedule = Schedule()
+    schedules = db.selectAll(schedule)
+
+    while True:
+        try:
+            for s in schedules:
+                if s.synced == 0:
+                    if s.deleted == 0:
+                        schedule_from_server = requests.post(
+                            url='https://prayush.karkhana.asia/api/schedule/set',
+                            headers={
+                                'Accept': 'application/json',
+                                'Authorization': 'Bearer ' + accessToken,
+                                'Content-Type': 'application/json'
+                            },
+                            json=s.to_map()
+                        )
+                        print(schedule_from_server.text)
+                        if schedule_from_server.status_code == 200:
+                            schedule_from_server = schedule_from_server.json
+                            s.serverId = schedule_from_server['id']
+                            db.update(s)
+                    else:
+                        schedule_from_server = requests.post(
+                            url='https://prayush.karkhana.asia/api/schedule/set',
+                            headers={
+                                'Accept': 'application/json',
+                                'Authorization': 'Bearer ' + accessToken,
+                                'Content-Type': 'application/json'
+                            },
+                            json=s.to_map()
+                        )
+                        print(schedule_from_server.text)
+                        if schedule_from_server.status_code == 200:
+                            db.delete(s)
+        except:
+            print('Exception occured')
+        time.sleep(5)
 
 
 if __name__ == '__main__':
@@ -83,8 +127,10 @@ if __name__ == '__main__':
     pusher_thread = Thread(target=pusher_server)
     amount_thread = Thread(target=amount_trigger)
     scheduled_feeding_thread = Thread(target=scheduled_feeding)
+    sync_to_server_thread = Thread(target=sync_to_server)
 
     flask_thread.start()
     pusher_thread.start()
     amount_thread.start()
     scheduled_feeding_thread.start()
+    sync_to_server_thread.start()
