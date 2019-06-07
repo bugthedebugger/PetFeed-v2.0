@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Schedule extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'day',
         'time',
@@ -31,5 +33,9 @@ class Schedule extends Model
 
     public function feedingInfo(){
         return $this->hasMany('App\Models\FeedingInfo');
+    }
+
+    public function histories() {
+        return $this->hasMany('App\Models\History', 'schedule_uid', 'uId');
     }
 }

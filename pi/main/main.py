@@ -5,6 +5,7 @@ from models.model import Model
 from models.dbcontroller import DBController
 from models.schedule import Schedule
 from models.device import Device
+from models.history import History
 import RPi.GPIO as GPIO
 from hw_controllers.motor_controller import MotorController
 from hw_controllers.distance import Distance
@@ -25,7 +26,7 @@ weightSensor = None
 weightSensor = WeightSensor(GPIO=GPIO, dout_pin=21, pd_sck_pin=20)
 # except:
 #     weightSensor = None
-
+scheduleSyncURL = 'https://prayush.karkhana.asia/api/schedule/set'
 motorController = MotorController(GPIO=GPIO, weightSensor=weightSensor)
 distanceSensor = Distance(GPIO=GPIO)
 pusherContainer = PusherContainer(
@@ -66,11 +67,18 @@ def scheduled_feeding():
             # print(now_time + ' --- ' + str(schedule.time))
             # print(now_time == schedule.time)
             if schedule.day == today_day and str(schedule.time) == now_time:
+                history = History()
+                history.from_map({
+                    'schedule_uid': schedule.uId,
+                    'synced': 0,
+                    'fed': 1
+                })
                 # print('inside first if')
                 if device.type == 'Fish':
                     motorController.fish(duration=schedule.amount)
                 else:
                     motorController.wtFeed(amount=schedule.amount)
+                db.insert(history)
 
         time.sleep(1)
 
@@ -89,13 +97,13 @@ def sync_to_server():
         schedules = db.selectAll(schedule)
         try:
             for s in schedules:
-                print(s)
+                # print(s)
                 tempSchedule = Schedule()
                 tempSchedule.from_map(s)
                 if tempSchedule.synced == 0:
                     if tempSchedule.deleted == 0:
                         schedule_from_server = requests.post(
-                            url='https://prayush.karkhana.asia/api/schedule/set',
+                            url=scheduleSyncURL,
                             headers={
                                 'Accept': 'application/json',
                                 'Authorization': 'Bearer ' + accessToken,
@@ -122,12 +130,12 @@ def sync_to_server():
                             tempSchedule.serverId = schedule_from_server['id']
                             tempSchedule.synced = 1
                             db.update(tempSchedule)
-                            print('db update')
-                            print(
-                                '````````````````````````````````````````````````````')
+                            # print('db update')
+                            # print(
+                            #     '````````````````````````````````````````````````````')
                     else:
                         schedule_from_server = requests.post(
-                            url='https://prayush.karkhana.asia/api/schedule/set',
+                            url=scheduleSyncURL,
                             headers={
                                 'Accept': 'application/json',
                                 'Authorization': 'Bearer ' + accessToken,
@@ -145,7 +153,7 @@ def sync_to_server():
                                 'serverId': tempSchedule.serverId
                             }
                         )
-                        print(schedule_from_server.text)
+                        # print(schedule_from_server.text)
                         if schedule_from_server.status_code == 200:
                             db.delete(tempSchedule)
         except:

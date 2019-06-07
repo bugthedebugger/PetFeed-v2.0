@@ -47,4 +47,9 @@ ALTER TABLE schedule
     ADD deleted BOOLEAN DEFAULT FALSE,
     ADD groupId VARCHAR(20),
     ADD petId INTEGER,
-    ADD uId VARCHAR(20) UNIQUE;
+    ADD uId VARCHAR(20) UNIQUE,
+    ADD serverId INTEGER DEFAULT NULL;
+
+ALTER TABLE history
+    DROP COLUMN schedule_id,
+    ADD schedule_uid VARCHAR(20) NOT NULL;

@@ -1,15 +1,15 @@
-from model import Model
+from .model import Model
 
 
 class History(Model):
     id = None
-    scheduleID = None
+    scheduleUID = None
     fed = None
     synced = None
     tableName = 'history'
     columnNames = [
         'id',
-        'schedule_id',
+        'schedule_uid',
         'fed',
         'synced'
     ]
@@ -17,7 +17,7 @@ class History(Model):
     def to_map(self):
         return {
             'id': self.id,
-            'schedule_id': self.scheduleID,
+            'schedule_id': self.scheduleUID,
             'fed': self.fed,
             'synced': self.synced
         }
@@ -29,6 +29,6 @@ class History(Model):
             else:
                 self.id = data_map['id']
 
-            self.scheduleID = data_map['schedule_id']
+            self.scheduleID = data_map['schedule_uid']
             self.fed = data_map['fed']
             self.synced = data_map['synced']
