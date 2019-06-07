@@ -155,10 +155,11 @@ class PetFeedBloc extends Bloc {
   void _mapTreat(Treat event) async {
     try {
       if (wifiConnected) {
-        await piRepository.treat(
+        final response = await piRepository.treat(
           deviceToken: event.deviceToken,
           amount: event.amount,
         );
+        addCount(response.feedCount);
       } else if (pusherConnected) {
         PusherTreat treat = PusherTreat(data: {
           'accessToken': event.deviceToken,

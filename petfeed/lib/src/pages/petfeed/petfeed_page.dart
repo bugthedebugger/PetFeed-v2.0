@@ -226,11 +226,17 @@ class _PetFeedPageState extends State<PetFeedPage> {
                                   height: 40,
                                   width: 200,
                                   child: Center(
-                                    child: Text(
-                                      '$petName has been fed 2 times today.',
-                                      style: TextStyle(
-                                        fontSize: FontSize.fontSize12,
-                                      ),
+                                    child: StreamBuilder<int>(
+                                      stream: _bloc.feedCountStream,
+                                      initialData: 0,
+                                      builder: (context, snapshot) {
+                                        return Text(
+                                          '$petName has been fed ${snapshot.data} times today.',
+                                          style: TextStyle(
+                                            fontSize: FontSize.fontSize12,
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
