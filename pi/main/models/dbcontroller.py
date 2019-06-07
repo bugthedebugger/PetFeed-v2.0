@@ -54,12 +54,12 @@ class DBController:
 
         query = "INSERT INTO {} VALUES({})".format(columns, values)
         error = False
-        try:
-            self.cursor.execute(query)
-            self.db.commit()
-        except:
-            self.db.rollback()
-            error = True
+        # try:
+        self.cursor.execute(query)
+        self.db.commit()
+        # except:
+        self.db.rollback()
+        error = True
 
         return not error
 
