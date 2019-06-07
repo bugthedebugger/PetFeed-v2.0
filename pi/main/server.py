@@ -103,11 +103,21 @@ class FlaskServer:
                     })
                     result = db.insert(history)
                     print('Insert History: ', str(result))
+                    results = db.selectAll(history)
+                    feedCount = 0
+                    for result in results:
+                        r = history.from_map(result)
+                        if r.feedDateTime.date() == datetime.today.date():
+                            feedCount = feedCount + 1
+
+                    print('Feed Count: ', str(feedCount))
+
                     response = {
                         'connection': 'local',
                         'status': 'success',
                         'message': 'fed successfully',
-                        'remaining': distanceSensor.fish()
+                        'remaining': distanceSensor.fish(),
+                        'feedCount': feedCount
                     }
                 else:
                     response = {
