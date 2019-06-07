@@ -101,7 +101,8 @@ class FlaskServer:
                         'synced': 0,
                         'amount': amount
                     })
-                    db.insert(history)
+                    result = db.insert(history)
+                    print('Insert History: ', str(result))
                     response = {
                         'connection': 'local',
                         'status': 'success',
