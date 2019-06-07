@@ -243,6 +243,8 @@ class PusherContainer:
             })
 
     def feedCount(self):
+        print('FeedCount: ')
+        print(self.findCount())
         self.pusherEvent.trigger(self.channel, 'petfeed-pi-feed-count', {
             'connection': 'global',
             'status': 'online',
