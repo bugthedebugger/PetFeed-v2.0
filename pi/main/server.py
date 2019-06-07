@@ -106,8 +106,8 @@ class FlaskServer:
                     results = db.selectAll(history)
                     feedCount = 0
                     for result in results:
-                        r = history.from_map(result)
-                        if r.feedDateTime.date() == datetime.today.date():
+                        history.from_map(result)
+                        if history.feedDateTime.date() == datetime.today.date():
                             feedCount = feedCount + 1
 
                     print('Feed Count: ', str(feedCount))
