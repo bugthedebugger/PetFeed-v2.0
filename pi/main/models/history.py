@@ -21,7 +21,7 @@ class History(Model):
     def to_map(self):
         return {
             'id': self.id,
-            'schedule_id': self.scheduleUID,
+            'schedule_uid': self.scheduleUID,
             'fed': self.fed,
             'synced': self.synced,
             'amount': self.amount,
