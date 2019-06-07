@@ -35,7 +35,11 @@ class History(Model):
             else:
                 self.id = data_map['id']
 
-            self.scheduleID = data_map['schedule_uid']
+            if 'schedule_uid' not in data_map:
+                self.scheduleUID = None
+            else:
+                self.scheduleUID = data_map['schedule_uid']
+
             self.fed = data_map['fed']
             self.synced = data_map['synced']
             self.amount = data_map['amount']
