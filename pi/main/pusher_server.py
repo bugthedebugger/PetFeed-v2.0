@@ -36,7 +36,7 @@ class PusherContainer:
 
     def findCount(self):
         history = History()
-        results = db.selectAll(history)
+        results = self.db.selectAll(history)
         feedCount = 0
         for result in results:
             history.from_map(result)
