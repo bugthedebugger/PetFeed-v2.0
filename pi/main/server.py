@@ -57,10 +57,20 @@ class FlaskServer:
 
     @app.route('/', methods=['POST'])
     def home():
+        history = History()
+        results = db.selectAll(history)
+        feedCount = 0
+        for result in results:
+            history.from_map(result)
+            print(history.feedDateTime)
+            if history.feedDateTime.date() == datetime.today().date():
+                feedCount = feedCount + 1
+
         response = {
             'status': 'online',
             'connection': 'local',
-            'food': distanceSensor.fish()
+            'remaining': distanceSensor.fish(),
+            'feedCount': feedCount
         }
         if request.method == 'POST':
             return jsonify(response)

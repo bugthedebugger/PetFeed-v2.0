@@ -7,6 +7,7 @@ import time
 import pysher as PusherClient
 from models.dbcontroller import DBController
 from models.device import Device
+from models.history import History
 # from hw_controllers.motor_controller import MotorController
 import ast
 import pusher_credentials as creds
@@ -31,6 +32,18 @@ class PusherContainer:
         self.channel = 'private-' + device.deviceId
         self.motors = motorController
         self.distanceSensor = distanceSensor
+
+    def findCount(self):
+        history = History()
+        results = db.selectAll(history)
+        feedCount = 0
+        for result in results:
+            history.from_map(result)
+            print(history.feedDateTime)
+            if history.feedDateTime.date() == datetime.today().date():
+                feedCount = feedCount + 1
+
+        return feedCount
 
     def password_reset(self, data):
         data = ast.literal_eval(data)
@@ -107,6 +120,7 @@ class PusherContainer:
                 })
 
             self.foodMeter()
+            self.feedCount()
         else:
             print('access token mismatch')
 
@@ -171,6 +185,7 @@ class PusherContainer:
             'status': 'online',
             'message': 'Device online'
         })
+        self.feedCount()
 
     def start_hopper(self, data):
         data = ast.literal_eval(data)
@@ -225,6 +240,13 @@ class PusherContainer:
                 'status': 'online',
                 'amount': self.distanceSensor.other()
             })
+
+    def feedCount(self):
+        self.pusherEvent.trigger(self.channel, 'petfeed-pi-feed-count', {
+            'connection': 'global',
+            'status': 'online',
+            'feedCount': self.feedCount()
+        })
 
     def connect_handler(self, data):
         petfeed_channel = self.pusherClient.subscribe(self.channel)

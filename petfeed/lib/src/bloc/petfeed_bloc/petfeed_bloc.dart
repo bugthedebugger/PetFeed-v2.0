@@ -61,11 +61,17 @@ class PetFeedBloc extends Bloc {
 
   Stream get pusherStatus => pusher.statusStream;
   Stream get pusherFoodMeter => pusher.foodMeterStream;
+  Stream get pusherFeedCount => pusher.feedCountStream;
 
   StreamController<DateTime> _countDownController =
       StreamController<DateTime>.broadcast();
   Stream<DateTime> get countDownStream => _countDownController.stream;
   Sink<DateTime> get _countDownSink => _countDownController.sink;
+
+  StreamController<int> _feedCountController =
+      StreamController<int>.broadcast();
+  Stream<int> get feedCountStream => _feedCountController.stream;
+  Sink<int> get _feedCountSink => _feedCountController.sink;
 
   void init() async {
     _eventStreamController.stream.listen(_mapEventsToState);
@@ -80,11 +86,17 @@ class PetFeedBloc extends Bloc {
 
     pusherStatus.listen(_mapPusherStatus);
     pusherFoodMeter.listen(_mapFoodMeter);
+    pusherFeedCount.listen(_mapFeedCount);
     dispatch(
       PetFeedInitialized((b) => b
         ..token = accessToken
         ..deviceID = deviceID),
     );
+  }
+
+  void _mapFeedCount(data) {
+    Map<String, dynamic> mappedData = json.decode(data);
+    addCount(mappedData['feedCount']);
   }
 
   Future initDB() async {
@@ -191,15 +203,23 @@ class PetFeedBloc extends Bloc {
       );
       wifiConnected = await piRepository.getStatus();
       if (wifiConnected) {
+        final response = await piRepository.deviceStatus();
+        addCount(response.feedCount);
         addLocalConnection(true);
         dispatch(LocalDeviceFound());
       } else {
         addLocalConnection(false);
         dispatch(LocalDeviceNotFound());
+        addCount(0);
       }
     } catch (_) {
       dispatch(PetFeedError((b) => b..message = _.toString()));
     }
+  }
+
+  void addCount(int count) {
+    _feedCountSink.add(count);
+    preferences.setInt('feedCount', count);
   }
 
   void addFood(double amount) {
@@ -230,5 +250,6 @@ class PetFeedBloc extends Bloc {
     _localConnectionController?.close();
     _foodMeterStreamController?.close();
     _countDownController?.close();
+    _feedCountController?.close();
   }
 }

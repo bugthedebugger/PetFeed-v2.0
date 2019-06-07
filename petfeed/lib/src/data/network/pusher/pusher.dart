@@ -10,18 +10,21 @@ class Pusher {
   EventChannel _statusChannel;
   EventChannel _piConfigure;
   EventChannel _foodMeter;
+  EventChannel _feedCount;
 
   Map<String, String> _credentials;
 
   Stream get statusStream => _statusChannel.receiveBroadcastStream();
   Stream get piConfigureStream => _piConfigure.receiveBroadcastStream();
   Stream get foodMeterStream => _foodMeter.receiveBroadcastStream();
+  Stream get feedCountStream => _feedCount.receiveBroadcastStream();
 
   Pusher() {
     _platform = MethodChannel('petfeed/pusher-initialize');
     _statusChannel = EventChannel('petfeed/pusher-status');
     _piConfigure = EventChannel('petfeed/pusher-configure-status');
     _foodMeter = EventChannel('petfeed/pusher-food-meter');
+    _feedCount = EventChannel('petfeed/pusher-feed-count');
   }
 
   Future connect(String deviceID, String accessToken) async {

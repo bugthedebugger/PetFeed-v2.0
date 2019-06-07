@@ -14,6 +14,8 @@ abstract class LocalStatus implements Built<LocalStatus, LocalStatusBuilder> {
   String get connection;
   @nullable
   double get remainig;
+  @nullable
+  int get feedCount;
 
   LocalStatus._();
 

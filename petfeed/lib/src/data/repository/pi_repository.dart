@@ -42,4 +42,9 @@ class PiRepository {
     final response = await piSource.addSchedule(schedules: schedules);
     return response;
   }
+
+  Future<LocalStatus> deviceStatus() async {
+    final response = await piSource.deviceStatus();
+    return response;
+  }
 }

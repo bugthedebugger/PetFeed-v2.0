@@ -110,6 +110,23 @@ class PiDataSource {
     }
   }
 
+  Future<LocalStatus> deviceStatus() async {
+    bool status = await ping();
+    if (status) {
+      String ip = preferences.get('deviceIP');
+      final response = await client.post(ip);
+
+      if (response.statusCode == 200)
+        return LocalStatus.fromJson(response.body);
+      else if (response.statusCode == 401)
+        throw UnauthenticatedException();
+      else
+        throw LocalException(response.body);
+    } else {
+      throw DeviceNotFoundException();
+    }
+  }
+
   Future<ScheduleStatus> addSchedule({@required Schedules schedules}) async {
     bool status = await ping();
     if (status) {

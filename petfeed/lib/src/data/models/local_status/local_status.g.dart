@@ -37,6 +37,12 @@ class _$LocalStatusSerializer implements StructuredSerializer<LocalStatus> {
         ..add(serializers.serialize(object.remainig,
             specifiedType: const FullType(double)));
     }
+    if (object.feedCount != null) {
+      result
+        ..add('feedCount')
+        ..add(serializers.serialize(object.feedCount,
+            specifiedType: const FullType(int)));
+    }
 
     return result;
   }
@@ -68,6 +74,10 @@ class _$LocalStatusSerializer implements StructuredSerializer<LocalStatus> {
           result.remainig = serializers.deserialize(value,
               specifiedType: const FullType(double)) as double;
           break;
+        case 'feedCount':
+          result.feedCount = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
       }
     }
 
@@ -84,11 +94,18 @@ class _$LocalStatus extends LocalStatus {
   final String connection;
   @override
   final double remainig;
+  @override
+  final int feedCount;
 
   factory _$LocalStatus([void Function(LocalStatusBuilder) updates]) =>
       (new LocalStatusBuilder()..update(updates)).build();
 
-  _$LocalStatus._({this.message, this.status, this.connection, this.remainig})
+  _$LocalStatus._(
+      {this.message,
+      this.status,
+      this.connection,
+      this.remainig,
+      this.feedCount})
       : super._() {
     if (status == null) {
       throw new BuiltValueNullFieldError('LocalStatus', 'status');
@@ -112,15 +129,18 @@ class _$LocalStatus extends LocalStatus {
         message == other.message &&
         status == other.status &&
         connection == other.connection &&
-        remainig == other.remainig;
+        remainig == other.remainig &&
+        feedCount == other.feedCount;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, message.hashCode), status.hashCode),
-            connection.hashCode),
-        remainig.hashCode));
+        $jc(
+            $jc($jc($jc(0, message.hashCode), status.hashCode),
+                connection.hashCode),
+            remainig.hashCode),
+        feedCount.hashCode));
   }
 
   @override
@@ -129,7 +149,8 @@ class _$LocalStatus extends LocalStatus {
           ..add('message', message)
           ..add('status', status)
           ..add('connection', connection)
-          ..add('remainig', remainig))
+          ..add('remainig', remainig)
+          ..add('feedCount', feedCount))
         .toString();
   }
 }
@@ -153,6 +174,10 @@ class LocalStatusBuilder implements Builder<LocalStatus, LocalStatusBuilder> {
   double get remainig => _$this._remainig;
   set remainig(double remainig) => _$this._remainig = remainig;
 
+  int _feedCount;
+  int get feedCount => _$this._feedCount;
+  set feedCount(int feedCount) => _$this._feedCount = feedCount;
+
   LocalStatusBuilder();
 
   LocalStatusBuilder get _$this {
@@ -161,6 +186,7 @@ class LocalStatusBuilder implements Builder<LocalStatus, LocalStatusBuilder> {
       _status = _$v.status;
       _connection = _$v.connection;
       _remainig = _$v.remainig;
+      _feedCount = _$v.feedCount;
       _$v = null;
     }
     return this;
@@ -186,7 +212,8 @@ class LocalStatusBuilder implements Builder<LocalStatus, LocalStatusBuilder> {
             message: message,
             status: status,
             connection: connection,
-            remainig: remainig);
+            remainig: remainig,
+            feedCount: feedCount);
     replace(_$result);
     return _$result;
   }
