@@ -6,6 +6,7 @@ from flask import jsonify
 from flask import request
 # from hw_controllers.motor_controller import MotorController
 from models.device import Device
+from models.history import History
 from models.dbcontroller import DBController
 from models.schedule import Schedule
 import utils
@@ -13,7 +14,6 @@ from datetime import datetime
 
 
 # motors = MotorController()
-db = DBController()
 
 request_method_error = {
     'connection': 'local',
@@ -35,15 +35,18 @@ food_low_response = {
 
 motors = None
 distanceSensor = None
+db = None
 
 
 class FlaskServer:
 
-    def __init__(self, motorController, _distanceSensor):
+    def __init__(self, motorController, _distanceSensor, _dbController):
         global motors
         motors = motorController
         global distanceSensor
         distanceSensor = _distanceSensor
+        global db
+        db = _dbController
 
     app = Flask(__name__)
     request_error = {
@@ -82,7 +85,7 @@ class FlaskServer:
                 amount = userRequest['amount']
 
                 print('------------------------------------------')
-                print(distanceSensor.fish())
+                print('Food Distance: ', str(distanceSensor.fish()))
                 print('------------------------------------------')
 
                 if distanceSensor.fish() > 10:
@@ -92,6 +95,13 @@ class FlaskServer:
                     else:
                         motors.wtFeed(amount=amount)
                         # print('not here')
+                    history = History()
+                    history.from_map({
+                        'fed': 1,
+                        'synced': 0,
+                        'amount': amount
+                    })
+                    db.insert(history)
                     response = {
                         'connection': 'local',
                         'status': 'success',

@@ -29,13 +29,14 @@ weightSensor = WeightSensor(GPIO=GPIO, dout_pin=21, pd_sck_pin=20)
 scheduleSyncURL = 'https://prayush.karkhana.asia/api/schedule/set'
 motorController = MotorController(GPIO=GPIO, weightSensor=weightSensor)
 distanceSensor = Distance(GPIO=GPIO)
+dbController = DBController()
 pusherContainer = PusherContainer(
     motorController=motorController, distanceSensor=distanceSensor)
 
 
 def flask_server():
     flaskServer = FlaskServer(
-        motorController=motorController, _distanceSensor=distanceSensor)
+        motorController=motorController, _distanceSensor=distanceSensor, _dbController=dbController)
     flaskServer.start()
 
 
@@ -51,7 +52,7 @@ def amount_trigger():
 
 
 def scheduled_feeding():
-    db = DBController()
+    db = dbController
     results = db.selectAll(Device())
     device = Device()
     device.from_map(results[0])
@@ -71,13 +72,15 @@ def scheduled_feeding():
                 history.from_map({
                     'schedule_uid': schedule.uId,
                     'synced': 0,
-                    'fed': 1
+                    'fed': 1,
+                    'amount': schedule.amount
                 })
                 # print('inside first if')
                 if device.type == 'Fish':
                     motorController.fish(duration=schedule.amount)
                 else:
                     motorController.wtFeed(amount=schedule.amount)
+
                 db.insert(history)
 
         time.sleep(1)
@@ -85,7 +88,7 @@ def scheduled_feeding():
 
 def sync_to_server():
     device = Device()
-    db = DBController()
+    db = dbController
     results = db.selectAll(device)
     device.from_map(results[0])
     accessToken = device.accessToken
