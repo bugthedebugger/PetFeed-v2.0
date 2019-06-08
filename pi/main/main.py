@@ -126,11 +126,11 @@ def sync_to_server():
                                 'serverId': tempSchedule.serverId
                             }
                         )
-                        print(schedule_from_server.text)
-                        print(schedule_from_server.status_code)
+                        # print(schedule_from_server.text)
+                        # print(schedule_from_server.status_code)
                         if schedule_from_server.status_code == 200:
-                            print(
-                                '````````````````````````````````````````````````````')
+                            # print(
+                            #     '````````````````````````````````````````````````````')
                             schedule_from_server = schedule_from_server.json()
                             tempSchedule.serverId = schedule_from_server['id']
                             tempSchedule.synced = 1
