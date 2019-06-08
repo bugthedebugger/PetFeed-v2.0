@@ -174,7 +174,7 @@ def sync_to_server():
                         'Content-Type': 'application/json'
                     },
                     json={
-                        'feedingDate': tempHistory.feedDateTime,
+                        'feedingDate': str(tempHistory.feedDateTime),
                         'amount': tempHistory.amount,
                         'schedule_uid': tempHistory.scheduleUID
                     }
