@@ -172,7 +172,7 @@ class _PetSetupState extends State<PetSetup> {
                                     if (value == '')
                                       return 'Weight should be > 0.1';
                                     else
-                                      _age = double.parse(value);
+                                      _weight = double.parse(value);
                                   },
                                 ),
                               ],

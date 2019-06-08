@@ -33,7 +33,7 @@ class ScheduleCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(ScreenUtil().setWidth(8.0)),
       child: PetFeedCard(
-        height: ScreenUtil().setHeight(100),
+        height: 115,
         width: ScreenUtil().width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
