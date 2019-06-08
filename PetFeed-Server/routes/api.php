@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth:api', 'verified']], function () {
     Route::post('/broadcast/auth', 'Api\BroadcastAuthController@auth');
     // SCHEDULES ROUTES
     Route::post('/schedule/set', 'Api\SchedulesController@createOrUpdate');
+    Route::post('/history/set', 'Api\HistoriesController@createOrUpdate');
 
 });
-Route::post('/history/set', 'Api\HistoriesController@createOrUpdate');
+
