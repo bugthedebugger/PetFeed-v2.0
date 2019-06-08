@@ -174,9 +174,14 @@ def sync_to_server():
                             'Content-Type': 'application/json'
                         },
                         json={
-
+                            'feedingDate': tempHistory.feedDateTime,
+                            'amount': tempHistory.amount,
+                            'schedule_uid': tempHistory.scheduleUID
                         }
                     )
+
+                    if historyFromServer.status_code == 200:
+                        db.update(tempHistory)
         except:
             print('Exception occured')
         time.sleep(5)

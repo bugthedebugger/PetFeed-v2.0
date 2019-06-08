@@ -8,6 +8,7 @@ class History(Model):
     fed = None
     synced = None
     amount = None
+    feedDateTime = None
     tableName = 'history'
     columnNames = [
         'id',

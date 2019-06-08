@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\History;
+use Carbon\Carbon;
 
 class HistoriesController extends Controller
 {
-    public function createOrUpate(Request $request) {
+    public function createOrUpdate(Request $request) {
         $this->validate($request, [
             'feedingDate' => 'required',
             'amount' => 'required'
@@ -19,10 +20,9 @@ class HistoriesController extends Controller
         try {
             \DB::beginTransaction();
             $history = History::Create([
-                'feedingDate' => $request->feedingDate,
+                'feedingDate' => Carbon::parse($request->feedingDate),
                 'amount' => $request->amount,
-                'schedule_uid' =>
-                    $request->has('schedule_uid')? $request->schedule_uid: null,
+                'schedule_uid' => $request->schedule_uid,
             ]);
             \DB::commit();
         } catch (\Exception $e) {
