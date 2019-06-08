@@ -62,7 +62,10 @@ class FlaskServer:
         feedCount = 0
         for result in results:
             history.from_map(result)
-            print(history.feedDateTime)
+            print('History Date:')
+            print(history.feedDateTime.date())
+            print('System Date:')
+            print(datetime.today().date())
             if history.feedDateTime.date() == datetime.today().date():
                 feedCount = feedCount + 1
 
