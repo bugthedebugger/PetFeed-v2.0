@@ -22,7 +22,7 @@ class HistoriesController extends Controller
             $history = History::Create([
                 'feedingDate' => Carbon::parse($request->feedingDate),
                 'amount' => $request->amount,
-                'schedule_uid' => $request->schedule_uid,
+                'schedule_uid' => ($request->schedule_uid === 'None')? null: $request->schedule_uid,
             ]);
             \DB::commit();
         } catch (\Exception $e) {
