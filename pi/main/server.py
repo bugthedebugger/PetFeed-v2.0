@@ -62,6 +62,8 @@ class FlaskServer:
         feedCount = 0
         for result in results:
             history.from_map(result)
+            print('Direct DateTime:')
+            print(history.feedDateTime)
             print('History Date:')
             print(history.feedDateTime.date())
             print('System Date:')
