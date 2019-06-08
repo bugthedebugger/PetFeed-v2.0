@@ -15,8 +15,9 @@ class CreateHistoriesTable extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('schedule_uid');
+            $table->string('schedule_uid')->nullable();
             $table->dateTime('feedingDate');
+            $table->float('amount');
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 class SchedulesController extends Controller
 {
-    public function create(Request $request) {
+    public function createOrUpdate(Request $request) {
 
         $this->validate($request, [
             'day' => 'required',
@@ -28,7 +28,7 @@ class SchedulesController extends Controller
         $device = Device::where('deviceId', $request->deviceId)->first();
         $user = $device->user;
         $schedule = [];
-        try{
+        try {
             \DB::beginTransaction();
             if ($request->serverId == -1)
             {
@@ -42,7 +42,9 @@ class SchedulesController extends Controller
                     'uId' => $request->uId,
                     'groupId' => $request->groupId
                 ]);
-            } else {
+            }
+            else
+            {
                 $schedule = Schedule::find($request->serverId);
                 if ($request->deleted == true) {
                     $schedule->delete();

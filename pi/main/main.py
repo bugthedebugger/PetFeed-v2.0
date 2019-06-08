@@ -27,6 +27,7 @@ weightSensor = WeightSensor(GPIO=GPIO, dout_pin=21, pd_sck_pin=20)
 # except:
 #     weightSensor = None
 scheduleSyncURL = 'https://prayush.karkhana.asia/api/schedule/set'
+historySyncURL = 'https://prayush.karkhana.asia/api/history/set'
 motorController = MotorController(GPIO=GPIO, weightSensor=weightSensor)
 distanceSensor = Distance(GPIO=GPIO)
 pusherContainer = PusherContainer(
@@ -94,9 +95,11 @@ def sync_to_server():
     deviceId = device.deviceId
     schedule = Schedule()
     tempSchedule = Schedule()
+    history = History()
 
     while True:
         schedules = db.selectAll(schedule)
+        histories = db.selectAll(history)
         try:
             for s in schedules:
                 # print(s)
@@ -158,6 +161,22 @@ def sync_to_server():
                         # print(schedule_from_server.text)
                         if schedule_from_server.status_code == 200:
                             db.delete(tempSchedule)
+
+            for h in histories:
+                tempHistory = History()
+                tempHistory.from_map(h)
+                if tempHistory.synced == 0:
+                    historyFromServer = requests.post(
+                        url=historySyncURL,
+                        headers={
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer ' + accessToken,
+                            'Content-Type': 'application/json'
+                        },
+                        json={
+
+                        }
+                    )
         except:
             print('Exception occured')
         time.sleep(5)

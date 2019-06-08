@@ -8,7 +8,8 @@ class History extends Model
 {
     protected $fillable = [
         'schedule_uid',
-        'feedingDate'
+        'feedingDate',
+        'amount'
     ];
 
     public function schedule() {
