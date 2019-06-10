@@ -115,6 +115,23 @@ class PetFeedBloc extends Bloc {
       _mapLocalDeviceNotFound(event);
     } else if (event is GetCountDown) {
       _mapGetCountDown(event);
+    } else if (event is LogOut) {
+      _mapLogOut(event);
+    }
+  }
+
+  void logout() {
+    dispatch(LogOut());
+  }
+
+  void _mapLogOut(LogOut event) async {
+    try {
+      await provider.close();
+      await deleteDatabase(path);
+      preferences.clear();
+      dispatch(LogOutSuccess());
+    } catch (_) {
+      dispatch(PetFeedError((b) => b..message = _.toString()));
     }
   }
 

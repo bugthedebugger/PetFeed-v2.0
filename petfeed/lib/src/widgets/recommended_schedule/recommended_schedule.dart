@@ -193,8 +193,7 @@ class _RecommendedScheduleState extends State<RecommendedSchedule> {
                     ),
                     color: Colors.white,
                     onPressed: () {
-                      preferences.setBool('close', false);
-                      setState(() {});
+                      _bloc.applyRecommendedClosed();
                     },
                     child: Text(
                       'Close',

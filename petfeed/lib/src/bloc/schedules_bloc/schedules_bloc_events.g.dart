@@ -354,11 +354,18 @@ class GetSchedulesSuccessBuilder
 }
 
 class _$DeleteAllSchedules extends DeleteAllSchedules {
+  @override
+  final String accessToken;
+
   factory _$DeleteAllSchedules(
           [void Function(DeleteAllSchedulesBuilder) updates]) =>
       (new DeleteAllSchedulesBuilder()..update(updates)).build();
 
-  _$DeleteAllSchedules._() : super._();
+  _$DeleteAllSchedules._({this.accessToken}) : super._() {
+    if (accessToken == null) {
+      throw new BuiltValueNullFieldError('DeleteAllSchedules', 'accessToken');
+    }
+  }
 
   @override
   DeleteAllSchedules rebuild(
@@ -372,17 +379,19 @@ class _$DeleteAllSchedules extends DeleteAllSchedules {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is DeleteAllSchedules;
+    return other is DeleteAllSchedules && accessToken == other.accessToken;
   }
 
   @override
   int get hashCode {
-    return 577395081;
+    return $jf($jc(0, accessToken.hashCode));
   }
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('DeleteAllSchedules').toString();
+    return (newBuiltValueToStringHelper('DeleteAllSchedules')
+          ..add('accessToken', accessToken))
+        .toString();
   }
 }
 
@@ -390,7 +399,19 @@ class DeleteAllSchedulesBuilder
     implements Builder<DeleteAllSchedules, DeleteAllSchedulesBuilder> {
   _$DeleteAllSchedules _$v;
 
+  String _accessToken;
+  String get accessToken => _$this._accessToken;
+  set accessToken(String accessToken) => _$this._accessToken = accessToken;
+
   DeleteAllSchedulesBuilder();
+
+  DeleteAllSchedulesBuilder get _$this {
+    if (_$v != null) {
+      _accessToken = _$v.accessToken;
+      _$v = null;
+    }
+    return this;
+  }
 
   @override
   void replace(DeleteAllSchedules other) {
@@ -407,7 +428,8 @@ class DeleteAllSchedulesBuilder
 
   @override
   _$DeleteAllSchedules build() {
-    final _$result = _$v ?? new _$DeleteAllSchedules._();
+    final _$result =
+        _$v ?? new _$DeleteAllSchedules._(accessToken: accessToken);
     replace(_$result);
     return _$result;
   }
@@ -644,6 +666,66 @@ class ApplyRecommendedErrorBuilder
   @override
   _$ApplyRecommendedError build() {
     final _$result = _$v ?? new _$ApplyRecommendedError._(message: message);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ApplyRecommendedClosed extends ApplyRecommendedClosed {
+  factory _$ApplyRecommendedClosed(
+          [void Function(ApplyRecommendedClosedBuilder) updates]) =>
+      (new ApplyRecommendedClosedBuilder()..update(updates)).build();
+
+  _$ApplyRecommendedClosed._() : super._();
+
+  @override
+  ApplyRecommendedClosed rebuild(
+          void Function(ApplyRecommendedClosedBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ApplyRecommendedClosedBuilder toBuilder() =>
+      new ApplyRecommendedClosedBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ApplyRecommendedClosed;
+  }
+
+  @override
+  int get hashCode {
+    return 107030997;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('ApplyRecommendedClosed').toString();
+  }
+}
+
+class ApplyRecommendedClosedBuilder
+    implements Builder<ApplyRecommendedClosed, ApplyRecommendedClosedBuilder> {
+  _$ApplyRecommendedClosed _$v;
+
+  ApplyRecommendedClosedBuilder();
+
+  @override
+  void replace(ApplyRecommendedClosed other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ApplyRecommendedClosed;
+  }
+
+  @override
+  void update(void Function(ApplyRecommendedClosedBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ApplyRecommendedClosed build() {
+    final _$result = _$v ?? new _$ApplyRecommendedClosed._();
     replace(_$result);
     return _$result;
   }

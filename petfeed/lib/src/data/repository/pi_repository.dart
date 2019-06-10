@@ -47,4 +47,11 @@ class PiRepository {
     final response = await piSource.deviceStatus();
     return response;
   }
+
+  Future<LocalStatus> deleteSchedules({@required String accessToken}) async {
+    final response = await piSource.deleteSchedules(
+      accessToken: accessToken,
+    );
+    return response;
+  }
 }

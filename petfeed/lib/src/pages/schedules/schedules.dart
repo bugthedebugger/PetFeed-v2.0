@@ -65,6 +65,8 @@ class _SchedulesState extends State<Schedules> {
           );
         } else if (event is ApplyRecommendedSuccess) {
           Navigator.of(context).pop();
+        } else if (event is ApplyRecommendedClosed) {
+          setState(() {});
         }
       },
     );

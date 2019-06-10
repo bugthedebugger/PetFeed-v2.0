@@ -53,6 +53,7 @@ abstract class GetSchedulesSuccess extends ScheduleEvents
 abstract class DeleteAllSchedules extends ScheduleEvents
     implements Built<DeleteAllSchedules, DeleteAllSchedulesBuilder> {
   DeleteAllSchedules._();
+  String get accessToken;
 
   factory DeleteAllSchedules([updates(DeleteAllSchedulesBuilder b)]) =
       _$DeleteAllSchedules;
@@ -84,4 +85,12 @@ abstract class ApplyRecommendedError extends ScheduleEvents
 
   factory ApplyRecommendedError([updates(ApplyRecommendedErrorBuilder b)]) =
       _$ApplyRecommendedError;
+}
+
+abstract class ApplyRecommendedClosed extends ScheduleEvents
+    implements Built<ApplyRecommendedClosed, ApplyRecommendedClosedBuilder> {
+  ApplyRecommendedClosed._();
+
+  factory ApplyRecommendedClosed([updates(ApplyRecommendedClosedBuilder b)]) =
+      _$ApplyRecommendedClosed;
 }

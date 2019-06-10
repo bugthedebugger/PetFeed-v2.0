@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/bloc/bloc_provider.dart';
 import 'package:petfeed/src/bloc/petfeed_bloc/petfeed_bloc_export.dart';
 import 'package:petfeed/src/widgets/bottom_flow_widget/bottom_flow_widget.dart';
 import 'package:petfeed/src/widgets/chat_bubble/chat_bubble.dart';
@@ -36,29 +37,30 @@ class _PetFeedPageState extends State<PetFeedPage> {
 
   @override
   void initState() {
-    _eventSub = _bloc.eventStream.listen((event) {
-      if (event is PetFeedError) {
-        scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            duration: Duration(seconds: 5),
-            content: Text(
-              event.message,
-              style: TextStyle(
-                fontSize: FontSize.fontSize12,
+    _eventSub = _bloc.eventStream.listen(
+      (event) {
+        if (event is PetFeedError) {
+          scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              duration: Duration(seconds: 5),
+              content: Text(
+                event.message,
+                style: TextStyle(
+                  fontSize: FontSize.fontSize12,
+                ),
+              ),
+              action: SnackBarAction(
+                label: 'Ok',
+                onPressed: () {},
               ),
             ),
-            action: SnackBarAction(
-              label: 'Ok',
-              onPressed: () {},
-            ),
-          ),
-        );
-      }
-    });
-
-    _pusherSub = _bloc.pusherStream.listen((event) {
-      // print(event);
-    });
+          );
+        } else if (event is LogOutSuccess) {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(Routes.LOGIN, (predicate) => false);
+        }
+      },
+    );
 
     deviceType = preferences.get('petType');
     petName = preferences.get('pet');
@@ -88,7 +90,12 @@ class _PetFeedPageState extends State<PetFeedPage> {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       drawer: Builder(
-        builder: (context) => AppDrawer(),
+        builder: (context) {
+          return BlocProvider(
+            bloc: _bloc,
+            child: AppDrawer(),
+          );
+        },
       ),
       appBar: AppBar(
         backgroundColor: Colors.white,

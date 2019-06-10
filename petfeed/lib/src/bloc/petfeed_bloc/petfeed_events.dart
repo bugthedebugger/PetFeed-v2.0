@@ -67,3 +67,17 @@ abstract class GetCountDown extends PetFeedEvents
 
   factory GetCountDown([updates(GetCountDownBuilder b)]) = _$GetCountDown;
 }
+
+abstract class LogOut extends PetFeedEvents
+    implements Built<LogOut, LogOutBuilder> {
+  LogOut._();
+
+  factory LogOut([updates(LogOutBuilder b)]) = _$LogOut;
+}
+
+abstract class LogOutSuccess extends PetFeedEvents
+    implements Built<LogOutSuccess, LogOutSuccessBuilder> {
+  LogOutSuccess._();
+
+  factory LogOutSuccess([updates(LogOutSuccessBuilder b)]) = _$LogOutSuccess;
+}

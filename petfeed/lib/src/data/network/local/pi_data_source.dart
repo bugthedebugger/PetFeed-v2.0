@@ -152,4 +152,33 @@ class PiDataSource {
       throw DeviceNotFoundException();
     }
   }
+
+  Future<LocalStatus> deleteSchedules({@required String accessToken}) async {
+    bool status = await ping();
+    if (status) {
+      String ip = preferences.get('deviceIP');
+      final response = await client.post(
+        ip + LocalApiRoutes.DELETE_SCHEDULES,
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: json.encode(
+          {
+            'accessToken': accessToken,
+          },
+        ),
+      );
+
+      print(response.body);
+
+      if (response.statusCode == 200)
+        return LocalStatus.fromJson(response.body);
+      else if (response.statusCode == 401)
+        throw UnauthenticatedException();
+      else
+        throw LocalException(response.body);
+    } else {
+      throw DeviceNotFoundException();
+    }
+  }
 }

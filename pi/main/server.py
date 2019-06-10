@@ -324,7 +324,16 @@ network={
         data = request.get_json()
 
         if device.accessToken == data['accessToken']:
-            deleted = db.deleteAll(History())
+            schedules_map = db.selectAll(Schedule())
+            schedules = []
+            schedule = Schedule()
+            for s in schedules_map:
+                schedule.from_map(s)
+                schedule.synced = 0
+                schedule.deleted = 1
+                schedules.append(schedule)
+                schedule = Schedule()
+            deleted = db.updateAll(schedules)
             if deleted == True:
                 response = {
                     'connection': 'local',

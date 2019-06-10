@@ -74,6 +74,11 @@ class SchedulesBloc extends Bloc {
     }
   }
 
+  void applyRecommendedClosed() {
+    preferences.setBool('close', true);
+    dispatch(ApplyRecommendedClosed());
+  }
+
   void applyRecommended({
     @required List<String> feedTimes,
     @required double amount,
@@ -129,13 +134,18 @@ class SchedulesBloc extends Bloc {
   }
 
   void deleteAllSchedules() {
-    dispatch(DeleteAllSchedules());
+    String deviceToken = preferences.getString('deviceToken');
+    dispatch(DeleteAllSchedules((b) => b..accessToken = deviceToken));
   }
 
   void _mapDeleteAllSchedules(DeleteAllSchedules event) async {
     try {
-      await initDB();
-      await provider.deleteAll();
+      final response =
+          await dataSource.deleteSchedules(accessToken: event.accessToken);
+      if (response.status == 'success') {
+        await initDB();
+        await provider.deleteAll();
+      }
       getSchedules();
     } catch (_) {
       print(_);

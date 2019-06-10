@@ -2,6 +2,7 @@ class LocalApiRoutes {
   static const String WIFI_SETUP = '/wifisetup';
   static const String TREAT = '/feed';
   static const String CREATE_SCHEDULE = '/create/schedule';
+  static const String DELETE_SCHEDULES = '/delete/schedules';
 }
 
 class ServerApiRoutes {

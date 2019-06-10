@@ -42,11 +42,15 @@ class TimerBloc extends Bloc {
 
   void startTimer() async {
     await initDB();
-    final DateTime date = await provider.getNextFeedTime();
-    if (date == null)
-      dispatch(TimerStart((b) => b..date = DateTime.now()));
-    else
-      dispatch(TimerStart((b) => b..date = date));
+    try {
+      final DateTime date = await provider.getNextFeedTime();
+      if (date == null)
+        dispatch(TimerStart((b) => b..date = DateTime.now()));
+      else
+        dispatch(TimerStart((b) => b..date = date));
+    } catch (_) {
+      dispatch(TimerReached());
+    }
   }
 
   void _mapTimerStart(TimerStart event) async {
@@ -105,15 +109,16 @@ class TimerBloc extends Bloc {
   }
 
   void addData(Map<String, dynamic> data) {
-    _dataSink.add(data);
+    if (!_dataStreamController.isClosed) _dataSink.add(data);
   }
 
   void dispatch(TimerEvents event) {
-    _eventSink.add(event);
+    if (!_eventsStreamController.isClosed) _eventSink.add(event);
   }
 
   @override
   void dispose() {
+    provider?.close();
     _dataStreamController.close();
     _eventsStreamController.close();
   }

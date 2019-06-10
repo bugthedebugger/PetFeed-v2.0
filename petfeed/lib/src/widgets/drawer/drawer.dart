@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path/path.dart';
 import 'package:petfeed/src/assets/assets.dart';
-import 'package:petfeed/src/data/database/database_name.dart';
+import 'package:petfeed/src/bloc/bloc_provider.dart';
+import 'package:petfeed/src/bloc/petfeed_bloc/petfeed_bloc_export.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
-import 'package:sqflite/sqflite.dart';
 
 class AppDrawer extends StatelessWidget {
   final SharedPreferences preferences =
@@ -19,6 +18,7 @@ class AppDrawer extends StatelessWidget {
       height: ScreenSize.screenHeight,
       allowFontScaling: true,
     )..init(context);
+    PetFeedBloc bloc = BlocProvider.of<PetFeedBloc>(context);
 
     return Drawer(
       child: ListView(
@@ -90,15 +90,8 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () async {
-              var databasesPath = await getDatabasesPath();
-              String path = join(databasesPath, DATABASE_NAME);
-              await deleteDatabase(path);
-              preferences.clear();
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                Routes.LOGIN,
-                (predicate) => false,
-              );
+            onTap: () {
+              bloc.logout();
             },
             child: ListTile(
               dense: true,
