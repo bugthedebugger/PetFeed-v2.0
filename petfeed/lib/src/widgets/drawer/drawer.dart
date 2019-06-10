@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path/path.dart';
 import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/data/database/database_name.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:sqflite/sqflite.dart';
 
 class AppDrawer extends StatelessWidget {
+  final SharedPreferences preferences =
+      kiwi.Container().resolve<SharedPreferences>();
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(
@@ -82,7 +90,16 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () async {
+              var databasesPath = await getDatabasesPath();
+              String path = join(databasesPath, DATABASE_NAME);
+              await deleteDatabase(path);
+              preferences.clear();
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.LOGIN,
+                (predicate) => false,
+              );
+            },
             child: ListTile(
               dense: true,
               leading: Icon(

@@ -133,12 +133,14 @@ class DBController:
 
         return not error
 
-    def deleteAll(self, models):
+    def deleteAll(self, model):
         error = False
+        query = "DELETE FROM {}".format(model.tableName)
         try:
-            for model in models:
-                self.delete(model)
+            self.cursor.execute(query)
+            self.db.commit()
         except:
+            self.db.rollback()
             error = True
 
         return not error

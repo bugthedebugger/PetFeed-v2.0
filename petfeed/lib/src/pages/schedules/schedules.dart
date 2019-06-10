@@ -1,13 +1,15 @@
-import 'dart:math';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petfeed/src/assets/app_colors.dart';
 import 'package:petfeed/src/assets/assets.dart';
+import 'package:petfeed/src/bloc/bloc_provider.dart';
 import 'package:petfeed/src/bloc/schedules_bloc/schedules_bloc_export.dart';
 import 'package:petfeed/src/widgets/add_schedule_dialog/add_schedule_dialog.dart';
+import 'package:petfeed/src/widgets/loading_dialog/loading_dialog.dart';
 import 'package:petfeed/src/widgets/logo/logo.dart';
-import 'package:petfeed/src/widgets/petfeed_card/petfeed_card.dart';
+import 'package:petfeed/src/widgets/recommended_schedule/recommended_schedule.dart';
 import 'package:petfeed/src/widgets/schedule_card/schedule_card.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:petfeed/src/data/database/models/schedule.dart' as dbSchedule;
@@ -22,16 +24,57 @@ class _SchedulesState extends State<Schedules> {
   final SchedulesBloc bloc = kiwi.Container().resolve<SchedulesBloc>();
   final SharedPreferences preferences =
       kiwi.Container().resolve<SharedPreferences>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  StreamSubscription _sub;
 
   @override
   void initState() {
     bloc.getSchedules();
+    _sub = bloc.eventStream.listen(
+      (event) {
+        if (event is ApplyRecommended) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return LoadingDialog();
+            },
+          );
+        } else if (event is ScheduleError) {
+          scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              content: Text(
+                event.message,
+                style: TextStyle(
+                  fontSize: FontSize.fontSize12,
+                ),
+              ),
+            ),
+          );
+        } else if (event is ApplyRecommendedError) {
+          Navigator.of(context).pop();
+          scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              content: Text(
+                event.message,
+                style: TextStyle(
+                  fontSize: FontSize.fontSize12,
+                ),
+              ),
+            ),
+          );
+        } else if (event is ApplyRecommendedSuccess) {
+          Navigator.of(context).pop();
+        }
+      },
+    );
     super.initState();
   }
 
   @override
   void dispose() {
     bloc.dispose();
+    _sub?.cancel();
     super.dispose();
   }
 
@@ -51,6 +94,7 @@ class _SchedulesState extends State<Schedules> {
     )..init(context);
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -101,54 +145,12 @@ class _SchedulesState extends State<Schedules> {
                   }
                   return Column(
                     children: <Widget>[
-                      if (preferences.getString('petType') == 'Dog' ||
-                          preferences.getString('petType') == 'Cat') ...[
-                        Padding(
-                          padding: EdgeInsets.all(ScreenUtil().setWidth(8.0)),
-                          child: PetFeedCard(
-                            height: 115,
-                            width: ScreenUtil().width,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Recommended: ',
-                                  style: TextStyle(
-                                    fontSize: FontSize.fontSize14,
-                                    color: Color(AppColors.BLUE),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: ScreenUtil().setHeight(5)),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'Amount: ',
-                                      style: TextStyle(
-                                        fontSize: FontSize.fontSize12,
-                                        color: Color(AppColors.BLACK),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(width: ScreenUtil().setWidth(5)),
-                                    if (preferences.getString('petType') ==
-                                        'Dog') ...[
-                                      Text(
-                                        '${preferences.getDouble("weight")}',
-                                        style: TextStyle(
-                                          fontSize: FontSize.fontSize12,
-                                          color: Color(AppColors.BLACK),
-                                        ),
-                                      ),
-                                    ]
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                      if ((preferences.getString('petType') == 'Dog' ||
+                              preferences.getString('petType') == 'Cat') &&
+                          (preferences.getBool('close') != true)) ...[
+                        BlocProvider(
+                          bloc: bloc,
+                          child: RecommendedSchedule(),
                         ),
                       ],
                       Container(

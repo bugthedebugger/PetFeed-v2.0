@@ -413,4 +413,240 @@ class DeleteAllSchedulesBuilder
   }
 }
 
+class _$ApplyRecommended extends ApplyRecommended {
+  @override
+  final Schedules schedules;
+
+  factory _$ApplyRecommended(
+          [void Function(ApplyRecommendedBuilder) updates]) =>
+      (new ApplyRecommendedBuilder()..update(updates)).build();
+
+  _$ApplyRecommended._({this.schedules}) : super._() {
+    if (schedules == null) {
+      throw new BuiltValueNullFieldError('ApplyRecommended', 'schedules');
+    }
+  }
+
+  @override
+  ApplyRecommended rebuild(void Function(ApplyRecommendedBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ApplyRecommendedBuilder toBuilder() =>
+      new ApplyRecommendedBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ApplyRecommended && schedules == other.schedules;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, schedules.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ApplyRecommended')
+          ..add('schedules', schedules))
+        .toString();
+  }
+}
+
+class ApplyRecommendedBuilder
+    implements Builder<ApplyRecommended, ApplyRecommendedBuilder> {
+  _$ApplyRecommended _$v;
+
+  SchedulesBuilder _schedules;
+  SchedulesBuilder get schedules =>
+      _$this._schedules ??= new SchedulesBuilder();
+  set schedules(SchedulesBuilder schedules) => _$this._schedules = schedules;
+
+  ApplyRecommendedBuilder();
+
+  ApplyRecommendedBuilder get _$this {
+    if (_$v != null) {
+      _schedules = _$v.schedules?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ApplyRecommended other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ApplyRecommended;
+  }
+
+  @override
+  void update(void Function(ApplyRecommendedBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ApplyRecommended build() {
+    _$ApplyRecommended _$result;
+    try {
+      _$result = _$v ?? new _$ApplyRecommended._(schedules: schedules.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'schedules';
+        schedules.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'ApplyRecommended', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ApplyRecommendedSuccess extends ApplyRecommendedSuccess {
+  factory _$ApplyRecommendedSuccess(
+          [void Function(ApplyRecommendedSuccessBuilder) updates]) =>
+      (new ApplyRecommendedSuccessBuilder()..update(updates)).build();
+
+  _$ApplyRecommendedSuccess._() : super._();
+
+  @override
+  ApplyRecommendedSuccess rebuild(
+          void Function(ApplyRecommendedSuccessBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ApplyRecommendedSuccessBuilder toBuilder() =>
+      new ApplyRecommendedSuccessBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ApplyRecommendedSuccess;
+  }
+
+  @override
+  int get hashCode {
+    return 670139270;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('ApplyRecommendedSuccess').toString();
+  }
+}
+
+class ApplyRecommendedSuccessBuilder
+    implements
+        Builder<ApplyRecommendedSuccess, ApplyRecommendedSuccessBuilder> {
+  _$ApplyRecommendedSuccess _$v;
+
+  ApplyRecommendedSuccessBuilder();
+
+  @override
+  void replace(ApplyRecommendedSuccess other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ApplyRecommendedSuccess;
+  }
+
+  @override
+  void update(void Function(ApplyRecommendedSuccessBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ApplyRecommendedSuccess build() {
+    final _$result = _$v ?? new _$ApplyRecommendedSuccess._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ApplyRecommendedError extends ApplyRecommendedError {
+  @override
+  final String message;
+
+  factory _$ApplyRecommendedError(
+          [void Function(ApplyRecommendedErrorBuilder) updates]) =>
+      (new ApplyRecommendedErrorBuilder()..update(updates)).build();
+
+  _$ApplyRecommendedError._({this.message}) : super._() {
+    if (message == null) {
+      throw new BuiltValueNullFieldError('ApplyRecommendedError', 'message');
+    }
+  }
+
+  @override
+  ApplyRecommendedError rebuild(
+          void Function(ApplyRecommendedErrorBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ApplyRecommendedErrorBuilder toBuilder() =>
+      new ApplyRecommendedErrorBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ApplyRecommendedError && message == other.message;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, message.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ApplyRecommendedError')
+          ..add('message', message))
+        .toString();
+  }
+}
+
+class ApplyRecommendedErrorBuilder
+    implements Builder<ApplyRecommendedError, ApplyRecommendedErrorBuilder> {
+  _$ApplyRecommendedError _$v;
+
+  String _message;
+  String get message => _$this._message;
+  set message(String message) => _$this._message = message;
+
+  ApplyRecommendedErrorBuilder();
+
+  ApplyRecommendedErrorBuilder get _$this {
+    if (_$v != null) {
+      _message = _$v.message;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ApplyRecommendedError other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ApplyRecommendedError;
+  }
+
+  @override
+  void update(void Function(ApplyRecommendedErrorBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ApplyRecommendedError build() {
+    final _$result = _$v ?? new _$ApplyRecommendedError._(message: message);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

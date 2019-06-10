@@ -39,7 +39,7 @@ class DeviceDataSource {
         throw DeviceRegistrationException(response.body);
       }
     } else {
-      throw NoInternetException();
+      return false;
     }
   }
 

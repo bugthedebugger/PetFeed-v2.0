@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart';
+import 'package:petfeed/src/data/exceptions/custom_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:petfeed/src/bloc/bloc_provider.dart';
 import 'package:petfeed/src/bloc/petfeed_bloc/petfeed_events.dart';
@@ -213,6 +214,8 @@ class PetFeedBloc extends Bloc {
         dispatch(LocalDeviceNotFound());
         addCount(0);
       }
+    } on NoInternetException catch (_) {
+      dispatch(PetFeedError((b) => b..message = _.message));
     } catch (_) {
       dispatch(PetFeedError((b) => b..message = _.toString()));
     }

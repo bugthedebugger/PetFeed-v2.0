@@ -24,6 +24,7 @@ class _PetFeedPageState extends State<PetFeedPage> {
   final SharedPreferences preferences =
       kiwi.Container().resolve<SharedPreferences>();
   final PetFeedBloc _bloc = kiwi.Container().resolve<PetFeedBloc>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   String deviceType;
   String petName;
@@ -36,7 +37,23 @@ class _PetFeedPageState extends State<PetFeedPage> {
   @override
   void initState() {
     _eventSub = _bloc.eventStream.listen((event) {
-      // print(event);
+      if (event is PetFeedError) {
+        scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 5),
+            content: Text(
+              event.message,
+              style: TextStyle(
+                fontSize: FontSize.fontSize12,
+              ),
+            ),
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {},
+            ),
+          ),
+        );
+      }
     });
 
     _pusherSub = _bloc.pusherStream.listen((event) {
@@ -68,6 +85,7 @@ class _PetFeedPageState extends State<PetFeedPage> {
     )..init(context);
 
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       drawer: Builder(
         builder: (context) => AppDrawer(),

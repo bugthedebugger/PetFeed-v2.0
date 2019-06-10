@@ -316,6 +316,32 @@ network={
 
                 return jsonify(response)
 
+    @app.route('/delete/schedules', methods=['POST'])
+    def deleteSchedules():
+        device = Device()
+        results = db.selectAll(device)
+        device.from_map(results[0])
+        data = request.get_json()
+
+        if device.accessToken == data['accessToken']:
+            deleted = db.deleteAll(History())
+            if deleted == True:
+                response = {
+                    'connection': 'local',
+                    'status': 'success',
+                    'message': 'Schedules were deleted'
+                }
+            else:
+                response = {
+                    'connection': 'local',
+                    'status': 'error',
+                    'message': 'There was an error trying to delete schedules'
+                }
+
+            return response, 200
+        else:
+            return unauthenticated_response, 401
+
     @app.route('/create/schedule', methods=['POST'])
     def createSchedule():
         device = Device()

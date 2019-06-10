@@ -147,7 +147,7 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        var tempTime = await showTimePicker(
+                        TimeOfDay tempTime = await showTimePicker(
                           context: context,
                           initialTime: TimeOfDay(
                             hour: 0,
@@ -155,7 +155,7 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
                           ),
                         );
                         setState(() {
-                          feedTimesOfDay.add(tempTime);
+                          if (tempTime != null) feedTimesOfDay.add(tempTime);
                         });
                         print(feedTimesOfDay);
                       },

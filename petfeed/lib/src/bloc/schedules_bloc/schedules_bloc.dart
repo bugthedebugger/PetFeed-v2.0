@@ -69,6 +69,62 @@ class SchedulesBloc extends Bloc {
       _mapGetSchedules(event);
     } else if (event is DeleteAllSchedules) {
       _mapDeleteAllSchedules(event);
+    } else if (event is ApplyRecommended) {
+      _mapApplyRecommended(event);
+    }
+  }
+
+  void applyRecommended({
+    @required List<String> feedTimes,
+    @required double amount,
+    @required List<String> repeat,
+  }) {
+    String deviceToken = preferences.getString('deviceToken');
+    int petID = preferences.getInt('petID');
+    Schedule schedule = Schedule(
+      (b) => b
+        ..amount = amount
+        ..feedTimes = ListBuilder<String>(feedTimes)
+        ..repeat = ListBuilder<String>(repeat),
+    );
+    Schedules schedules = Schedules(
+      (b) => b
+        ..schedules.replace([schedule])
+        ..accessToken = deviceToken
+        ..petId = petID,
+    );
+    dispatch(ApplyRecommended((b) => b..schedules.replace(schedules)));
+  }
+
+  void _mapApplyRecommended(event) async {
+    try {
+      final response = await dataSource.addSchedule(schedules: event.schedules);
+      final convertedResponse = json.decode(response.toJson());
+      var convertedSchedules = convertedResponse['schedules'];
+
+      List tempList = List();
+      tempList.addAll(convertedSchedules);
+
+      List<dbSchedule.Schedule> schedules = List<dbSchedule.Schedule>();
+
+      for (int i = 0; i < tempList.length; i++) {
+        var temp = Map<String, dynamic>.from(tempList[i]);
+        var a = dbSchedule.Schedule.fromMap(temp);
+        schedules.add(a);
+      }
+
+      await provider.insertAll(schedules);
+      await Future.delayed(Duration(seconds: 2));
+      dispatch(ApplyRecommendedSuccess());
+      getSchedules();
+      preferences.setBool('close', true);
+      // print(await provider.test());
+
+    } on DeviceNotFoundException catch (_) {
+      dispatch(ScheduleError((b) => b..message = _.message));
+    } catch (_) {
+      print(_);
+      dispatch(ScheduleError((b) => b..message = _.toString()));
     }
   }
 
