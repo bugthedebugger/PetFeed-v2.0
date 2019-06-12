@@ -322,7 +322,7 @@ network={
         results = db.selectAll(device)
         device.from_map(results[0])
         data = request.get_json()
-
+        print(data)
         if device.accessToken == data['accessToken']:
             schedules_map = db.selectAll(Schedule())
             schedules = []
