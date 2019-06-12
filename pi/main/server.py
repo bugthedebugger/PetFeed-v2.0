@@ -328,30 +328,30 @@ network={
             schedules = []
             schedule = Schedule()
             for s in schedules_map:
-                # schedule.from_map(s)
-                # schedule.synced = 0
-                # schedule.deleted = 1
-                # schedules.append(schedule)
-                # schedule = Schedule()
+                schedule.from_map(s)
+                schedule.synced = 0
+                schedule.deleted = 1
+                schedules.append(schedule)
+                schedule = Schedule()
                 print(s)
             deleted = False
-            # deleted = db.updateAll(schedules)
-            # if deleted == True:
-            #     response = {
-            #         'connection': 'local',
-            #         'status': 'success',
-            #         'message': 'Schedules were deleted'
-            #     }
-            # else:
-            response = {
-                'connection': 'local',
-                'status': 'error',
-                'message': 'There was an error trying to delete schedules'
-            }
+            deleted = db.updateAll(schedules)
+            if deleted == True:
+                response = {
+                    'connection': 'local',
+                    'status': 'success',
+                    'message': 'Schedules were deleted'
+                }
+            else:
+                response = {
+                    'connection': 'local',
+                    'status': 'error',
+                    'message': 'There was an error trying to delete schedules'
+                }
 
-            return response, 200
+            return jsonify(response), 200
         else:
-            return unauthenticated_response, 401
+            return jsonify(unauthenticated_response), 401
 
     @app.route('/create/schedule', methods=['POST'])
     def createSchedule():
