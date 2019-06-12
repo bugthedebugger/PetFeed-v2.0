@@ -158,7 +158,7 @@ def sync_to_server():
                                 'serverId': tempSchedule.serverId
                             }
                         )
-                        # print(schedule_from_server.text)
+                        print(schedule_from_server.text)
                         if schedule_from_server.status_code == 200:
                             db.delete(tempSchedule)
 
@@ -179,7 +179,7 @@ def sync_to_server():
                             'schedule_uid': tempHistory.scheduleUID
                         }
                     )
-
+                    print(historyFromServer.text)
                     if historyFromServer.status_code == 200:
                         tempHistory.synced = 1
                         db.update(tempHistory)
