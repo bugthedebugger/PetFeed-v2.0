@@ -336,18 +336,18 @@ network={
                 print(s)
             deleted = False
             # deleted = db.updateAll(schedules)
-            if deleted == True:
-                response = {
-                    'connection': 'local',
-                    'status': 'success',
-                    'message': 'Schedules were deleted'
-                }
-            else:
-                response = {
-                    'connection': 'local',
-                    'status': 'error',
-                    'message': 'There was an error trying to delete schedules'
-                }
+            # if deleted == True:
+            #     response = {
+            #         'connection': 'local',
+            #         'status': 'success',
+            #         'message': 'Schedules were deleted'
+            #     }
+            # else:
+            response = {
+                'connection': 'local',
+                'status': 'error',
+                'message': 'There was an error trying to delete schedules'
+            }
 
             return response, 200
         else:
