@@ -40,6 +40,12 @@ class SchedulesBloc extends Bloc {
   Stream<ScheduleEvents> get eventStream => _eventStreamController.stream;
   Sink<ScheduleEvents> get _eventSink => _eventStreamController.sink;
 
+  StreamController<bool> _recommendedClosedStreamController =
+      StreamController<bool>.broadcast();
+  Stream<bool> get recommendedClosedstream =>
+      _recommendedClosedStreamController.stream;
+  Sink<bool> get _recommendedSink => _recommendedClosedStreamController.sink;
+
   StreamController<Map<String, List<dbSchedule.Schedule>>>
       _dataStreamController =
       StreamController<Map<String, List<dbSchedule.Schedule>>>.broadcast();
@@ -77,6 +83,7 @@ class SchedulesBloc extends Bloc {
 
   void applyRecommendedClosed() {
     preferences.setBool('close', true);
+    addRecommended(preferences.get('close'));
     dispatch(ApplyRecommendedClosed());
   }
 
@@ -124,6 +131,7 @@ class SchedulesBloc extends Bloc {
       dispatch(ApplyRecommendedSuccess());
       getSchedules();
       preferences.setBool('close', true);
+      addRecommended(preferences.get('close'));
       // print(await provider.test());
 
     } on DeviceNotFoundException catch (_) {
@@ -146,8 +154,12 @@ class SchedulesBloc extends Bloc {
       if (response.status == 'success') {
         await initDB();
         await provider.deleteAll();
+        print('deleting schedules');
+        preferences.setBool('close', false);
+        addRecommended(preferences.get('close'));
       }
       getSchedules();
+      dispatch(DeleteAllSchedulesSuccess());
     } on LocalException catch (_) {
       dispatch(ScheduleError((b) => b..message = _.message));
     } catch (_) {
@@ -164,8 +176,11 @@ class SchedulesBloc extends Bloc {
     try {
       await initDB();
       final data = await provider.getGroupedSchedules();
+      print('get Schedules function: ');
+      print(data);
       addData(data);
       dispatch(GetSchedulesSuccess());
+      addRecommended(preferences.get('close'));
     } catch (_) {
       print(_);
       dispatch(ScheduleError((b) => b..message = _.toString()));
@@ -229,6 +244,10 @@ class SchedulesBloc extends Bloc {
     _dataSink.add(data);
   }
 
+  void addRecommended(bool data) {
+    _recommendedSink.add(data);
+  }
+
   void dispatch(ScheduleEvents event) {
     if (_eventStreamController.isClosed) reinit();
     _eventSink.add(event);
@@ -238,5 +257,6 @@ class SchedulesBloc extends Bloc {
   void dispose() {
     _eventStreamController.close();
     _dataStreamController.close();
+    _recommendedClosedStreamController.close();
   }
 }

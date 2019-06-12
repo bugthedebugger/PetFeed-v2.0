@@ -435,6 +435,149 @@ class DeleteAllSchedulesBuilder
   }
 }
 
+class _$DeleteAllSchedulesError extends DeleteAllSchedulesError {
+  @override
+  final String message;
+
+  factory _$DeleteAllSchedulesError(
+          [void Function(DeleteAllSchedulesErrorBuilder) updates]) =>
+      (new DeleteAllSchedulesErrorBuilder()..update(updates)).build();
+
+  _$DeleteAllSchedulesError._({this.message}) : super._() {
+    if (message == null) {
+      throw new BuiltValueNullFieldError('DeleteAllSchedulesError', 'message');
+    }
+  }
+
+  @override
+  DeleteAllSchedulesError rebuild(
+          void Function(DeleteAllSchedulesErrorBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  DeleteAllSchedulesErrorBuilder toBuilder() =>
+      new DeleteAllSchedulesErrorBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is DeleteAllSchedulesError && message == other.message;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, message.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('DeleteAllSchedulesError')
+          ..add('message', message))
+        .toString();
+  }
+}
+
+class DeleteAllSchedulesErrorBuilder
+    implements
+        Builder<DeleteAllSchedulesError, DeleteAllSchedulesErrorBuilder> {
+  _$DeleteAllSchedulesError _$v;
+
+  String _message;
+  String get message => _$this._message;
+  set message(String message) => _$this._message = message;
+
+  DeleteAllSchedulesErrorBuilder();
+
+  DeleteAllSchedulesErrorBuilder get _$this {
+    if (_$v != null) {
+      _message = _$v.message;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(DeleteAllSchedulesError other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$DeleteAllSchedulesError;
+  }
+
+  @override
+  void update(void Function(DeleteAllSchedulesErrorBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$DeleteAllSchedulesError build() {
+    final _$result = _$v ?? new _$DeleteAllSchedulesError._(message: message);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$DeleteAllSchedulesSuccess extends DeleteAllSchedulesSuccess {
+  factory _$DeleteAllSchedulesSuccess(
+          [void Function(DeleteAllSchedulesSuccessBuilder) updates]) =>
+      (new DeleteAllSchedulesSuccessBuilder()..update(updates)).build();
+
+  _$DeleteAllSchedulesSuccess._() : super._();
+
+  @override
+  DeleteAllSchedulesSuccess rebuild(
+          void Function(DeleteAllSchedulesSuccessBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  DeleteAllSchedulesSuccessBuilder toBuilder() =>
+      new DeleteAllSchedulesSuccessBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is DeleteAllSchedulesSuccess;
+  }
+
+  @override
+  int get hashCode {
+    return 39443644;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('DeleteAllSchedulesSuccess').toString();
+  }
+}
+
+class DeleteAllSchedulesSuccessBuilder
+    implements
+        Builder<DeleteAllSchedulesSuccess, DeleteAllSchedulesSuccessBuilder> {
+  _$DeleteAllSchedulesSuccess _$v;
+
+  DeleteAllSchedulesSuccessBuilder();
+
+  @override
+  void replace(DeleteAllSchedulesSuccess other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$DeleteAllSchedulesSuccess;
+  }
+
+  @override
+  void update(void Function(DeleteAllSchedulesSuccessBuilder) updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$DeleteAllSchedulesSuccess build() {
+    final _$result = _$v ?? new _$DeleteAllSchedulesSuccess._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$ApplyRecommended extends ApplyRecommended {
   @override
   final Schedules schedules;

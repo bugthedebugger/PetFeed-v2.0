@@ -59,6 +59,26 @@ abstract class DeleteAllSchedules extends ScheduleEvents
       _$DeleteAllSchedules;
 }
 
+abstract class DeleteAllSchedulesError extends ScheduleEvents
+    implements Built<DeleteAllSchedulesError, DeleteAllSchedulesErrorBuilder> {
+  String get message;
+
+  DeleteAllSchedulesError._();
+
+  factory DeleteAllSchedulesError([updates(DeleteAllSchedulesErrorBuilder b)]) =
+      _$DeleteAllSchedulesError;
+}
+
+abstract class DeleteAllSchedulesSuccess extends ScheduleEvents
+    implements
+        Built<DeleteAllSchedulesSuccess, DeleteAllSchedulesSuccessBuilder> {
+  DeleteAllSchedulesSuccess._();
+
+  factory DeleteAllSchedulesSuccess(
+          [updates(DeleteAllSchedulesSuccessBuilder b)]) =
+      _$DeleteAllSchedulesSuccess;
+}
+
 abstract class ApplyRecommended extends ScheduleEvents
     implements Built<ApplyRecommended, ApplyRecommendedBuilder> {
   Schedules get schedules;

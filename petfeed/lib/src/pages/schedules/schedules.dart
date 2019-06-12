@@ -65,8 +65,28 @@ class _SchedulesState extends State<Schedules> {
           );
         } else if (event is ApplyRecommendedSuccess) {
           Navigator.of(context).pop();
-        } else if (event is ApplyRecommendedClosed) {
-          setState(() {});
+        } else if (event is DeleteAllSchedules) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return LoadingDialog();
+            },
+          );
+        } else if (event is DeleteAllSchedulesError) {
+          Navigator.of(context).pop();
+          scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              content: Text(
+                event.message,
+                style: TextStyle(
+                  fontSize: FontSize.fontSize12,
+                ),
+              ),
+            ),
+          );
+        } else if (event is DeleteAllSchedulesSuccess) {
+          Navigator.of(context).pop();
         }
       },
     );
@@ -147,14 +167,21 @@ class _SchedulesState extends State<Schedules> {
                   }
                   return Column(
                     children: <Widget>[
-                      if ((preferences.getString('petType') == 'Dog' ||
-                              preferences.getString('petType') == 'Cat') &&
-                          (preferences.getBool('close') != true)) ...[
-                        BlocProvider(
-                          bloc: bloc,
-                          child: RecommendedSchedule(),
-                        ),
-                      ],
+                      StreamBuilder<bool>(
+                        stream: bloc.recommendedClosedstream,
+                        initialData: true,
+                        builder: (context, snapshot) {
+                          if ((preferences.getString('petType') == 'Dog' ||
+                                  preferences.getString('petType') == 'Cat') &&
+                              (snapshot.data != true))
+                            return BlocProvider(
+                              bloc: bloc,
+                              child: RecommendedSchedule(),
+                            );
+                          else
+                            return Container();
+                        },
+                      ),
                       Container(
                         height: (preferences.getString('petType') == 'Dog' ||
                                 preferences.getString('petType') == 'Cat')
