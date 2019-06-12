@@ -100,91 +100,91 @@ def sync_to_server():
     while True:
         schedules = db.selectAll(schedule)
         histories = db.selectAll(history)
-        try:
-            for s in schedules:
-                # print(s)
-                tempSchedule = Schedule()
-                tempSchedule.from_map(s)
-                if tempSchedule.synced == 0:
-                    if tempSchedule.deleted == 0:
-                        schedule_from_server = requests.post(
-                            url=scheduleSyncURL,
-                            headers={
-                                'Accept': 'application/json',
-                                'Authorization': 'Bearer ' + accessToken,
-                                'Content-Type': 'application/json'
-                            },
-                            json={
-                                'day': tempSchedule.day,
-                                'feedTime': str(tempSchedule.time),
-                                'amount': tempSchedule.amount,
-                                'groupId': tempSchedule.groupId,
-                                'deleted': False,
-                                'uId': tempSchedule.uId,
-                                'deviceId': deviceId,
-                                'petId': tempSchedule.petId,
-                                'serverId': tempSchedule.serverId
-                            }
-                        )
-                        print(schedule_from_server.text)
-                        # print(schedule_from_server.status_code)
-                        if schedule_from_server.status_code == 200:
-                            # print(
-                            #     '````````````````````````````````````````````````````')
-                            schedule_from_server = schedule_from_server.json()
-                            tempSchedule.serverId = schedule_from_server['id']
-                            tempSchedule.synced = 1
-                            db.update(tempSchedule)
-                            # print('db update')
-                            # print(
-                            #     '````````````````````````````````````````````````````')
-                    else:
-                        schedule_from_server = requests.post(
-                            url=scheduleSyncURL,
-                            headers={
-                                'Accept': 'application/json',
-                                'Authorization': 'Bearer ' + accessToken,
-                                'Content-Type': 'application/json'
-                            },
-                            json={
-                                'day': tempSchedule.day,
-                                'feedTime': str(tempSchedule.time),
-                                'amount': tempSchedule.amount,
-                                'groupId': tempSchedule.groupId,
-                                'deleted': True,
-                                'uId': tempSchedule.uId,
-                                'deviceId': deviceId,
-                                'petId': tempSchedule.petId,
-                                'serverId': tempSchedule.serverId
-                            }
-                        )
-                        print(schedule_from_server.text)
-                        if schedule_from_server.status_code == 200:
-                            db.delete(tempSchedule)
-
-            for h in histories:
-                tempHistory = History()
-                tempHistory.from_map(h)
-                if tempHistory.synced == 0:
-                    historyFromServer = requests.post(
-                        url=historySyncURL,
+        # try:
+        for s in schedules:
+            # print(s)
+            tempSchedule = Schedule()
+            tempSchedule.from_map(s)
+            if tempSchedule.synced == 0:
+                if tempSchedule.deleted == 0:
+                    schedule_from_server = requests.post(
+                        url=scheduleSyncURL,
                         headers={
                             'Accept': 'application/json',
                             'Authorization': 'Bearer ' + accessToken,
                             'Content-Type': 'application/json'
                         },
                         json={
-                            'feedingDate': str(tempHistory.feedDateTime),
-                            'amount': tempHistory.amount,
-                            'schedule_uid': tempHistory.scheduleUID
+                            'day': tempSchedule.day,
+                            'feedTime': str(tempSchedule.time),
+                            'amount': tempSchedule.amount,
+                            'groupId': tempSchedule.groupId,
+                            'deleted': False,
+                            'uId': tempSchedule.uId,
+                            'deviceId': deviceId,
+                            'petId': tempSchedule.petId,
+                            'serverId': tempSchedule.serverId
                         }
                     )
-                    print(historyFromServer.text)
-                    if historyFromServer.status_code == 200:
-                        tempHistory.synced = 1
-                        db.update(tempHistory)
-        except:
-            print('Exception occured')
+                    print(schedule_from_server.text)
+                    # print(schedule_from_server.status_code)
+                    if schedule_from_server.status_code == 200:
+                        # print(
+                        #     '````````````````````````````````````````````````````')
+                        schedule_from_server = schedule_from_server.json()
+                        tempSchedule.serverId = schedule_from_server['id']
+                        tempSchedule.synced = 1
+                        db.update(tempSchedule)
+                        # print('db update')
+                        # print(
+                        #     '````````````````````````````````````````````````````')
+                else:
+                    schedule_from_server = requests.post(
+                        url=scheduleSyncURL,
+                        headers={
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer ' + accessToken,
+                            'Content-Type': 'application/json'
+                        },
+                        json={
+                            'day': tempSchedule.day,
+                            'feedTime': str(tempSchedule.time),
+                            'amount': tempSchedule.amount,
+                            'groupId': tempSchedule.groupId,
+                            'deleted': True,
+                            'uId': tempSchedule.uId,
+                            'deviceId': deviceId,
+                            'petId': tempSchedule.petId,
+                            'serverId': tempSchedule.serverId
+                        }
+                    )
+                    print(schedule_from_server.text)
+                    if schedule_from_server.status_code == 200:
+                        db.delete(tempSchedule)
+
+        for h in histories:
+            tempHistory = History()
+            tempHistory.from_map(h)
+            if tempHistory.synced == 0:
+                historyFromServer = requests.post(
+                    url=historySyncURL,
+                    headers={
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-Type': 'application/json'
+                    },
+                    json={
+                        'feedingDate': str(tempHistory.feedDateTime),
+                        'amount': tempHistory.amount,
+                        'schedule_uid': tempHistory.scheduleUID
+                    }
+                )
+                print(historyFromServer.text)
+                if historyFromServer.status_code == 200:
+                    tempHistory.synced = 1
+                    db.update(tempHistory)
+        # except:
+        #     print('Exception occured')
         time.sleep(5)
 
 
