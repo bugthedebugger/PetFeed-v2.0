@@ -65,6 +65,8 @@ class _SchedulesState extends State<Schedules> {
           );
         } else if (event is ApplyRecommendedSuccess) {
           Navigator.of(context).pop();
+        } else if (event is ApplyRecommendedClosed) {
+          setState(() {});
         } else if (event is DeleteAllSchedules) {
           showDialog(
             barrierDismissible: false,
@@ -167,21 +169,14 @@ class _SchedulesState extends State<Schedules> {
                   }
                   return Column(
                     children: <Widget>[
-                      StreamBuilder<bool>(
-                        stream: bloc.recommendedClosedstream,
-                        initialData: true,
-                        builder: (context, snapshot) {
-                          if ((preferences.getString('petType') == 'Dog' ||
-                                  preferences.getString('petType') == 'Cat') &&
-                              (snapshot.data != true))
-                            return BlocProvider(
-                              bloc: bloc,
-                              child: RecommendedSchedule(),
-                            );
-                          else
-                            return Container();
-                        },
-                      ),
+                      if ((preferences.getString('petType') == 'Dog' ||
+                              preferences.getString('petType') == 'Cat') &&
+                          (preferences.getBool('close') != true)) ...[
+                        BlocProvider(
+                          bloc: bloc,
+                          child: RecommendedSchedule(),
+                        ),
+                      ],
                       Container(
                         height: (preferences.getString('petType') == 'Dog' ||
                                 preferences.getString('petType') == 'Cat')
