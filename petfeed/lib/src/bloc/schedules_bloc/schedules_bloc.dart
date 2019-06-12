@@ -7,6 +7,7 @@ import 'package:petfeed/src/bloc/bloc_provider.dart';
 import 'package:petfeed/src/bloc/schedules_bloc/schedules_bloc_events.dart';
 import 'package:petfeed/src/data/database/database_name.dart';
 import 'package:petfeed/src/data/database/schedules/schedules_provider.dart';
+import 'package:petfeed/src/data/exceptions/custom_exceptions.dart';
 import 'package:petfeed/src/data/exceptions/device_not_found_exception.dart';
 import 'package:petfeed/src/data/models/schedule/schedule.dart';
 import 'package:petfeed/src/data/models/schedules/schedules.dart';
@@ -147,6 +148,8 @@ class SchedulesBloc extends Bloc {
         await provider.deleteAll();
       }
       getSchedules();
+    } on LocalException catch (_) {
+      dispatch(ScheduleError((b) => b..message = _.message));
     } catch (_) {
       print(_);
       dispatch(ScheduleError((b) => b..message = _.toString()));
