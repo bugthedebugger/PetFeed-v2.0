@@ -333,8 +333,6 @@ network={
                 schedule.deleted = 1
                 schedules.append(schedule)
                 schedule = Schedule()
-                print(s)
-            deleted = False
             deleted = db.updateAll(schedules)
             if deleted == True:
                 response = {
