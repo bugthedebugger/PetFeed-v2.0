@@ -26,10 +26,8 @@ weightSensor = None
 weightSensor = WeightSensor(GPIO=GPIO, dout_pin=21, pd_sck_pin=20)
 # except:
 #     weightSensor = None
-# scheduleSyncURL = 'https://prayush.karkhana.asia/api/schedule/set'
-# historySyncURL = 'https://prayush.karkhana.asia/api/history/set'
-scheduleSyncURL = 'http://192.168.43.195:8000/api/schedule/set'
-historySyncURL = 'http://192.168.43.195:8000/api/history/set'
+scheduleSyncURL = 'https://prayush.karkhana.asia/api/schedule/set'
+historySyncURL = 'https://prayush.karkhana.asia/api/history/set'
 motorController = MotorController(GPIO=GPIO, weightSensor=weightSensor)
 distanceSensor = Distance(GPIO=GPIO)
 pusherContainer = PusherContainer(
