@@ -9,3 +9,4 @@ export 'device_registration_exception.dart';
 export 'calibration_exception.dart';
 export 'pet_exception.dart';
 export 'local_exception.dart';
+export 'petfeed_exception.dart';

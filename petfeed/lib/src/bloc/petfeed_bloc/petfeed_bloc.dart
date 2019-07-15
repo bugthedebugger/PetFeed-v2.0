@@ -177,7 +177,11 @@ class PetFeedBloc extends Bloc {
           deviceToken: event.deviceToken,
           amount: event.amount,
         );
-        addCount(response.feedCount);
+        print(response);
+        if (response.status != 'error')
+          addCount(response.feedCount);
+        else
+          throw PetFeedException(response.message);
       } else if (pusherConnected) {
         PusherTreat treat = PusherTreat(data: {
           'accessToken': event.deviceToken,
@@ -185,6 +189,10 @@ class PetFeedBloc extends Bloc {
         });
         pusher.trigger(treat);
       }
+    } on PetFeedException catch (_) {
+      dispatch(
+        PetFeedError((b) => b..message = _.message),
+      );
     } catch (_) {
       dispatch(
         PetFeedError((b) => b..message = _.toString()),
